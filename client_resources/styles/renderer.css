@@ -1,0 +1,365 @@
+/*general*/
+*{
+	box-sizing: border-box;
+	font-family: Calibri;
+}
+.none{
+	display:none!important;
+}
+body {
+    padding: 0;
+    margin: 0;
+}
+button{
+	cursor:pointer;
+	transition-property: transform;
+	transition-duration: 0.05s;
+	transition-timing-function: linear;
+}
+button:active{
+	transform:scale(0.85);
+}
+input{
+	padding-left: 10px;
+	padding-right: 10px;
+	line-height: 25px;
+	border-radius: 5px;
+	font-size: 16px;
+	display: inline-block;
+	border: 1px solid #999;
+}
+/*Top Menu*/
+.MWATopMenu {
+    width: 100%;
+    border-bottom: 2px solid #666;
+    background-color: black;
+    color: white;
+	height: 40px;
+	line-height: 38px;
+}
+.MWATopMenuLeftSection, .MWATopMenuRightSection{
+	width: 50%;
+    display: inline-block;
+	vertical-align: middle;
+}
+.MWATopMenuLeftSection{
+	padding-left: 10px;
+}
+.MWATopMenuRightSection {
+	text-align: right;
+	padding-right: 10px;
+}
+.MWATopMenuTitle {
+    font-size: 25px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.MWATopMenuUserName {
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 35px);
+    padding-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.MWATopMenuUserImage {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+	height: 30px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    border: 1px solid #666;
+}
+
+/*MWA Page*/
+.MWAPageContainer{
+	overflow: hidden;
+}
+.MWAMainSection {
+    width: 100%;
+    height: calc(100vh - 40px);
+}
+.MWALeftPanel, .MWARightPanel {
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+.MWALeftPanel {
+    width: 350px;
+    border-right: 2px solid #666;
+    background-color: #efefef;
+}
+.MWARightPanel {
+    width: calc(100% - 350px);
+}
+.MWALeftPanelTopBar {
+    height: 51px;
+    border-bottom: 1px solid #aaa;
+    background-color: #dedede;
+    padding: 10px;
+}
+.MWALeftPanelSerachInput, .MWALeftPanelSearchButton{
+    height: 30px;
+    display: inline-block;
+    vertical-align: top;
+}
+.MWALeftPanelSearchInput {
+    width: calc(100% - 35px);
+    margin: 0;
+    margin-right: 5px;
+	vertical-align: middle;
+}
+
+.MWALeftPanelSearchButton {
+    width: 30px;
+    border-radius: 5px;
+    padding: 0;
+    background-image: url(../images/search.png);
+    background-position: center;
+    background-size: contain;
+    background-color: transparent;
+    border: 0; 
+	vertical-align: middle;
+	display: inline-block;
+}
+.MWALeftPanelSearchButton:active{
+    border: 1px;
+}
+.MWAWriteSection {
+    padding: 3px;
+    border-top: 2px solid #ccc;
+    background-color: #dedede;
+}
+.MWAMessagesSection {
+    position: relative;
+	overflow: hidden;
+}
+.MWANameSection {
+    height: 51px;
+    background-color: #efefef;
+    border-bottom: 1px solid #666;
+}
+.MWALeftPanelBottomSection {
+    position: relative;
+    height: calc(100% - 51px);
+}
+.MWALeftPanelAddButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background-color: #ff2525;
+    font-size: 35px;
+    line-height: 50px;
+}
+.MWAWriteSectionTextInput {
+    width: calc(100% - 50px - 10px);
+    margin-left: 10px;
+    line-height: 30px;
+    vertical-align: middle;
+}
+.MWAWriteSectionSendButton {
+    display: inline-block;
+    vertical-align: middle;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    border-radius: 50%;
+    border: 2px solid #666;
+    font-size: 15px;
+    font-weight: bold;
+}
+.MWANameLeftSection {
+    width: calc(100% - 50px);
+    display: inline-block;
+    vertical-align: top;
+}
+.MWANameRightSection {
+    width: 50px;
+    display: inline-block;
+    vertical-align: top;
+	padding: 10px;
+}
+.MWANameSectionInfoButton {
+    height: 30px;
+    width: 30px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    font-size: 17px;
+    font-weight: bold;
+    color: #666;
+}
+.MWANameSectionImage {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-position: center;
+    background-size: cover;
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+	margin: 5px;
+}
+.MWANameSectionName {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: calc(100% - 50px);
+    padding-left: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 22px;
+}
+
+.groupMessageSection {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+	padding-top: 10px;
+}
+
+.MWAMessagesSectionNoSelectedInfo {
+    position: absolute;
+    left: 0;
+    font-size: 25px;
+    color: #888;
+    width: 100%;
+    text-align: center;
+    top: calc(50% - 50px);
+}
+
+/*Message adapter*/
+.messageAdapterLine.selfMessage {
+    text-align: right;
+}
+.messageAdapterBox {
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-width: 170px;
+	max-width: calc(100% - 50px);
+    border-radius: 5px;
+}
+.messageAdapterBox.foreignMessage {
+    background-color: lightgreen;
+}
+.messageAdapterBox.selfMessage {
+    background-color: lightblue;
+}
+.messageAdapterName {
+    color: #666;
+}
+.messageAdapterText {
+    font-size: 20px;
+    text-align: left;
+    display: inline-block;
+}
+.messageAdapterTime {
+    color: #444;
+    font-size: 12px;
+}
+.messageAdapterTime.selfMessage {
+    text-align: left;
+}
+.messageAdapterTime.foreignMessage {
+    text-align: right;
+}
+/*Separator*/
+.dateSeparatorLine {
+    text-align: center;
+    display: block;
+}
+.dateSeparatorBox {
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    background-color: #f6f6f6;
+}
+/*Group Adapter*/
+.groupAdapterContainer {
+    border-bottom: 1px solid #aaa;
+    cursor: pointer;
+    height: 60px;
+    transition-property: background-color;
+    transition-duration: 0.3s;
+	border-top: 1px solid white;
+	position: relative;
+	-webkit-user-select: none;
+}
+.groupAdapterContainer:hover {
+    background-color: #e6c2e6;
+}
+.groupAdapterImage {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    margin: 4px;
+    display: inline-block;
+    border: 1px solid #888;
+	vertical-align: middle;
+	background-position: center;
+	background-size: cover;
+}
+.groupAdapterName {
+    font-size: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 100px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	padding-left: 5px;
+}
+.groupAdapterNotifPin {
+
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    background-color: red;
+    border-radius: 20px;
+    right: 10px;
+    top: 14px;
+    color: white;
+    text-align: center;
+    vertical-align: 20px;
+    font-size: 18px;
+    padding-top: 3px;
+
+}
+/*loginPage*/
+.LOGINPageContainer {
+    text-align: center;
+}
+.loginFormWindow {
+    border: 1px solid #ccc;
+    display: inline-block;
+    height: 300px;
+    width: 350px;
+    box-shadow: 0 0 20px #666;
+    margin-top: calc(50vh - 150px);
+}
+.loginTempUserButton {
+    display: inline-block;
+    margin: 5px;
+    width: 150px;
+    height: 50px;
+    font-size: 23px;
+    margin-top: 55px;
+}
+.loginForm {
+    padding: 10px;
+}
