@@ -281,6 +281,7 @@ input{
 .dateSeparatorLine {
     text-align: center;
     display: block;
+    margin-top: 20px;
 }
 .dateSeparatorBox {
     display: inline-block;

@@ -207,19 +207,32 @@ function Builder(){
 		var line = container.addElement('div', 'messageAdapterLine ' + extraClass);
 		var box = line.addElement('div', 'messageAdapterBox ' + extraClass);
 		var name = box.addElement('div', 'messageAdapterName');
-		var text = box.addElement('div', 'messageAdapterText');
+		var textContainer = box.addElement('div', 'messageAdapterText');
 		var time = box.addElement('div', 'messageAdapterTime ' + extraClass);
 		
 		//data
-		text.innerText = data.text;
+		textContainer.innerText = "";
 		var displayDate = new Date(data.timestamp);
 		var minutesStr = "00" + displayDate.getMinutes();
 		time.innerText = displayDate.getHours() + "h" + minutesStr.substring(minutesStr.length - 2);
 		name.innerText = "...";
 		
+		//text data
+		var parsedMsg = utility.parseTextWithRegex(data.text, URL_REGEX);
+		console.log("parsedMsg", parsedMsg);
+		for(var indText = 0; indText < parsedMsg.texts.length; indText++){
+			var textNode = document.createTextNode(parsedMsg.texts[indText]);
+			textContainer.appendChild(textNode);
+			if(typeof parsedMsg.matches[indText] !== "undefined"){
+				var linkElem = textContainer.addElement("a", "messageAdapterTextLink");
+				linkElem.setAttribute("href", parsedMsg.matches[indText]);
+				linkElem.innerText = parsedMsg.matches[indText];
+			}
+		}
+		
 		//user (api call if specified)
 		if(typeof options == "object" && options.userApi){
-			apiManager.callApi("getUser", {params:{userId: data.userObject.id}, use_cache:true}, function(error = false, result){	//calls api (or cache) to determine messager(user) name
+			apiManager.getUser(data.userObject.id, function(error = false, result){
 				if(error){
 					console.log("get user error", error);
 					return;

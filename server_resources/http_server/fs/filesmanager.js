@@ -8,7 +8,8 @@ version: 04.04.2019
 const fs = require("fs");
 const querystring = require("querystring");
 const mime = require("mime");
-const CLIENT_RESOURCES_PATH = "/git/web_messaging/client_resources"; //web directory path
+//const CLIENT_RESOURCES_PATH = "/git/web_messaging/client_resources"; //web directory path
+const CLIENT_RESOURCES_PATH = "/var/git/TPI_MAITRE/code/client_resources"; //web directory path
 
 function FilesManager(){
 	this.onRequest = function(urlObject, callBack){ //on http request, return the correct file in the website directory

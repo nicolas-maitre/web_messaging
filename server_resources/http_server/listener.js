@@ -9,7 +9,8 @@ const http = require('http');
 const url = require('url');
 const filesmanager = require("./fs/filesmanager");
 const api = require("./api/apiEndpoint");
-const HTTP_PORT = 81;
+//const HTTP_PORT = 81;
+const HTTP_PORT = 80;
 
 function startServer(){
 	//create listener
