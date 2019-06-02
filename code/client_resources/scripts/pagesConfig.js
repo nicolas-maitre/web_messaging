@@ -13,7 +13,8 @@ var pagesConfig = {
 		loadAction: false
 	},
 	login:{
-		title: "LogIn"
+		title: "LogIn",
+		reloadPage:true
 	},
 	error:{
 		title: "Error",

@@ -6,6 +6,7 @@ author: Nicolas Maitre
 version: 03.04.2019
 */
 function Builder(){
+	var _this = this;
 	/*Messaging Web App Page*/
 	this.buildMWAPage = function(params){
 		var topMenu = buildMWATopMenu(params.container);
@@ -41,7 +42,8 @@ function Builder(){
 	function buildMWAleftPanel(container){
 		var element = container.addElement('div', 'MWALeftPanel');
         var topBar = element.addElement('div', 'MWALeftPanelTopBar');
-        var bottom = element.addElement('div', 'MWALeftPanelBottomSection');
+		var bottom = element.addElement('div', 'MWALeftPanelBottomSection');
+		var menuButton = topBar.addElement("button", "MWAMenuButton");
         var searchInput = topBar.addElement('input', 'MWALeftPanelSearchInput');
         var searchButton = topBar.addElement('button', 'MWALeftPanelSearchButton');
 		var groupsListContainer = bottom.addElement('div','MWALeftPanelGroupsListContainer');
@@ -49,6 +51,13 @@ function Builder(){
 		//properties
 		addButton.innerText = "+";
 		searchInput.setAttribute("placeholder", "Recherche");
+		//events
+		menuButton.addEventListener("click", function(evt){
+			element.classList.remove("leftMenuDisplayed");
+		});
+		addButton.addEventListener("click", function(evt){
+			var window = _this.displayGroupCreationWindow();
+		});
         //return
         return{
             domElement: element,
@@ -63,31 +72,53 @@ function Builder(){
         var element = container.addElement("div", "MWARightPanel");
 		var nameSection = element.addElement("div", "MWANameSection");
         var msgSection = element.addElement("div", "MWAMessagesSection");
-        var writeSection = element.addElement("form", "MWAWriteSection");
+		var writeSection = element.addElement("div", "MWAWriteSection none");
 		var nameLeftSection = nameSection.addElement("div", "MWANameLeftSection");
-		var nameRightSection = nameSection.addElement("div", "MWANameRightSection");
-		var nameImage = nameLeftSection.addElement("div", "MWANameSectionImage");
+		var nameRightSection = nameSection.addElement("div", "MWANameRightSection none");
+		var menuButton = nameLeftSection.addElement("button", "MWAMenuButton");
+		var nameImage = nameLeftSection.addElement("div", "MWANameSectionImage none");
 		var nameName = nameLeftSection.addElement("div", "MWANameSectionName");
 		var namePseudo = nameLeftSection.addElement("div", "MWANameSectionPseudo");
 		var nameInfoButton = nameRightSection.addElement("button", "MWANameSectionInfoButton");
-        var input = writeSection.addElement("input", "MWAWriteSectionTextInput");
-        var sendBtn = writeSection.addElement("button", "MWAWriteSectionSendButton");
+		var fileContainer = writeSection.addElement("div", "MWAWriteSectionFileContainer");
+		var fileImage = fileContainer.addElement("div", "MWAWriteSectionFileImage");
+		var fileName = fileContainer.addElement("div", "MWAWriteSectionFileName");
+		var fileCloseButton = fileContainer.addElement("button", "MWAWriteSectionFileCloseButton button");
+		var writeForm = writeSection.addElement("form", "MWAWriteSectionForm");
+		var input = writeForm.addElement("input", "MWAWriteSectionTextInput");
+		var fileBtn = writeSection.addElement("button", "MWAWriteSectionFileButton");
+		var sendBtn = writeSection.addElement("button", "MWAWriteSectionSendButton");
 		var noSelectedInfo = msgSection.addElement('div', "MWAMessagesSectionNoSelectedInfo");
         //properties
-		var writeHeight = 30;
-		msgSection.style["height"] = "calc(100% - " + (writeHeight + 10) + "px - 51px)";
-        input.style["height"] = "30px";
+		//var writeHeight = 30;
+		//msgSection.style["height"] = "calc(100% - " + (writeHeight + 10) + "px - 51px)";
+        //input.style["height"] = "30px";
 		input.setAttribute("placeholder", "Ecrivez votre message");
 		input.setAttribute("type", "text");
 		nameInfoButton.innerText = "i";
 		sendBtn.innerText = ">";
+		fileBtn.innerText = "+";
+		fileCloseButton.innerText = "x";
 		noSelectedInfo.innerHTML = "Aucune discussion selectionnée<br/>Sélectionnez en une dans la liste.";
 		//event
+		fileBtn.addEventListener("click", actions.addMessageFile);
 		writeSection.addEventListener("submit", function(evt){
 			evt.preventDefault();
-			actions.sendInstantMessage(input);
+			messagingActions.sendInstantMessage(input);
 		});
-		
+		sendBtn.addEventListener("click", function(evt){
+			messagingActions.sendInstantMessage(input);
+		});
+		menuButton.addEventListener("click", function(evt){
+			pagesManager.pages.mwa.elements.leftPanel.domElement.classList.add("leftMenuDisplayed");
+		});
+		fileCloseButton.addEventListener("click", function(evt){
+			element.classList.remove("writeExtended");
+			if(messagingActions.groups[messagingActions.currentGroup]){
+				messagingActions.groups[messagingActions.currentGroup].saveData.file = false;
+			}
+		});
+		nameImage.addEventListener("click", actions.zoomImage);
 		//test hardcoded
 		nameName.innerText = "";
 		nameImage.style.backgroundImage = "url(/images/demo/dropbox.png)";
@@ -97,12 +128,18 @@ function Builder(){
             domElement: element,
 			msgSection: msgSection,
             input: input,
-            sendButton: sendBtn,
+			sendButton: sendBtn,
+			writeSection: writeSection,
+			nameSection: nameSection,
 			nameImage: nameImage,
 			nameText: nameName,
 			namePseudo: namePseudo,
+			nameRightSection: nameRightSection,
 			nameInfoButton: nameInfoButton,
-			noSelectInfo: noSelectedInfo
+			noSelectInfo: noSelectedInfo,
+			fileContainer: fileContainer,
+			fileImage: fileImage,
+			fileName: fileName
         }
     };
 	
@@ -186,6 +223,7 @@ function Builder(){
 		});
 		return {};
 	};
+
 	/*CONTENT ADAPTERS*/ //used to build an element containeing dynamic data
 	this.buildMessageAdapter = function(container, data, options = {}){
 		console.log("buildMessageAdapter", data);
@@ -207,8 +245,13 @@ function Builder(){
 		var line = container.addElement('div', 'messageAdapterLine ' + extraClass);
 		var box = line.addElement('div', 'messageAdapterBox ' + extraClass);
 		var name = box.addElement('div', 'messageAdapterName');
+		var imageContainer = box.addElement("div", "messageAdapterImageContainer");
+		var image = imageContainer.addElement("div", "messageAdapterImage none");
 		var textContainer = box.addElement('div', 'messageAdapterText');
 		var time = box.addElement('div', 'messageAdapterTime ' + extraClass);
+
+		//events
+		image.addEventListener("click", actions.zoomImage);
 		
 		//data
 		textContainer.innerText = "";
@@ -216,16 +259,28 @@ function Builder(){
 		var minutesStr = "00" + displayDate.getMinutes();
 		time.innerText = displayDate.getHours() + "h" + minutesStr.substring(minutesStr.length - 2);
 		name.innerText = "...";
-		
+		if(data.file){
+			image.classList.remove("none");
+			image.style.backgroundImage = "url(" + utility.getFileUrl(data.file) + ")";
+		}
+
 		//text data
 		var parsedMsg = utility.parseTextWithRegex(data.text, URL_REGEX);
-		console.log("parsedMsg", parsedMsg);
+			//console.log("parsedMsg", parsedMsg);
 		for(var indText = 0; indText < parsedMsg.texts.length; indText++){
 			var textNode = document.createTextNode(parsedMsg.texts[indText]);
 			textContainer.appendChild(textNode);
 			if(typeof parsedMsg.matches[indText] !== "undefined"){
+				var linkText = parsedMsg.matches[indText];
+				console.log(linkText.substring(0, 7));
+				if(linkText.substring(0, 8) != "https://"
+				&& linkText.substring(0, 7) != "http://"){//test http str
+					linkText = "https://" + linkText;
+				}
 				var linkElem = textContainer.addElement("a", "messageAdapterTextLink");
-				linkElem.setAttribute("href", parsedMsg.matches[indText]);
+				linkElem.setAttribute("href", linkText);
+				linkElem.setAttribute("target", "_blank"); //open in new tab
+				linkElem.setAttribute("rel", "noopener noreferrer"); //prevent resources conflict + leaks
 				linkElem.innerText = parsedMsg.matches[indText];
 			}
 		}
@@ -281,6 +336,9 @@ function Builder(){
 		}
 		var line = container.addElement('div', 'dateSeparatorLine');
 		var box = line.addElement('div', 'dateSeparatorBox');
+		if(dateDay == 1){ //case of 1st/1er
+			dateDay += "er";
+		}
 		var dateString = dateDay + " " + translator.get("month" + dateMonth);
 		
 		if((new Date(Date.now())).getFullYear() != dateYear){
@@ -291,5 +349,218 @@ function Builder(){
 			domElement: box,
 			date: dateObject
 		};
+	}
+
+	/*WINDOWS*/
+	this.newWindow = function(params){
+		/*params{
+			name
+			title
+			onclose
+		}*/
+
+		//__BUILD
+		//window
+		var container = elements.windowsContainer.addElement("div", params.name + "Window window");
+		var topBar = container.addElement("div", "windowTopBar");
+		var topBarTitle = topBar.addElement("div", "windowTitle");
+		var closeBtn = topBar.addElement("button", "windowCloseButton");
+		var mainSection = container.addElement("div", "windowMainSection");
+
+		//_PROPERTIES
+		topBarTitle.innerText = params.title;
+		closeBtn.innerText = "x";
+
+		//__EVENTS
+		//window
+		elements.windowsContainer.addEventListener("click", function(evt){
+			closeWindow();
+			params.onclose();
+		});
+		closeBtn.addEventListener("click", function(evt){
+			closeWindow();
+			params.onclose();
+		});
+		container.addEventListener("click", function(evt){
+			evt.stopPropagation();
+		});
+
+		function closeWindow(){
+			container.classList.add("none");
+			container.remove();
+			delete pagesManager.windows[params.name];
+			if(Object.keys(pagesManager.windows).length === 0){ //no other windows active
+				elements.windowsContainer.classList.add("none");
+			}
+		}
+		//__SET
+		pagesManager.windows[params.name] = {
+			domElement: container
+		};
+
+		//__DISPLAY
+		elements.windowsContainer.classList.remove("none");
+		pagesManager.windows[params.name].domElement.classList.remove("none");
+
+		//__RETURN
+		return{
+			domElement: container,
+			title: topBarTitle,
+			mainSection: mainSection,
+			close: closeWindow
+		};
+	};
+
+	this.displayImageSelectWindow = function(callBacks){
+		/*callBacks{
+			abort: function
+			file
+			change
+			submit
+		}*/
+		var allowedFiles = [
+			"image/png", 
+			"image/jpeg",
+			"image/jpg", 
+			"image/gif", //animated
+			"image/webp" //animated
+		];
+
+		//__BUILD
+		//window
+		var window = _this.newWindow({
+			name: "imageSelect",
+			title: "Ajouter une image",
+			onclose: callBacks.abort
+		});
+		var mainSection = window.mainSection;
+		//first step
+		var step1container = mainSection.addElement("div", "imageSelectWindowStep1Container");
+		var dropzone = step1container.addElement("div", "imageSelectWindowDropZone button input");
+		var fileInput = step1container.addElement("input", "imageSelectWindowFileInput none");
+		var fakeInput = step1container.addElement("label", "imageSelectWindowFakeInput button input");
+		//second step
+		var step2container = mainSection.addElement("div", "imageSelectWindowStep2Container none");
+		var preview = step2container.addElement("img", "imageSelectWindowPreviewImage");
+		var buttonsContainer = step2container.addElement("div", "imageSelectWindowS2ButtonsContainer");
+		var changeButton = buttonsContainer.addElement("button", "imageSelectWindowChangeButton");
+		var submitButton = buttonsContainer.addElement("button", "imageSelectWindowSubmitButton");
+
+		//_PROPERTIES
+		fileInput.setAttribute("type", "file");
+		fileInput.setAttribute("id", "fileSelectWindowFileInput");
+		fileInput.setAttribute("accept", allowedFiles.join());
+		fakeInput.setAttribute("for", "fileSelectWindowFileInput");
+		fakeInput.innerText = "Sélectionnez des fichiers locaux";
+		changeButton.innerText = "Changer d'image";
+		submitButton.innerText = "Accepter";
+
+		//__EVENTS
+		//dropzone
+		dropzone.addEventListener("click", function(evt){
+			fakeInput.click(evt);
+		});
+		dropzone.addEventListener("dragenter", function(evt){
+			evt.stopPropagation();
+			dropzone.classList.add("dragover");
+		});
+		dropzone.addEventListener("dragleave", function(evt){
+			evt.stopPropagation();
+			dropzone.classList.remove("dragover");
+		});
+		dropzone.addEventListener("dragover", function(evt){
+			evt.preventDefault();
+		});
+		dropzone.addEventListener("drop", function(evt){
+			evt.preventDefault();
+			//style
+			dropzone.classList.remove("dragover");
+			//allowed types
+			if(!allowedFiles.includes(evt.dataTransfer.items[0].type)){
+				console.log("file type not allowed", evt.dataTransfer.items[0].type);
+				utility.infoMessage("Ce type de fichier n'est pas supporté.");
+				return;
+			}
+			//return
+			callBacks.file(evt.dataTransfer.items[0].getAsFile());
+		});
+
+		//file input
+		fileInput.addEventListener("change", function(evt){
+			if(!allowedFiles.includes(fileInput.files[0].type)){
+				console.log("file type not allowed", fileInput.files[0].type);
+				utility.infoMessage("Ce type de fichier n'est pas supporté.");
+				return;
+			}
+			//return
+			callBacks.file(fileInput.files[0]);
+		});
+
+		//buttons
+		changeButton.addEventListener("click", callBacks.change);
+		submitButton.addEventListener("click", callBacks.submit);
+
+		//manual
+		function displayStep1(){
+			step1container.classList.remove("none");
+			step2container.classList.add("none");
+		}
+		function displayStep2(imageData){
+			preview.src = imageData;
+			step1container.classList.add("none");
+			step2container.classList.remove("none");
+		}
+
+		//__RETURN
+		return{
+			domElement: window.domElement,
+			displayStep1: displayStep1,
+			displayStep2: displayStep2,
+			close: window.close
+		};
+	};
+	this.displayGroupCreationWindow = function(callBacks){
+		var window = _this.newWindow({
+			name: "groupCreation",
+			title: "Ajouter",
+			onclose: onAbort
+		});
+		var container = window.mainSection;
+		//_BUILD_
+		//tabs
+		var tabsContainer = container.addElement("div", "groupCreationTabsContainer");
+		var pmTab = tabsContainer.addElement("div", "groupCreationTab selected");
+		var groupTab = tabsContainer.addElement("div", "groupCreationTab");
+		pmTab.innerText = "Créer une discussion";
+		groupTab.innerText = "Créer un groupe";
+		//pmSection
+		var pmContainer = container.addElement("div", "groupCreationPMSection groupCreationSection");
+		//groupSection
+		var groupContainer = container.addElement("div", "groupCreationGroupSection groupCreationSection none");
+
+		//DATA
+		//users list
+		apiManager.callApi("getUsers", false, function(error, result){
+			console.log("getUsers result", error, result);
+			//build lists
+		});
+
+		//_EVENTS_
+		pmTab.addEventListener("click", function(evt){
+			pmTab.classList.add("selected");
+			groupTab.classList.remove("selected");
+			groupContainer.classList.add("none");
+			pmContainer.classList.remove("none");
+		});
+		groupTab.addEventListener("click", function(evt){
+			pmTab.classList.remove("selected");
+			groupTab.classList.add("selected");
+			groupContainer.classList.remove("none");
+			pmContainer.classList.add("none");
+		});
+		//_ACTIONS_
+		function onAbort(){
+
+		}
 	}
 }

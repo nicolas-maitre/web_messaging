@@ -32,11 +32,14 @@ function startServer(){
 					returnRequest(result, error, data);
 				});
 			break;
-			case 'filesApi': //images api
+			case 'files': //files api
 				console.log("files api call");
+				filesmanager.onFilesApiRequest(parsedUrl, function(error, data){
+					returnRequest(result, error, data);
+				});
 			break;
 			default: //file manager path
-				filesmanager.onRequest(parsedUrl, function(error, data){
+				filesmanager.onWebRequest(parsedUrl, function(error, data){
 					returnRequest(result, error, data);
 				});
 			break;
@@ -45,12 +48,15 @@ function startServer(){
 	
 	function onRequestStart(req, res){
 		//method based on this article https://itnext.io/how-to-handle-the-post-request-body-in-node-js-without-using-a-framework-cd2038b93190
+		//fixed with this: https://stackoverflow.com/a/45160600
 		if (req.method === 'POST'){
-			req.body = '';
+			req.body = false;
+			var bodyArrayBuffer = [];
 			req.on('data', function(chunk){
-				req.body += chunk.toString(); //add buffer to existing body
+				bodyArrayBuffer.push(chunk); //push buffer to arrayBuffer
 			});
 			req.on('end', function(evt){
+				req.body = Buffer.concat(bodyArrayBuffer);
 				onRequest(req, res);
 			});
 		} else {
@@ -69,9 +75,9 @@ function startServer(){
 		*/
 		if(error){
 			console.log("ERROR", error);
-			res.statusCode = 500;
+			res.statusCode = (error.errorCode||500);
 			//displays error message
-			var endstring = "<h1>Erreur 500</h1><br/>";
+			var endstring = "<h1>Erreur " + res.statusCode + "</h1><br/>";
 			if(error.clientMsg){
 				endstring += error.clientMsg;
 			}else{

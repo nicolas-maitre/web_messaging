@@ -10,23 +10,96 @@ body {
     padding: 0;
     margin: 0;
 }
-button{
+button, .button{
 	cursor:pointer;
 	transition-property: transform;
 	transition-duration: 0.05s;
-	transition-timing-function: linear;
+    transition-timing-function: linear;
+    -webkit-user-select: none;
 }
-button:active{
+button:active, .button:active{
 	transform:scale(0.85);
 }
-input{
+input, .input{
 	padding-left: 10px;
 	padding-right: 10px;
 	line-height: 25px;
 	border-radius: 5px;
 	font-size: 16px;
 	display: inline-block;
-	border: 1px solid #999;
+    border: 1px solid #999;
+}
+/*info box*/
+.infoMessageBox {
+    position: fixed;
+    display: inline-block;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    transition: opacity 0.5s;
+    opacity: 0;
+    z-index: 20;
+}
+/*loader*/
+.globalLoaderContainer {
+    position: fixed;
+    display: inline-block;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 30;
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+.globalLoaderImage {
+    height: 50px;
+    width: 50px;
+    background-image: url(/images/loader.svg);
+    background-size: cover;
+    position: absolute;
+    top: calc(50vh - 25px);
+    left: calc(50vw - 25px);
+}
+/*image zoom*/
+.imageZoomBackground {
+    z-index: 15;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(255,255,255,0.7);
+    opacity: 0;
+    cursor: pointer;
+}
+.imageZoomImage {
+    position: absolute;
+    height: calc(90vh);
+    width: calc(90vw);
+    top: 5vh;
+    left: 5vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.imageZoomExitButton {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    background-color: white;
+    font-size: 20px;
+    color: #444;
+    /*transition: opacity 0.5s;*/
+    /*opacity: 0;*/
 }
 /*Top Menu*/
 .MWATopMenu {
@@ -76,12 +149,20 @@ input{
 }
 
 /*MWA Page*/
-.MWAPageContainer{
-	overflow: hidden;
+.MWAPageContainer {
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+}
+.MWAPageContainer > div {
+    text-align: left;
 }
 .MWAMainSection {
     width: 100%;
     height: calc(100vh - 40px);
+    max-width: 1400px;
+    display: inline-block;
+    border: 1px solid #666;
 }
 .MWALeftPanel, .MWARightPanel {
     height: 100%;
@@ -136,8 +217,17 @@ input{
 }
 .MWAMessagesSection {
     position: relative;
-	overflow: hidden;
+    overflow: hidden;
+    height: calc(100% - (30px + 10px) - 51px);
+    transition: height 0.5s;
 }
+.writeExtended .MWAMessagesSection{
+    height: calc(100% - (30px + 10px) - 51px - 50px);
+}
+.writeExtended .MWAWriteSectionFileContainer{
+    height: 50px;
+}
+
 .MWANameSection {
     height: 51px;
     background-color: #efefef;
@@ -155,17 +245,64 @@ input{
     width: 50px;
     border-radius: 50%;
     border: 1px solid #ccc;
-    background-color: #ff2525;
+    /*background-color: #ff2525;*/
+	background-color: #f3f;
     font-size: 35px;
     line-height: 50px;
 }
-.MWAWriteSectionTextInput {
-    width: calc(100% - 50px - 10px);
+.MWAWriteSectionFileContainer {
+    height: 0;
+    overflow: hidden;
+    position: relative;
+    display: block;
+    transition: height 0.5s;
+}
+.MWAWriteSectionFileImage {
+    height: 40px;
+    width: 40px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    background-size: cover;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 2px;
     margin-left: 10px;
+    background-position: center;
+}
+.MWAWriteSectionFileName {
+    display: inline-block;
+    vertical-align: top;
+    height: 50px;
+    line-height: 47px;
+    padding-left: 10px;
+    overflow: hidden;
+    padding-right: 10px;
+    max-width: calc(100% - 40px - 20px - 30px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 20px;
+}
+.MWAWriteSectionTextInput {
+    width: 100%;
     line-height: 30px;
     vertical-align: middle;
+    height: 30px;
 }
-.MWAWriteSectionSendButton {
+.MWAWriteSectionFileCloseButton {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 10px;
+    background-position: center;
+}
+.MWAWriteSectionForm {
+    width: calc(100% - 100px);
+    margin-left: 10px;
+    display: inline-block;
+}
+.MWAWriteSectionSendButton,
+.MWAWriteSectionFileButton {
     display: inline-block;
     vertical-align: middle;
     height: 30px;
@@ -206,7 +343,8 @@ input{
     border-radius: 50%;
     border: 1px solid #ccc;
     vertical-align: middle;
-	margin: 5px;
+    margin: 5px;
+    cursor: pointer;
 }
 .MWANameSectionName {
     display: inline-block;
@@ -237,6 +375,25 @@ input{
     top: calc(50% - 50px);
 }
 
+.MWAMenuButton {
+    background-image: url("/images/menu.png");
+    height: 35px;
+    width: 35px;
+    display: none;
+    vertical-align: middle;
+    margin-left: 10px;
+    background-position: center;
+    background-size: cover;
+}
+
+.MWALeftPanel.leftMenuDisplayed {
+    display: inline-block;
+}
+.MWALeftPanel .MWAMenuButton {
+    margin-left: -5px;
+    margin-right: 5px;
+}
+
 /*Message adapter*/
 .messageAdapterLine.selfMessage {
     text-align: right;
@@ -262,10 +419,30 @@ input{
 .messageAdapterName {
     color: #666;
 }
+.messageAdapterImageContainer {
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+.messageAdapterImage {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    min-width: 300px;
+    max-width: 400px;
+}
 .messageAdapterText {
     font-size: 20px;
     text-align: left;
     display: inline-block;
+    max-width: 500px;
+    word-break: break-word;
 }
 .messageAdapterTime {
     color: #444;
@@ -363,4 +540,186 @@ input{
 }
 .loginForm {
     padding: 10px;
+}
+
+/*WINDOWS*/
+.windowsContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10;
+    text-align: center;
+}
+.window {
+    display: inline-block;
+    position: relative;
+    border: 1px solid #666;
+    margin-top: 100px;
+    background-color: white;
+}
+.windowTopBar {
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #666;
+    background-color: #fefefe;
+    position: relative;
+    padding-top: 4px;
+}
+.windowTitle {
+    display: inline-block;
+    width: calc(100% - 50px);
+    text-align: left;
+    font-size: 20px;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    padding-right: 5px;
+}
+.windowCloseButton {
+    height: 30px;
+    width: 30px;
+    vertical-align: middle;
+    font-size: 20px;
+}
+.windowMainSection {
+    padding: 20px;
+    position: relative;
+}
+
+/*image select window*/
+.imageSelectWindow {
+    width: 100%;
+    max-width: 700px;
+}
+.imageSelectWindowDropZone {
+    height: 100px;
+    border-style: dashed;
+    border-color: black;
+    margin-right: 10px;
+    width: calc(100% - 140px);
+    vertical-align: middle;
+    font-size: 20px;
+    color: #666;
+    line-height: 100px;
+    -webkit-user-select: none;
+}
+.imageSelectWindowDropZone::after {
+    content: "Déposez vos fichiers ici";
+}
+.imageSelectWindowDropZone.dragover {
+    border-color: purple;
+    border-width: 2px;
+    background-color: #ee82ee6e;
+}
+.imageSelectWindowFakeInput {
+    width: 130px;
+    height: 100px;
+    vertical-align: middle;
+    background-color: #eee;
+    font-size: 20px;
+    text-align: center;
+    line-height: calc(80px / 3);
+    padding: 10px;
+}
+.imageSelectWindowPreviewImage {
+    max-height: 400px;
+    max-width: 100%;
+    border: 2px solid #666;
+}
+.imageSelectWindowS2ButtonsContainer {
+    position: relative;
+    width: 100%;
+    margin-top: 20px;
+    height: 50px;
+}
+.imageSelectWindowChangeButton, .imageSelectWindowSubmitButton {
+    position: absolute;
+    width: calc(50% - 5px);
+    max-width: 200px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 5px;
+    bottom: 0;
+}
+.imageSelectWindowChangeButton{
+    left: 0;
+}
+.imageSelectWindowSubmitButton{
+    right: 0;
+}
+/*group creation window*/
+.groupCreationWindow {
+    width: 100%;
+    max-width: 700px;
+}
+.groupCreationTab {
+    height: 30px;
+    display: inline-block;
+    width: 50%;
+    border-width: 2px 2px 1px 2px;
+    border-color: #666;
+    border-style: solid;
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
+    line-height: 27px;
+}
+.groupCreationTab.selected {
+    border-color: #333;
+    background-color: #f5f5f5;
+    border-bottom-color: #f5f5f5;
+}
+.groupCreationSection {
+    min-height: 100px;
+    background-color: #f5f5f5;
+    border: 1.5px solid #666;
+    border-top: 0;
+    padding: 10px;
+}
+
+/*___RESPONSIVE_STYLE____*/
+@media (max-width: 800px) {
+    .MWALeftPanel {
+        width: 200px;
+    }
+    .MWARightPanel {
+        width: calc(100% - 200px);
+    }
+    .groupAdapterImage {
+        height: 40px;
+        width: 40px;
+        margin-top: 10px;
+    }
+    .groupAdapterName {
+        width: calc(100% - 55px);
+        padding-left: 0;
+        font-size: 17px;
+    }
+}
+@media (max-width: 550px) {
+    .MWAMenuButton{
+        display: inline-block;
+    }
+    .MWALeftPanel {
+        display: none;
+        width: 100%;
+        border-right: 0;
+    }
+    .MWARightPanel {
+        width: 100%;
+    }
+    .MWALeftPanelSearchInput {
+        width: calc(100% - 40px);
+    }
+    .MWALeftPanelSearchButton{
+        display: none;
+    }
+    .MWANameSectionName {
+        max-width: calc(100% - 50px - 45px);
+    }
 }

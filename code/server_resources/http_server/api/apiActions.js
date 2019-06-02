@@ -6,7 +6,7 @@ author: Nicolas Maitre
 version: 16.05.2019
 */
 const database = require('../../classes/databasemanager');
-
+const filesmanager = require("../fs/filesmanager");
 function ApiActions(){
 	/*params{
 		auth: {},
@@ -14,6 +14,7 @@ function ApiActions(){
 		options: {},
 		data: {}
 	}*/
+	//get
 	this.getMessages = function(actionParams, callBack){		
 		if(!actionParams.params || !actionParams.params.groupId){
 			callBack({clientMsg: "API getMessages requires groupId parameter"});
@@ -41,7 +42,6 @@ function ApiActions(){
 			rawFields: true
 		}, callBack);
 	}
-	
 	this.getUser = function(actionParams, callBack){
 		if(!actionParams.params || !actionParams.params.userId){
 			callBack({clientMsg: "API getUser requires userId parameter"});
@@ -65,5 +65,20 @@ function ApiActions(){
 			callBack({clientMsg: "no data"});
 		});
 	};
+	//add
+	this.uploadFile = function(actionParams, callBack){
+		console.log("uploadFile");
+		if(!actionParams.body){
+			callBack({clientMsg:"no file provided"});
+			return;
+		}
+
+		filesmanager.addFile({
+			type: (actionParams.params.type || "file"),
+			mimeType: (actionParams.params.subType ||""),
+			userId: actionParams.auth.id,
+			name: (actionParams.params.source_name || "")//tmp
+		}, actionParams.body, callBack);
+	}
 }
 module.exports = new ApiActions();

@@ -23,6 +23,7 @@ function InstantMessagingManager(wsManager){
 			group: messageData.groupId,
 			owner: params.auth.id,
 			text: messageData.text,
+			file: (messageData.file) ? messageData.file.id : null,
 			creation_time: "CURRENT_TIMESTAMP()"
 		},{
 			directFields:{id:true, creation_time:true}
@@ -37,6 +38,7 @@ function InstantMessagingManager(wsManager){
 			var data = {
 				groupId: messageData.groupId,
 				text: messageData.text,
+				file: messageData.file ? messageData.file.id : false,
 				userId: params.auth.id,
 				timestamp: Date.now()
 			};

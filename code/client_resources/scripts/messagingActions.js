@@ -10,6 +10,31 @@ function MessagingActions(){
 	this.currentGroup = false;
 	this.groups = {}; //loaded groups list
 	
+	//takes the input value and sends a message to selected group
+	this.sendInstantMessage = function(input){
+		if(!input.value && !_this.groups[_this.currentGroup].saveData.file){
+			console.log("input is empty");
+			return;
+		}
+
+		var messageObject = {
+			groupId: messagingActions.currentGroup,
+			text: input.value,
+			file: _this.groups[_this.currentGroup].saveData.file
+		}
+
+		//send message to websocket
+		wsManager.sendMessage("addMessage", messageObject);
+		//clear input
+		input.value = "";
+		_this.groups[_this.currentGroup].saveData = {text: "", file: false};
+		if(!pagesManager.pages.mwa){
+			console.log("mwa page not built");
+			return;
+		}
+		pagesManager.pages.mwa.elements.rightPanel.domElement.classList.remove("writeExtended");
+	}
+
 	// displays a new message in a group
 	this.displayNewMessage = function(data, options){
 		console.log("displayNewMessage data:", data);
@@ -23,8 +48,6 @@ function MessagingActions(){
 		var container = _this.groups[data.groupId].msgContainer;
 		//builds the message element
 		data.userObject = {id: data.userId};
-
-		console.log(data);
 
 		builder.buildDateSeparator(container, new Date(data.timestamp), data.groupId);
 		var messageAdapter = builder.buildMessageAdapter(container, data,{userApi:true});
@@ -54,26 +77,60 @@ function MessagingActions(){
 	
 	//displays a group
 	this.displayGroup = function(data){
+		if(!pagesManager.pages["mwa"]){
+			console.log("called from the wrong page, mwa not built");
+			return;
+		}
+
+		var mwaElements = pagesManager.pages["mwa"].elements;
+
 		if(_this.groups[_this.currentGroup]){
+			//hide current group
 			_this.groups[_this.currentGroup].msgContainer.classList.add("none");
+			//save input data
+			_this.groups[_this.currentGroup].saveData.text = mwaElements.rightPanel.input.value;
 		}
 		if(!_this.groups[data.id]){
 			//build group
-			_this.groups[data.id] = {data:data};
-			_this.groups[data.id].msgContainer = pagesManager.pages["mwa"].elements.rightPanel.msgSection.addElement('div', 'groupMessageSection');
+			_this.groups[data.id] = {
+				data: data,
+				msgContainer: mwaElements.rightPanel.msgSection.addElement('div', 'groupMessageSection'),
+				saveData: {
+					text: "",
+					file: false
+				}
+			}
 			//get messages
 			getMessagesForGroup({groupId: data.id}, function(){
 				scrollGroupToBottom();
 			});
 		}
+
+		var groupSaveData = _this.groups[data.id].saveData;
+
 		//update UI
-		if(pagesManager.pages["mwa"]){ //change header data
-			pagesManager.pages["mwa"].elements.rightPanel.nameImage.style.backgroundImage = "url(images/demo/dropbox.png)";
-			pagesManager.pages["mwa"].elements.rightPanel.nameText.innerText = data.name;
+		//display data
+		mwaElements.rightPanel.nameImage.style.backgroundImage = "url(" + utility.getFileUrl(data.file) +")";
+		mwaElements.rightPanel.nameText.innerText = data.name;
+
+		mwaElements.rightPanel.input.value = groupSaveData.text;
+		if(groupSaveData.file){
+			mwaElements.rightPanel.fileImage.style.backgroundImage = "url(" + utility.getFileUrl(groupSaveData.file.id) + ")";
+			mwaElements.rightPanel.fileName.innerText = groupSaveData.file.source_name;
+			mwaElements.rightPanel.domElement.classList.add("writeExtended");
+		} else {
+			mwaElements.rightPanel.domElement.classList.remove("writeExtended");
 		}
+
+		//display - hide or show informations
+		mwaElements.rightPanel.noSelectInfo.classList.add('none'); //hides info message
+		mwaElements.rightPanel.writeSection.classList.remove('none'); //display message write section
+		mwaElements.rightPanel.nameRightSection.classList.remove('none'); //display right section
+		mwaElements.rightPanel.nameImage.classList.remove('none'); //display group image
+
+		mwaElements.leftPanel.domElement.classList.remove("leftMenuDisplayed");
+
 		_this.groups[data.id].msgContainer.classList.remove("none"); //shows discussion
-		pagesManager.pages["mwa"].elements.rightPanel.noSelectInfo.classList.add('none'); //hides info message
-		
 		//set current group
 		_this.currentGroup = data.id;
 	};
@@ -105,6 +162,7 @@ function MessagingActions(){
 				var messageAdapter = builder.buildMessageAdapter(container, {
 					userObject: {id: currentData.owner},
 					text: currentData.text,
+					file: currentData.file,
 					timestamp: currentData.creation_time
 				},{userApi:true});
 			}

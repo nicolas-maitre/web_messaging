@@ -6,7 +6,10 @@ author: Nicolas Maitre
 version: 03.04.2019
 */
 //_CONSTANTS_
-const URL_REGEX = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig; // found on stackoverflow https://stackoverflow.com/a/8943487/11548808
+//const URL_REGEX = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig; // found on stackoverflow https://stackoverflow.com/a/8943487/11548808
+//const URL_REGEX = /(\bwww[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig; // found on stackoverflow https://stackoverflow.com/a/8943487/11548808
+const URL_REGEX = /(\b(((https?|ftp|file):\/\/)|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig; // found on stackoverflow https://stackoverflow.com/a/8943487/11548808
+
 
 //_PROTOTYPES_METHODS_
 //create an child element to a dom element, you can specify a class name
@@ -57,6 +60,101 @@ utility.parseTextWithRegex = function(text, regex){
 	}
 };
 
-utility.imageUploadProcedure = function(options){
-	
+utility.imageUploadProcedure = function(callBack){
+	var imageFile = false;
+	var imageData = false;
+
+	//display window
+	var imageWindow = builder.displayImageSelectWindow({
+		file: onFile,
+		change: onChangeRequest,
+		submit: onSubmit,
+		abort: onAbort
+	});
+
+	//call backs
+	function onFile(file){
+		console.log("onfile", file);
+		imageFile = file;
+		//read file
+		var fileReader = new FileReader();
+		fileReader.addEventListener("load", function(evt){
+			imageData = evt.target.result;
+			//display second step
+			imageWindow.displayStep2(imageData);
+		});
+		fileReader.readAsDataURL(file);
+	}
+	function onChangeRequest(){
+		imageWindow.displayStep1();
+	}
+	function onSubmit(){
+		console.log("submit file", imageFile);
+		imageWindow.close();
+
+		//display loader
+		utility.getGlobalLoader().show();
+
+		//upload image then return id
+		apiManager.callApi("uploadFile", {body: imageFile, params:{
+			type: "image",
+			subType: imageFile.type,
+			source_name: imageFile.name
+		}}, function(error, result){
+			//hide loader
+			utility.getGlobalLoader().hide();
+			//return
+			callBack(error, result);
+			return;
+		});
+	}
+	function onAbort(){
+		callBack(false, false);
+		return;
+	}
 };
+
+utility.infoMessage = function(message, time = 5000){
+	var infoBox = document.body.addElement("div", "infoMessageBox");
+	infoBox.innerText = message;
+	requestAnimationFrame(function(){
+		infoBox.style.opacity = 1;
+		setTimeout(function(){
+			infoBox.style.opacity = 0;
+			setTimeout(function(){
+				infoBox.remove();
+			}, 0.5 * 1000);
+		}, time);
+	});
+	return infoBox;
+}
+var infoBox = utility.infoMessage;
+
+utility.getFileUrl = function(id){
+	if(typeof id !== "string" || !id){
+		return "/images/default.png";
+	}
+	return "/files/" + id
+};
+
+utility.getGlobalLoader = function(){
+	if(!elements.globalLoader){
+		elements.globalLoader = {};
+		elements.globalLoader.container = document.body.addElement("div", "globalLoaderContainer none");
+		elements.globalLoader.loader = elements.globalLoader.container.addElement("div", "globalLoaderImage");
+		
+		elements.globalLoader.show = function(){
+			elements.globalLoader.container.classList.remove("none");
+			requestAnimationFrame(function(){
+				elements.globalLoader.container.style.opacity = 1;
+			});
+		}
+		elements.globalLoader.hide = function(){
+			elements.globalLoader.container.style.opacity = 0;
+			setTimeout(function(){
+				elements.globalLoader.container.classList.add("none");
+			}, 500);
+		}
+	}
+	return elements.globalLoader;
+}

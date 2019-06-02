@@ -9,7 +9,7 @@ version: 03.04.2019
 var userObject = {id: "", token: "", pseudo:""};
 var elements = {};
 var groups = {};
-var globals = {currentPrettyError:""};
+var globals = {currentPrettyError:"", messageFile: false};
 
 //classes (singletons)
 var builder = new Builder();

@@ -7,6 +7,7 @@ version: 03.04.2019
 */
 function PagesManager(){
 	var _this = this;
+	this.windows = {};
 	this.pages = {};
 	this.currentPage = ""; //default page
 	
@@ -90,5 +91,10 @@ function PagesManager(){
 	(function(){
 		//builds the page containers container
 		elements.pagesContainer = document.body.addElement('div', 'pagesContainer');
+		elements.windowsContainer = document.body.addElement('div', 'windowsContainer none');
+		//events
+		elements.windowsContainer.addEventListener("click", function(evt){
+			elements.windowsContainer.classList.add("none");
+		});
 	})();
 }

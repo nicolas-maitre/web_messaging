@@ -1,0 +1,4 @@
+-- SELECT * FROM users INNER JOIN groups INNER JOIN user_groups on user_groups.`group` = groups.id WHERE users.id != user_groups.user AND groups.`type` != "private" AND user_groups.user = "0000-0000-0000-0000-0000";
+-- SELECT * FROM users INNER JOIN user_groups on users.id = user_groups.user INNER JOIN groups on groups.id = user_groups.`group` WHERE groups.`type` = "private" AND users.id = "0000-0000-0000-0000-0000" OR users.id = "1111-1111-1111-1111-1111" GROUP BY groups.id
+-- SELECT COUNT(groups.id) FROM groups INNER JOIN user_groups on user_groups.`group` = groups.id INNER JOIN user_groups  WHERE groups.`type` = "private"
+SELECT * FROM user_groups INNER JOIN (SELECT groups.id FROM user_groups INNER JOIN groups on user_groups.`group` = groups.id WHERE user_groups.user ="0000-0000-0000-0000-0000" AND groups.type = "private") AS groupsList on user_groups.group = groupsList.id AND user_groups.user != "0000-0000-0000-0000-0000"
