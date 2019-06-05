@@ -65,6 +65,20 @@ function ApiActions(){
 			callBack({clientMsg: "no data"});
 		});
 	};
+	this.getUsers = function(actionParams, callBack){
+		//create request
+		database.select({
+			tableName: "users",
+			fields: "id, image, first_name, last_name, pseudo"
+		}, function(error, result){
+			if(error){
+				callBack(error);
+				return;
+			}
+			callBack(false, result);
+			return;
+		});
+	};
 	//add
 	this.uploadFile = function(actionParams, callBack){
 		console.log("uploadFile");

@@ -553,13 +553,17 @@ input, .input{
     background-color: rgba(0,0,0,0.5);
     z-index: 10;
     text-align: center;
+    overflow: auto;
 }
 .window {
-    display: inline-block;
+    display: none;
     position: relative;
     border: 1px solid #666;
     margin-top: 100px;
     background-color: white;
+}
+.window:last-child { /*only display one window at a time*/
+    display: inline-block;
 }
 .windowTopBar {
     width: 100%;
@@ -673,6 +677,8 @@ input, .input{
     border-color: #333;
     background-color: #f5f5f5;
     border-bottom-color: #f5f5f5;
+	border-left-width: 1px;
+	border-right-width: 1px;
 }
 .groupCreationSection {
     min-height: 100px;
@@ -681,7 +687,117 @@ input, .input{
     border-top: 0;
     padding: 10px;
 }
+.groupCreationGroupImage {
 
+    height: 200px;
+    width: 200px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    background-color: #bbb;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+
+}
+.groupCreationGroupImageButton {
+    position: absolute;
+    height: 40px;
+    width: 150px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+.groupCreationGroupNameContainer {
+
+    width: calc(100% - 250px);
+    display: inline-block;
+    margin-left: 25px;
+    text-align: left;
+    vertical-align: middle;
+
+}
+.groupCreationGroupNameLabel {
+
+    display: block;
+    color: #666;
+    padding-bottom: 5px;
+
+}
+.groupCreationGroupNameInput {
+    display: block;
+    border: 0;
+    border-bottom: 1px solid;
+    border-radius: 0;
+    background-color: transparent;
+    width: 100%;
+    padding: 0;
+    font-size: 25px;
+}
+.groupCreationGroupNameInput.error {
+    border-color: red;
+}
+.groupCreationGroupNameInput:hover {
+    border-bottom: 2.5px solid;
+}
+.groupCreationGroupUsers {
+    margin-top: 20px;
+}
+.groupCreationGroupUsersTextContainer {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+    text-align: left;
+    padding: 10px;
+}
+.groupCreationGroupUsersTextTitle {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 18px;
+}
+.groupCreationGroupUsersTextList {
+    width: 100%;
+    font-size: 16px;
+    word-wrap: break-word;
+    padding-top: 20px;
+}
+.groupCreationGroupUsersSelector {
+    display: inline-block;
+    width: 50%;
+    padding: 10px;
+}
+.groupCreationGroupUsersSearch {
+    width: 100%;
+}
+.groupCreationGroupUsersSelectList {
+    margin-top: 10px;
+    height: 250px;
+    border: 1px solid #999;
+    background-color: white;
+    border-radius: 5px;
+    position: relative;
+    text-align: left;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.groupCreationGroupUsersSelectList.error {
+    border-color: red;
+}
+.groupCreationButtonsContainer {
+    text-align: right;
+    padding: 10px;
+    padding-bottom: 0;
+}
+.groupCreationButton {
+    height: 40px;
+    border-radius: 5px;
+    min-width: 150px;
+    font-size: 18px;
+}
 /*___RESPONSIVE_STYLE____*/
 @media (max-width: 800px) {
     .MWALeftPanel {
