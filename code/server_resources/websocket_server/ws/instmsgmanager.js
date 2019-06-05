@@ -7,6 +7,7 @@ version: 04.04.2019
 */
 const database = require('../../classes/databasemanager');
 const rights = require('../../classes/rightsmanager');
+const uuidv4 = require('uuid/v4');
 function InstantMessagingManager(wsManager){
 	var _this = this;
 	this.addMessage = function(params){ //user sent an instant message
@@ -51,6 +52,66 @@ function InstantMessagingManager(wsManager){
 			});
 		});
 	};
+	this.createGroup = function(params){
+		console.log("create group params", params);
+		//INSERT GROUP
+
+		var groupId = uuidv4();
+
+		database.insertInto("groups", { //insert into db
+			id: groupId,
+			image: (params.data.file || null),
+			name: params.data.name,
+			type: params.data.type,
+			administrator: params.auth.id,
+			creation_time: "CURRENT_TIMESTAMP()"
+		},{
+			directFields:{creation_time:true}
+		}, function(error, result){
+			if(error){
+				console.log("add group in db step 1 error:", error);
+				return;
+			}
+			console.log("add group in db step 1 sucess!");
+
+			var usersList = params.data.users;
+			usersList.push(params.auth.id);
+			
+			//INSERT RELATIONS
+			for(var indUser = 0; indUser < usersList.length; indUser++){
+				database.insertInto("user_groups", { //insert into db
+					user: usersList[indUser],
+					group: groupId,
+					creation_time: "CURRENT_TIMESTAMP()"
+				},{
+					directFields:{creation_time:true}
+				}, function(error, result){
+					if(error){
+						console.log("add group relations in db error:", error);
+						return;
+					}
+					console.log("add group in db step 2 sucess!");
+
+					//notify users in the group
+					var data = {
+						id: groupId,
+						image: (params.data.file || false),
+						creation_time: Date.now(),
+						name: params.data.name,
+						type: params.data.type,
+						administrator: params.auth.id
+					};
+					
+					_this.notifyGroup({
+						groupId: groupId,
+						wsToken: params.wsToken,
+						action: "newGroup",
+						data: data
+					});
+				});
+			}
+		});
+	}
 	this.notifyGroup = function(messageParams){
 		/*messageParams{
 			groupId,

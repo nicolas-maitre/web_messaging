@@ -45,6 +45,7 @@ function WebSocketManager(listenerRef){
 	//action methods
 	this.actionMethods = {};
 	this.actionMethods.addMessage = instmsgmanager.addMessage;
+	this.actionMethods.createGroup = instmsgmanager.createGroup;
 	this.actionMethods.linkUserToConnection = function(params){
 		console.log("link user to connection", params);
 		if(!rights.isAllowed(params.auth, "linkUserToWs", params.data)){
