@@ -11,6 +11,7 @@ const dbName = "messaging_web_app_db";
 
 const dbPool = mariadb.createPool({ //creates an connection pool to the db
 	host: 'localhost',
+	port: 3307,
     user: 'root', 
 	database: dbName,
     password: credentials.dbRootPass,
@@ -62,7 +63,7 @@ function DatabaseManager(){
 		var dataRequest = (params.data ? params.data : []);
 		//builds request
 		var textRequest = "SELECT ";
-		textRequest += (params.fields ? params.fields + (params.rawFields ? "":", active") : "*");
+		textRequest += ( params.fields ? params.fields + (params.rawFields ? "":", active") : "*");
 		textRequest += " FROM " + params.tableName + "";
 		if(params.where){
 			textRequest += " WHERE " + params.where;
@@ -72,7 +73,7 @@ function DatabaseManager(){
 		}
 		textRequest += ";";
 		
-		console.log("select request:", textRequest);
+		console.log("select request:");
 		_this.queryDb(textRequest, dataRequest, function(error = false, result = false){ //calls the db
 			if(error){
 				callBack(error, false);
@@ -97,12 +98,15 @@ function DatabaseManager(){
 	
 	//db query
 	this.queryDb = async function(request, data, callBack){
-		console.log("queryDB");
+		console.log("queryDB", request, data, "\n\n\n");
 		var dbConnection = false;
 		try{
+			console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 			//console.log("dbPool", dbPool);
 			dbConnection = await dbPool.getConnection();
+			console.log("CCCCCCCCCCCCCCCCCCCCCCC");
 			var result = await dbConnection.query(request, data);
+			console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 			callBack(false, result);
 		} catch(error) {
 			callBack(error);

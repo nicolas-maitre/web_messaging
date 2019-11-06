@@ -13,7 +13,7 @@ const uuidv4 = require('uuid/v4');
 
 const CLIENT_RESOURCES_PATH = "client_resources"; //web directory path
 const INDEX_FILE = "/main.html";
-const FILES_DIR_PATH = "/var/messaging_web_app/files";
+const FILES_DIR_PATH = "/temp";
 
 function FilesManager(){
 	//_WEB_FILES
