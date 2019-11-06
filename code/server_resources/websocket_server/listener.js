@@ -3,7 +3,7 @@ const http = require('http');
 const websocket = require('websocket');
 const wsmanager = require('./ws/websocketmanager');
 //const WS_PORT = 8081;
-const WS_PORT = 8080;
+const WS_PORT = 7890;
 
 function startServer(){
 	//"http" listener

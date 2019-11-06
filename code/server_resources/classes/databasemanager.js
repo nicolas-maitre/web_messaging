@@ -11,7 +11,7 @@ const dbName = "messaging_web_app_db";
 
 const dbPool = mariadb.createPool({ //creates an connection pool to the db
 	host: 'localhost',
-    user: 'mwa_user', 
+    user: 'root', 
 	database: dbName,
     password: credentials.dbRootPass,
     connectionLimit: 5
@@ -97,6 +97,7 @@ function DatabaseManager(){
 	
 	//db query
 	this.queryDb = async function(request, data, callBack){
+		console.log("queryDB");
 		var dbConnection = false;
 		try{
 			//console.log("dbPool", dbPool);

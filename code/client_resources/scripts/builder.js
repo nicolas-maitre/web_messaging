@@ -160,17 +160,17 @@ function Builder(){
 		var buttonUser4 = form.addElement('button', 'loginTempUserButton');
 		
 		//properties
-		buttonUser1.innerText = "nmaitre";
-		buttonUser2.innerText = "nglassey";
-		buttonUser3.innerText = "ggruaz";
-		buttonUser4.innerText = "jlagona";
+		buttonUser1.innerText = "kim";
+		buttonUser2.innerText = "donald";
+		buttonUser3.innerText = "vladimir";
+		buttonUser4.innerText = "user";
 		
 		//hardcoded user login events
 		buttonUser1.addEventListener('click', function(){
 			userObject = {
 				id: "0000-0000-0000-0000-0000",
 				token: "1234-1234-1234-1234-1234",
-				pseudo: "nmaitre"
+				pseudo: "kim"
 			};
 			wsManager = new WebSocketManager();
 			pagesManager.changePage('mwa');
@@ -180,7 +180,7 @@ function Builder(){
 			userObject = {
 				id: "1111-1111-1111-1111-1111",
 				token: "2345-2345-2345-2345-2345",
-				pseudo: "nglassey"
+				pseudo: "donald"
 			};
 			wsManager = new WebSocketManager();
 			pagesManager.changePage('mwa');
@@ -190,7 +190,7 @@ function Builder(){
 			userObject = {
 				id: "2222-2222-2222-2222-2222",
 				token: "3456-3456-3456-3456-3456",
-				pseudo: "ggruaz"
+				pseudo: "vladimir"
 			};
 			wsManager = new WebSocketManager();
 			pagesManager.changePage('mwa');
@@ -200,7 +200,7 @@ function Builder(){
 			userObject = {
 				id: "3333-3333-3333-3333-3333",
 				token: "4567-4567-4567-4567-4567",
-				pseudo: "jlagona"
+				pseudo: "user"
 			};
 			wsManager = new WebSocketManager();
 			pagesManager.changePage('mwa');
