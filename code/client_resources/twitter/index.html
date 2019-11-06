@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *
+        {
+            box-sizing: border-box;
+        }
+        html,body
+        {
+            display: flex;
+            height: 100%;
+            width: 100%;
+        }
+        #gauche
+        {
+            height: 100%;
+            display: flex;
+            border-right: solid 1px lightgray;
+            flex: 0 0 595px;
+            justify-content: right;
+        }
+        #millieu
+        {
+            height: 100%;
+            display: flex;
+            flex: 0 0 600px;
+            flex-direction: column;
+        }
+        #droite
+        {
+            height: 100%;
+            display: flex;
+            border-left: solid 1px lightgray;
+            justify-content: left;
+        }
+    </style>
+</head>
+<body>
+<div id="gauche">
+    <img src="Assets/images/gauche.png" width="277" height="624" >
+</div>
+<div id="millieu">
+    <img src="Assets/images/haut.png" width="100%" height="auto">
+</div>
+<div id="droite">
+    <img src="Assets/images/droite.png" width="387" height="866">
+</div>
+</body>
+</html>
