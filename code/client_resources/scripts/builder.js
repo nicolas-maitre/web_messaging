@@ -297,7 +297,7 @@ function Builder(){
 				&& linkText.substring(0, 7) != "http://"){//test http str
 					linkText = "https://" + linkText;
 				}
-				var linkElem = textContainer.addElement("a", "messageAdapterTextLink");
+				var linkElem = text.addElement("a", "messageAdapterTextLink");
 				linkElem.setAttribute("href", linkText);
 				linkElem.setAttribute("target", "_blank"); //open in new tab
 				linkElem.setAttribute("rel", "noopener noreferrer"); //prevent resources conflict + leaks
