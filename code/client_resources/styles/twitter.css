@@ -1,0 +1,95 @@
+*
+{
+    box-sizing: border-box;
+    font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+}
+#gauche
+{
+    height: 100%;
+    display: flex;
+    border-right: solid 1px lightgray;
+    flex: 0 0 595px;
+    justify-content: flex-end;
+}
+#millieu
+{
+    height: 100%;
+    display: flex;
+    flex: 0 0 600px;
+    flex-direction: column;
+}
+#droite
+{
+    height: 100%;
+    display: flex;
+    border-left: solid 1px lightgray;
+    justify-content: left;
+}
+.messageContainer
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 15px;
+}
+.border
+{
+    border: 1px solid rgb(230, 236, 240);
+}
+.messageContainer:hover
+{
+    background: rgb(245,248,250);
+}
+.messageContainer > .logo
+{
+    display: flex;
+    width: 50px;
+    height: 100%;
+}
+.logo > img
+{
+    width:50px;
+    height:50px;
+    background: black;
+    border-radius: 100%;
+}
+.messageAdapterImage
+{
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    min-width: 300px;
+    max-width: 400px;
+    margin: auto;
+
+}
+.message
+{
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.title
+{
+    font-weight: bold;
+    display: flex;
+    width: 100%;
+}
+.text
+{
+    display: flex;
+    width: 100%;
+    font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+    font-size: 20px;
+}
+.pseudo
+{
+    display: flex;
+    margin-left: 5px;
+    color: rgb(101, 119, 134);
+}

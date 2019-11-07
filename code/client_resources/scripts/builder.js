@@ -238,18 +238,15 @@ function Builder(){
 		}
 		*/
 		var extraClass = "foreignMessage";
-		if(userObject.id == data.userObject.id) {
-			extraClass = "selfMessage";
-		}
 		//create
-		var line = container.addElement('div', 'messageAdapterLine ' + extraClass);
-		var box = line.addElement('div', 'messageAdapterBox ' + extraClass);
-		var name = box.addElement('div', 'messageAdapterName');
-		var imageContainer = box.addElement("div", "messageAdapterImageContainer");
-		var image = imageContainer.addElement("div", "messageAdapterImage none");
-		var textContainer = box.addElement('div', 'messageAdapterText');
-		var time = box.addElement('div', 'messageAdapterTime ' + extraClass);
-
+		var messageContainer = container.addElement('div', 'messageContainer border' );
+		var logo = messageContainer.addElement('div', 'logo' );
+		var imageLogo = logo.addElement('img', 'border' );
+		var message = messageContainer.addElement('div', 'message' );
+		var title = message.addElement('div', 'title' );
+		var pseudo = title.addElement('span', 'pseudo' );
+		var text = message.addElement('div', 'text' );
+		var image = message.addElement('div', 'messageAdapterImage border none' );
 		//events
 		image.addEventListener("click", actions.zoomImage);
 		
