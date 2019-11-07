@@ -135,7 +135,6 @@ function InstantMessagingManager(wsManager){
 			
 			//send notif to each user in the group
 			for(var indResult=0; indResult < result.length; indResult++){
-				console.log("user result", result);
 				var userId = result[indResult].user;
 				console.log("current user id", userId);
 				wsManager.sendMessageToUser(userId, messageParams.action, messageParams.data);

@@ -38,3 +38,11 @@ window.addEventListener("popstate", function(evt){
 		pagesManager.changePage(evt.state.pageName, {isPopState:true});
 	}
 });
+
+//ATTENTION
+//JOJO BRICOLAGE
+//!!!!!!!!!!!!!!!
+
+droite.addEventListener("click", function(ev){
+	document.getElementsByClassName("MWAWriteSection")[0].classList.toggle("none");
+});

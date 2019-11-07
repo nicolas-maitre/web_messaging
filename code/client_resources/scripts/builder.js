@@ -290,7 +290,7 @@ function Builder(){
 			apiManager.getUser(data.userObject.id, function(error = false, result){
 				if(error){
 					console.log("get user error", error);
-					return;
+					return line;
 				}
 				//use api data
 				name.innerText = result.first_name + " " + result.last_name;
@@ -299,6 +299,7 @@ function Builder(){
 			//use provided data
 			name.innerText = data.userObject.first_name + " " + data.userObject.last_name;
 		}
+		return line;
 	};
 
 	this.buildGroupAdapter = function(container, data, options){

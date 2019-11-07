@@ -52,8 +52,20 @@ function MessagingActions(){
 		builder.buildDateSeparator(container, new Date(data.timestamp), data.groupId);
 		var messageAdapter = builder.buildMessageAdapter(container, data,{userApi:true});
 		
+		console.log(messageAdapter);
+
+		//TWITTER APPEND BEFORE
+		container.insertBefore(messageAdapter, _this.groups[data.groupId].msgRef.nextSibling);
+
 		if(data.groupId == _this.currentGroup){
-			scrollGroupToBottom();
+			//scrollGroupToBottom();
+			scrollGroupToTop();
+		}
+
+		//TWITTER SOUND
+		if(data.userId != userObject.id){
+			var audiobject = new Audio("/resources/twitter_sound.mp3");
+			audiobject.play();
 		}
 	};
 	
@@ -71,7 +83,11 @@ function MessagingActions(){
 			for(var indGroup = 0; indGroup < data.length; indGroup++){
 				var currentData = data[indGroup];
 				builder.buildGroupAdapter(container, currentData);
+				//console.log("currentData", currentData);
 			}
+
+			//SET DEFAULT GROUP
+			messagingActions.displayGroup({id:'twitter_group', name:'ok'});
 		});
 	}
 	
@@ -112,9 +128,12 @@ function MessagingActions(){
 					file: false
 				}
 			}
+			//TWITTER START REF
+			_this.groups[data.id].msgRef = _this.groups[data.id].msgContainer.addElement("div", "none");
 			//get messages
 			getMessagesForGroup({groupId: data.id}, function(){
-				scrollGroupToBottom();
+				//scrollGroupToBottom();
+				scrollGroupToTop();
 			});
 		}
 
@@ -165,7 +184,8 @@ function MessagingActions(){
 			}
 			//build into container
 			var container =_this.groups[options.groupId].msgContainer;
-			for(var indMessage = 0; indMessage < data.length; indMessage++){
+			//for(var indMessage = 0; indMessage < data.length; indMessage++){ 
+			for(var indMessage = data.length - 1; indMessage >=0; indMessage--){//NEGATE TWITTER
 				var currentData = data[indMessage];
 				//date separator
 				var messageDate = new Date(currentData.creation_time);
@@ -189,5 +209,9 @@ function MessagingActions(){
 		}
 		var element = _this.groups[_this.currentGroup].msgContainer;
 		element.scrollTop = element.scrollHeight;
+	}
+	function scrollGroupToTop(){
+		var element = _this.groups[_this.currentGroup].msgContainer;
+		element.scrollTop = 0;
 	}
 }

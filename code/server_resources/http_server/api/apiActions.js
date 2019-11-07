@@ -35,9 +35,9 @@ function ApiActions(){
 		}
 		//create request
 		database.select({
-			fields: "id, image, name, type, administrator",
-			tableName: "groups INNER JOIN user_groups",
-			where: "user_groups.group = groups.id AND user_groups.user = ? AND groups.active = 1 AND user_groups.active = 1",
+			fields: "id, image, `name`, `type`, administrator",
+			tableName: "`groups` INNER JOIN user_groups",
+			where: "user_groups.`group` = `groups`.id AND user_groups.`user` = ? AND `groups`.active = 1 AND user_groups.active = 1",
 			data: [actionParams.params.userId],
 			rawFields: true
 		}, callBack);
@@ -49,7 +49,7 @@ function ApiActions(){
 		}
 		//create request
 		database.select({
-			tableName: "users",
+			tableName: "`users`",
 			fields: "id, image, first_name, last_name, pseudo",
 			where: "id = ?",
 			data: [actionParams.params.userId]
@@ -68,7 +68,7 @@ function ApiActions(){
 	this.getUsers = function(actionParams, callBack){
 		//create request
 		database.select({
-			tableName: "users",
+			tableName: "`users`",
 			fields: "id, image, first_name, last_name, pseudo"
 		}, function(error, result){
 			if(error){
