@@ -90,8 +90,8 @@ function PagesManager(){
 	/*init*/
 	(function(){
 		//builds the page containers container
-		elements.pagesContainer = document.body.addElement('div', 'pagesContainer');
-		elements.windowsContainer = document.body.addElement('div', 'windowsContainer none');
+		elements.pagesContainer = millieu.addElement('div', 'pagesContainer');
+		elements.windowsContainer = millieu.addElement('div', 'windowsContainer none');
 		//events
 		elements.windowsContainer.addEventListener("click", function(evt){
 			elements.windowsContainer.classList.add("none");

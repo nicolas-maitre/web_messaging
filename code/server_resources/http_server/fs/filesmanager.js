@@ -11,7 +11,7 @@ const mime = require("mime");
 const dbmanager = require("../../classes/databasemanager");
 const uuidv4 = require('uuid/v4');
 
-const CLIENT_RESOURCES_PATH = "client_resources"; //web directory path
+const CLIENT_RESOURCES_PATH = "code/client_resources"; //web directory path
 const INDEX_FILE = "/main.html";
 const FILES_DIR_PATH = "/var/messaging_web_app/files";
 

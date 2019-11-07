@@ -1,0 +1,28 @@
+html,body
+        {
+            display: flex;
+            height: 100%;
+            width: 100%;
+        }
+        #gauche
+        {
+            height: 100%;
+            display: flex;
+            border-right: solid 1px lightgray;
+            flex: 0 0 595px;
+            justify-content: right;
+        }
+        #millieu
+        {
+            height: 100%;
+            display: flex;
+            flex: 0 0 600px;
+            flex-direction: column;
+        }
+        #droite
+        {
+            height: 100%;
+            display: flex;
+            border-left: solid 1px lightgray;
+            justify-content: left;
+        }

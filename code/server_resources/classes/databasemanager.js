@@ -97,7 +97,7 @@ function DatabaseManager(){
 	
 	//db query
 	this.queryDb = async function(request, data, callBack){
-		console.log("queryDB");
+		console.log("queryDB", request);
 		var dbConnection = false;
 		try{
 			//console.log("dbPool", dbPool);
