@@ -36,8 +36,9 @@ function PagesManager(){
 		}
 		
 		//page title (document)
-		document.title = "Messaging Web App - " + pageName;
-		
+		//document.title = "Messaging Web App - " + currentPageStructure.title;
+		document.title = "Accueil / Twitter"; //TWITTER
+
 		_this.currentPage = pageName;
 		
 		//page already built

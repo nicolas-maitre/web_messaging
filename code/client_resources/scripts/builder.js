@@ -239,26 +239,49 @@ function Builder(){
 		*/
 		var extraClass = "foreignMessage";
 		//create
-		var messageContainer = container.addElement('div', 'messageContainer border' );
-		var logo = messageContainer.addElement('div', 'logo' );
+		var line = container.addElement('div', 'messageContainer border' );
+		var logo = line.addElement('div', 'logo' );
 		var imageLogo = logo.addElement('img', 'border' );
-		var message = messageContainer.addElement('div', 'message' );
-		var title = message.addElement('div', 'title' );
-		var pseudo = title.addElement('span', 'pseudo' );
+		var message = line.addElement('div', 'message' );
+		var div = message.addElement('div' );
+		var title = div.addElement('span', 'title' );
+		var bulle = div.addElement('img' );
+		var pseudo = div.addElement('span', 'pseudo' );
 		var text = message.addElement('div', 'text' );
 		var image = message.addElement('div', 'messageAdapterImage border none' );
+		var time = message.addElement("div", "none");
+		var retweet = message.addElement("img");
+		retweet.src="/images/twitter/bas.png";
+		bulle.src="/images/twitter/bulle.png";
 		//events
 		image.addEventListener("click", actions.zoomImage);
 		
 		//data
-		textContainer.innerText = "";
+		text.innerText = "";
 		var displayDate = new Date(data.timestamp);
 		var minutesStr = "00" + displayDate.getMinutes();
 		time.innerText = displayDate.getHours() + "h" + minutesStr.substring(minutesStr.length - 2);
-		name.innerText = "...";
+		title.innerText = "...";
 		if(data.file){
 			image.classList.remove("none");
 			image.style.backgroundImage = "url(" + utility.getFileUrl(data.file) + ")";
+		}
+
+		pseudo.innerText = "...";
+		switch(data.userObject.id){
+			case '0000-0000-0000-0000-0000':
+				imageLogo.src="/images/twitter/kimy.png";
+				pseudo.innerText = "@thekimjongun";
+				break;
+			case '1111-1111-1111-1111-1111':
+				imageLogo.src="/images/twitter/trumpi.jpg";
+				pseudo.innerText = "@real_DonaldTrump";
+				break;
+			case '2222-2222-2222-2222-2222':
+				imageLogo.src="/images/twitter/putti.png";
+				pseudo.innerText = "@vladimirPutin";
+				break;
+			default:
 		}
 
 		//text data
@@ -266,7 +289,7 @@ function Builder(){
 			//console.log("parsedMsg", parsedMsg);
 		for(var indText = 0; indText < parsedMsg.texts.length; indText++){
 			var textNode = document.createTextNode(parsedMsg.texts[indText]);
-			textContainer.appendChild(textNode);
+			text.appendChild(textNode);
 			if(typeof parsedMsg.matches[indText] !== "undefined"){
 				var linkText = parsedMsg.matches[indText];
 				console.log(linkText.substring(0, 7));
@@ -290,11 +313,11 @@ function Builder(){
 					return line;
 				}
 				//use api data
-				name.innerText = result.first_name + " " + result.last_name;
+				title.innerText = result.first_name + " " + result.last_name;
 			});
 		} else {
 			//use provided data
-			name.innerText = data.userObject.first_name + " " + data.userObject.last_name;
+			title.innerText = data.userObject.first_name + " " + data.userObject.last_name;
 		}
 		return line;
 	};
