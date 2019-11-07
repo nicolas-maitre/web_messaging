@@ -24,7 +24,7 @@ function DatabaseManager(){
 		/*options
 			directFields = {};
 		*/
-		var textRequest = "INSERT INTO `" + tableName + "` SET ";
+		var textRequest = "INSERT INTO " + tableName + " SET ";
 		var dataRequest = [];
 		var directFields = {};
 		if(typeof options != "undefined" && options.directFields){

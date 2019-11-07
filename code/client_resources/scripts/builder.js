@@ -238,7 +238,7 @@ function Builder(){
 		}
 		*/
 		var extraClass = "foreignMessage";
-		if(userObject.id == data.userObject.id){
+		if(userObject.id == data.userObject.id) {
 			extraClass = "selfMessage";
 		}
 		//create
