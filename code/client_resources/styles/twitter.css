@@ -1,28 +1,3 @@
-html,body{
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
-#gauche{
-    height: 100%;
-    display: flex;
-    border-right: solid 1px lightgray;
-    flex: 0 0 595px;
-    justify-content: right;
-}
-#millieu{
-    height: 100%;
-    display: flex;
-    flex: 0 0 600px;
-    flex-direction: column;
-}
-#droite{
-    height: 100%;
-    display: flex;
-    border-left: solid 1px lightgray;
-    justify-content: left;
-}
-
 .MWATopMenu, .MWALeftPanel, .MWANameSection, .dateSeparatorLine{
     display: none;
 }
@@ -30,8 +5,126 @@ html,body{
     width: 100%;
 }
 .MWAMainSection{
+
     border: 0;
 }
 .groupMessageSection{
     overflow-y: hidden;
+}
+
+*
+{
+    font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+}
+html,body
+{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+#gauche
+{
+    height: 100%;
+    display: flex;
+    border-right: solid 1px lightgray;
+    flex: 0 0 595px;
+    justify-content: flex-end;
+}
+#millieu
+{
+    height: 100%;
+    display: flex;
+    flex: 0 0 600px;
+    flex-direction: column;
+}
+#droite
+{
+    height: 100%;
+    display: flex;
+    border-left: solid 1px lightgray;
+    justify-content: left;
+}
+.groupMessageSection
+{
+    padding: 0;
+    margin: 0;
+}
+.messageContainer
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 15px;
+}
+.border
+{
+    border: 1px solid rgb(230, 236, 240);
+}
+.messageContainer:hover
+{
+    background: rgb(245,248,250);
+}
+.messageContainer > .logo
+{
+    display: flex;
+    width: 50px;
+    height: 100%;
+}
+.logo > img
+{
+    width:50px;
+    height:50px;
+    background: black;
+    border-radius: 100%;
+}
+.messageAdapterImage
+{
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    min-width: 300px;
+    max-width: 400px;
+    margin: auto;
+
+}
+.message
+{
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+}
+.title {
+    font-weight: bold;
+    font-size: 18px;
+    vertical-align: middle;
+}
+.pseudo {
+    margin-left: 5px;
+    color:
+            rgb(101, 119, 134);
+    vertical-align: bottom;
+    font-size: 16px;
+}
+.text
+{
+    width: 100%;
+    font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.message > img
+{
+    margin-left: -42px;
+    margin-right: -42px;
+}
+.message > div > img
+{
+    vertical-align: middle;
+    margin-left: 5px;
 }

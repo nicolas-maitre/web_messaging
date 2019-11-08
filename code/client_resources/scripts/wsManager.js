@@ -1,10 +1,10 @@
 "use strict";
 function WebSocketManager(){
 	//const WEBSOCKET_URL = "ws://13.52.192.189:8080";
-	//const WEBSOCKET_URL = "ws://sc-c332-pc14:7890";
+	const WEBSOCKET_URL = "ws://sc-c332-pc14:7890";
 	//const WEBSOCKET_URL = "ws://localhost:8080";
 	//const WEBSOCKET_URL = "ws://localhost:8081";
-	const WEBSOCKET_URL = "ws://localhost:7890";
+	//const WEBSOCKET_URL = "ws://localhost:7890";
 	
 	var _this = this;
 	this.connection;
