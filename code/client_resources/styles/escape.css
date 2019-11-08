@@ -11,13 +11,17 @@
 .groupMessageSection{
     overflow-y: hidden;
 }
+.MWAMessagesSection{
 
+    height: 100%;
+}
 *
 {
     font: 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", sans-serif;
 }
 .MWAPageContainer
 {
+    overflow: auto;
     display: flex;
     height: 100%;
     width: 100%;

@@ -258,7 +258,7 @@ function Builder(){
 		//create
 		var line = container.addElement('div', 'messageContainer border' );
 		var logo = line.addElement('div', 'logo' );
-		var imageLogo = logo.addElement('img', 'border' );
+		var imageLogo = logo.addElement('img' );
 		var message = line.addElement('div', 'message' );
 		var div = message.addElement('div' );
 		var title = div.addElement('span', 'title' );
