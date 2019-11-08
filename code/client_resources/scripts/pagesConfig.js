@@ -16,6 +16,13 @@ var pagesConfig = {
 		title: "LogIn",
 		reloadPage:true
 	},
+	clock:{
+		title: "Panix clox",
+		bootAction: "onCLOCKPageBuilt",
+	},
+	escapeAdmin:{
+		title: "Escape game admin"
+	},
 	error:{
 		title: "Error",
 		rebuild:true

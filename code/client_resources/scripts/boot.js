@@ -43,6 +43,9 @@ window.addEventListener("popstate", function(evt){
 //JOJO BRICOLAGE
 //!!!!!!!!!!!!!!!
 
-droite.addEventListener("click", function(ev){
-	document.getElementsByClassName("MWAWriteSection")[0].classList.toggle("none");
+/*droite.addEventListener("click", function(ev){
+	pagesManager.changePage("escapeAdmin");
 });
+gauche.addEventListener("click", function(ev){
+	pagesManager.changePage("clock");
+});*/

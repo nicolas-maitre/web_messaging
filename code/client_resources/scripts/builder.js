@@ -10,10 +10,21 @@ function Builder(){
 	/*Messaging Web App Page*/
 	this.buildMWAPage = function(params){
 		var topMenu = buildMWATopMenu(params.container);
-        var mainSection = params.container.addElement("div", "MWAMainSection");
+		var gauche = params.container.addElement('div'); 
+		gauche.setAttribute("id", "gauche");
+		gauche.innerHTML = '<img src="/images/twitter/gauche.png" width="277" height="624" >';
+		var millieu = params.container.addElement('div');
+		millieu.setAttribute("id", "millieu");
+		millieu.innerHTML = '<img src="/images/twitter/haut.png" width="100%" height="auto">';
+		var droite = params.container.addElement('div');
+		droite.setAttribute("id", "droite");
+		droite.innerHTML = '<img src="/images/twitter/droite.png" width="387" height="866">';
+
+        var mainSection = millieu.addElement("div", "MWAMainSection");
 		var leftPanel = buildMWAleftPanel(mainSection);
         var rightPanel = buildMWARightPanel(mainSection);
 		return{
+			mainSection: mainSection,
 			topMenu: topMenu,
 			leftPanel: leftPanel,
             rightPanel: rightPanel
@@ -222,6 +233,12 @@ function Builder(){
 			pagesManager.changePage("mwa");
 		});
 		return {};
+	};
+
+	/*clockPage*/
+	this.buildCLOCKPage = function(params){
+		window.outerClock = params.container.addElement("div", "screen glitch");
+		outerClock.innerHTML = '<div id="innerClock" class="clock is-off"><span id="innerClockTime" class="time" data-time=""></span></div>';
 	};
 
 	/*CONTENT ADAPTERS*/ //used to build an element containeing dynamic data
