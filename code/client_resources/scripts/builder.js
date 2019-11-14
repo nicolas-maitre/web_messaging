@@ -240,6 +240,13 @@ function Builder(){
 		window.outerClock = params.container.addElement("div", "screen glitch");
 		outerClock.innerHTML = '<div id="innerClock" class="clock is-off"><span id="innerClockTime" class="time" data-time=""></span></div>';
 	};
+	/*AdminPage*/
+	this.buildADIMPage = function(params){
+
+		var container = params.container.addElement('div');
+
+
+	};
 
 	/*CONTENT ADAPTERS*/ //used to build an element containeing dynamic data
 	this.buildMessageAdapter = function(container, data, options = {}){
