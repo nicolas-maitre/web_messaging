@@ -6,6 +6,7 @@ author: Nicolas Maitre
 version: 03.04.2019
 */
 function Actions(){
+	this.timeSeconde = 0;
 	this.onMWAPageBuilt = function(options){
 		console.log("mwa page built");
 		//update data
@@ -29,63 +30,88 @@ function Actions(){
 			$('.screen').toggleClass('glitch');
 		});*/
 		
-		
 		var newDate = new Date();
 		newDate.setDate(newDate.getDate());
-		var timeMinute = 15;
-		var timeSeconde = timeMinute * 60 +1;
-		
-		function convert(time) {
-			var reste = time;
-			var result = '';
-		
-			var nbHours = Math.floor(reste / 3600);
-			reste -= nbHours * 3600
-		
-			var nbMinute = Math.floor(reste / 60);
-			reste -= nbMinute * 60;
-		
-			var nbSeconds = reste;
-		
-			if (nbMinute < 10){
-			nbMinute = "0"+ nbMinute;
-			}
-			if (nbSeconds < 10){
-			nbSeconds = "0"+ nbSeconds;
-			}
-		
-			//change color after 10 min
-			if (nbMinute < 10){      
-				pagesManager.pages.clock.domElement.classList.add("redClock");
-			}
-		
-			//change color after 5 min red and white after 1 sec
-			if (nbMinute < 5 ){
-				if (nbSeconds % 2 == 0){
-					pagesManager.pages.clock.domElement.classList.add("redClock");
-				}else{
-					pagesManager.pages.clock.domElement.classList.remove("redClock");
-				}
-			}
-		
-		
-			result = nbMinute + ":" + nbSeconds;
-			return result;
-		}
-		
-		setInterval( function() {
-			if (timeSeconde != 0){
-			timeSeconde--
-			}
-			var realTime =  convert(timeSeconde);
-			
-
-			innerClockTime.innerText = realTime;
-			innerClockTime.setAttribute('data-time', realTime)
-		
-		}, 1000);
 	}
+		
+	function convert(time) {
+		var reste = time;
+		var result = '';
+	
+		var nbHours = Math.floor(reste / 3600);
+		reste -= nbHours * 3600
+	
+		var nbMinute = Math.floor(reste / 60);
+		reste -= nbMinute * 60;
+	
+		var nbSeconds = reste;
+	
+		if (nbMinute < 10){
+		nbMinute = "0"+ nbMinute;
+		}
+		if (nbSeconds < 10){
+		nbSeconds = "0"+ nbSeconds;
+		}
+	
+		//change color after 10 min
+		if (nbMinute < 10){      
+			pagesManager.pages.clock.domElement.classList.add("redClock");
+		}
+	
+		//change color after 5 min red and white after 1 sec
+		if (nbMinute < 5 ){
+			if (nbSeconds % 2 == 0){
+				pagesManager.pages.clock.domElement.classList.add("redClock");
+			}else{
+				pagesManager.pages.clock.domElement.classList.remove("redClock");
+			}
+		}
+	
+	
+		result = nbMinute + ":" + nbSeconds;
+		return result;
+	}
+	//all functionality for the clock
+	/**
+	 * method to run the clock
+	 */
+	this.runClock = function(){
+		//increase each seacond
+		setInterval(updateTime(-1), 1000);
+	}
+	/**
+	 * method to stop the clock
+	 */
+	this.stopClock = function(){
+		clearInterval(updateTime());
+	}
+	/**
+	 * method to update time on the clock
+	 * @param secToUpdate int value, this value will add to actual time, give negative value to decrease and positive to add time
+	 */
+	this.updateClock = function(secToUpdate){
+		this.timeSeconde+=secToUpdate;
+		//if time is over
+		if (this.timeSeconde <= 0){
+			this.timeSeconde = 0;
+			stopClock();
+			//code to display game over
+		}
+		//update clock display
+		var realTime = convert(this.timeSeconde);
+		innerClockTime.innerText = realTime;
+		innerClockTime.setAttribute('data-time', realTime)
+	}
+	/**
+	 * method to reset clock
+	 * @param timeInMin int value, it's the start value of clock in minute
+	 */
+	this.resetClock = function(timeInMin){
+		this.stopClock();
+		this.timeSeconde = timeInMin * 60;
+		this.updateTime
 
+	}
 	this.addMessageFile = function(evt){
 		console.log("file btn");
 		utility.imageUploadProcedure(function(error, result){
