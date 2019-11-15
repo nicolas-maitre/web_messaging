@@ -21,7 +21,15 @@ function Actions(){
 		//hc
 		//messagingActions.displayGroup({groupId: "5555-6666-7777-8888-9999", data: {name: "Les anciens du CPNV - hc"}});
 	}
+	this.onADMINPageBuilt = function(options){
+		console.log("admin built lol", options);
 
+		//start clock
+		var newDate = new Date();
+		newDate.setDate(newDate.getDate());
+		_this.resetClock(1*60);
+		_this.startClock();
+	}
 	this.onCLOCKPageBuilt = function(options){
 		console.log("clock built lol", options);
 		//start clock
@@ -68,22 +76,23 @@ function Actions(){
 		if (nbSeconds < 10){
 		nbSeconds = "0"+ nbSeconds;
 		}
-	
-		//change color after 10 min
-		if (nbMinute < 10){      
-			pagesManager.pages.clock.domElement.classList.add("redClock");
-		}
-	
-		//change color after 5 min red and white after 1 sec
-		if (nbMinute < 5 ){
-			if (nbSeconds % 2 == 0){
+
+		if(pagesManager.pages.clock) {
+			//change color after 10 min
+			if (nbMinute < 10) {
 				pagesManager.pages.clock.domElement.classList.add("redClock");
-			}else{
-				pagesManager.pages.clock.domElement.classList.remove("redClock");
 			}
+
+			//change color after 5 min red and white after 1 sec
+			if (nbMinute < 5) {
+				if (nbSeconds % 2 == 0) {
+					pagesManager.pages.clock.domElement.classList.add("redClock");
+				} else {
+					pagesManager.pages.clock.domElement.classList.remove("redClock");
+				}
+			}
+
 		}
-	
-	
 		result = nbMinute + ":" + nbSeconds;
 		return result;
 	}
