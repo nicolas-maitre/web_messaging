@@ -5,6 +5,10 @@ description: contains actions from events assigned in the page OR global Actions
 author: Nicolas Maitre
 version: 03.04.2019
 */
+var newDate;
+var timeMinute;
+var timeSeconde;
+
 function Actions(){
 	this.timeSeconde = 0;
 	this.onMWAPageBuilt = function(options){
@@ -29,6 +33,7 @@ function Actions(){
 			e.preventDefault();
 			$('.screen').toggleClass('glitch');
 		});*/
+
 		
 		var newDate = new Date();
 		newDate.setDate(newDate.getDate());
