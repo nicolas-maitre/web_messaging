@@ -26,8 +26,6 @@ function Actions(){
 		console.log("admin built lol", options);
 
 		//start clock
-		var newDate = new Date();
-		newDate.setDate(newDate.getDate());
 		_this.resetClock(1*60);
 		_this.startClock();
 	}
@@ -37,16 +35,8 @@ function Actions(){
 		function second_passed() {
 			innerClock.classList.remove('is-off');
 		}
-		setTimeout(second_passed, 2000)
-		
-		/*$('.switcher').on('click', function(e) {
-			e.preventDefault();
-			$('.screen').toggleClass('glitch');
-		});*/
+		setTimeout(second_passed, 2000);
 
-		
-		var newDate = new Date();
-		newDate.setDate(newDate.getDate());
 		_this.resetClock(1*60+1);
 		_this.startClock();
 	}
