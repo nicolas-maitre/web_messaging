@@ -4,14 +4,18 @@ INSERT INTO users		SET id='0000-0000-0000-0000-0000', pseudo='kim', email='', fi
 INSERT INTO users		SET id='1111-1111-1111-1111-1111', pseudo='donald', email='', first_name='Donald', last_name='Trump', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
 INSERT INTO users		SET id='2222-2222-2222-2222-2222', pseudo='vladimir', email='', first_name='Vladimir', last_name='Poutine', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
 INSERT INTO users		SET id='3333-3333-3333-3333-3333', pseudo='user', email='', first_name='user', last_name='user', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
+INSERT INTO users		SET id='admin', pseudo='admin', email='', first_name='admin', last_name='admin', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
+INSERT INTO users		SET id='clock', pseudo='clock', email='', first_name='clock', last_name='clock', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
 
 -- groups
-INSERT INTO groups	SET id='twitter_group', creation_time=CURRENT_TIMESTAMP(), `name`='twitter group', `type`='group', administrator='0000-0000-0000-0000-0000', active=1;
+INSERT INTO groups	SET id='twitter_group', creation_time=CURRENT_TIMESTAMP(), `name`='twitter group', `type`='group', administrator='admin', active=1;
 
 INSERT INTO user_groups	SET USER='0000-0000-0000-0000-0000', `group`='twitter_group', creation_time=CURRENT_TIMESTAMP(), active=1;
 INSERT INTO user_groups	SET USER='1111-1111-1111-1111-1111', `group`='twitter_group', creation_time=CURRENT_TIMESTAMP(), active=1;
 INSERT INTO user_groups	SET USER='2222-2222-2222-2222-2222', `group`='twitter_group', creation_time=CURRENT_TIMESTAMP(), active=1;
 INSERT INTO user_groups	SET USER='3333-3333-3333-3333-3333', `group`='twitter_group', creation_time=CURRENT_TIMESTAMP(), active=1;
+INSERT INTO user_groups	SET USER='admin', `group`='twitter_group', creation_time=CURRENT_TIMESTAMP(), active=1;
+INSERT INTO user_groups	SET USER='clock', `group`='twitter_group', creation_time=CURRENT_TIMESTAMP(), active=1;
 
 -- tokens
 INSERT INTO tokens 		SET id=UUID(), value='1234-1234-1234-1234-1234', type='session', expiration_time=CURRENT_TIMESTAMP(), active=1, user='0000-0000-0000-0000-0000';
