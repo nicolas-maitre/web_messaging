@@ -168,7 +168,7 @@ function Builder(){
 		var buttonUser1 = form.addElement('button', 'loginTempUserButton');
 		var buttonUser2 = form.addElement('button', 'loginTempUserButton');
 		var buttonUser3 = form.addElement('button', 'loginTempUserButton');
-		var buttonUser4 = form.addElement('button', 'loginTempUserButton');
+		var buttonUser4 = form.addElement('button', 'loginTempUserButton userBtnUi');
 		
 		//properties
 		buttonUser1.innerText = "kim";
@@ -271,16 +271,19 @@ function Builder(){
 		var reset4 = containt4.addElement('button','btn');
 		reset4.innerText="RESET CARDS";
 
+		var containt5 = element.addElement('div','containt');
+		var resetAll = containt5.addElement('button','btn');
+		resetAll.innerText="!!!RESET ALL!!!";
+
 		start.addEventListener("click", function (){
 			wsManager.sendMessage("startClock");
 		});
 		reset.addEventListener("click", function (){
 			var minutes=prompt("Combien de minutes?");
-			console.log("Reset de", minutes,"minutes");
 			wsManager.sendMessage("resetClock", {time:minutes*60 });
 		});
 		stop.addEventListener("click", function (){
-			wsManager.sendMessage("stopClock", );
+			wsManager.sendMessage("stopClock", false);
 		});
 
 		updateTime.addEventListener("click", function (){
@@ -294,6 +297,18 @@ function Builder(){
 		});
 
 		reset4.addEventListener("click", function (){
+			wsManager.sendMessage("resetCards");
+		});
+
+		resetAll.addEventListener("click", function(){
+			console.log("reset all");
+			wsManager.sendMessage("stopClock", false);
+
+			var minutes=prompt("Combien de minutes?");
+			wsManager.sendMessage("resetClock", {time:minutes*60 });
+
+			wsManager.sendMessage("clearMessages");
+
 			wsManager.sendMessage("resetCards");
 		});
 

@@ -10,15 +10,14 @@ var timeMinute;
 var timeSeconde;
 
 var cardData = {
-	goodCard0: "2127194713",
+	endcard: "2127194713",
 	goodCard1: "1508250025",
 	goodCard2: "1266638679",
 	badCard: "0478606337",
-
-	isEntering: false,
+	
 	input: "",
 	usedBadCard: false,
-	usedGoodCard0: false,
+	usedEndcard: false,
 	usedGoodCard1: false,
 	usedGoodCard2: false
 };
@@ -50,10 +49,14 @@ function Actions(){
 			// Enter -> deal with the input
 			if (event.key == "Enter") {
 				// good card has been entered
-				if (cardData.input == cardData.goodCard0 && !cardData.usedGoodCard0) {
-					cardData.usedGoodCard0 = true;
-					goodCardEntered();
-					//alert("Good");
+				if (cardData.input == cardData.endcard && !cardData.usedEndcard) {
+
+					cardData.usedEndcard = true;
+					var audiobject = new Audio('/resources/reussi.mp3');
+					audiobject.play();
+					wsManager.sendMessage("stopClock", false);
+
+					//alert("Fin");
 					// bad card has been entered (max 1 use)
 				} else if (cardData.input == cardData.goodCard1 && !cardData.usedGoodCard1) {
 					cardData.usedGoodCard1 = true;
@@ -169,11 +172,12 @@ function Actions(){
 	 */
 	this.startClock = function(){
 		if(_this.idClockInterval !== 0){
-			//increase each seacond
-			_this.idClockInterval = setInterval(function(){
-				_this.updateClock(-1)
-			}, 1000);
+			clearInterval(_this.idClockInterval);
 		}
+		//increase each seacond
+		_this.idClockInterval = setInterval(function(){
+			_this.updateClock(-1)
+		}, 1000);
 	}
 	/**
 	 * method to stop the clock

@@ -4,7 +4,8 @@ function WebSocketManager(){
 	//const WEBSOCKET_URL = "ws://sc-c332-pc14:7890";
 	//const WEBSOCKET_URL = "ws://localhost:8080";
 	//const WEBSOCKET_URL = "ws://localhost:8081";
-	const WEBSOCKET_URL = "ws://localhost:7890";
+	//const WEBSOCKET_URL = "ws://localhost:7890";
+	const WEBSOCKET_URL = "ws://sc-c331-pc09:7890";
 	
 	var _this = this;
 	this.connection;
@@ -72,14 +73,14 @@ function WebSocketManager(){
 	};
 	this.actionMethods.resetCards = function(){
 		cardData = {
-			goodCard0: "2127194713",
+			endcard: "2127194713",
 			goodCard1: "1508250025",
 			goodCard2: "1266638679",
 			badCard: "0478606337",
-		
+			
 			input: "",
 			usedBadCard: false,
-			usedGoodCard0: false,
+			usedEndcard: false,
 			usedGoodCard1: false,
 			usedGoodCard2: false
 		};

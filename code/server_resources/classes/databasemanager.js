@@ -11,7 +11,7 @@ const dbName = "messaging_web_app_db";
 
 const dbPool = mariadb.createPool({ //creates an connection pool to the db
 	host: 'localhost',
-	port: 3307,
+	port: 3306,
     user: 'root', 
 	database: dbName,
     password: credentials.dbRootPass,
