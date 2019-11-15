@@ -22,3 +22,5 @@ INSERT INTO tokens 		SET id=UUID(), value='1234-1234-1234-1234-1234', type='sess
 INSERT INTO tokens 		SET id=UUID(), value='2345-2345-2345-2345-2345', type='session', expiration_time=CURRENT_TIMESTAMP(), active=1, user='1111-1111-1111-1111-1111';
 INSERT INTO tokens 		SET id=UUID(), value='3456-3456-3456-3456-3456', type='session', expiration_time=CURRENT_TIMESTAMP(), active=1, user='2222-2222-2222-2222-2222';
 INSERT INTO tokens 		SET id=UUID(), value='4567-4567-4567-4567-4567', type='session', expiration_time=CURRENT_TIMESTAMP(), active=1, user='3333-3333-3333-3333-3333';
+INSERT INTO tokens 		SET id=UUID(), value='adminToken', type='session', expiration_time=CURRENT_TIMESTAMP(), active=1, user='admin';
+INSERT INTO tokens 		SET id=UUID(), value='clockToken', type='session', expiration_time=CURRENT_TIMESTAMP(), active=1, user='clock';

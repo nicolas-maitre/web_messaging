@@ -54,6 +54,23 @@ function WebSocketManager(listenerRef){
 		}
 		_this.userConnections[params.data.userId] = params.wsToken;
 	}
+	this.actionMethods.startClock = function(params){
+		_this.sendMessageToUser('clock', "startClock", false);
+		_this.sendMessageToUser('admin', "startClock", false);
+	};
+	this.actionMethods.stopClock = function(params){
+		_this.sendMessageToUser('clock', "stopClock", false);
+		_this.sendMessageToUser('admin', "stopClock", false);
+	};
+	this.actionMethods.resetClock = function(params){
+		_this.sendMessageToUser('clock', "resetClock", params.data);
+		_this.sendMessageToUser('admin', "resetClock", params.data);
+	};
+	this.actionMethods.updateClock = function(params){
+		_this.sendMessageToUser('clock', "updateClock", params.data);
+		_this.sendMessageToUser('admin', "updateClock", params.data);
+	};
+	
 	//methods
 	//initiates connection with user by sending him a token
 	this.initiateConnection = function(connection){

@@ -14,11 +14,10 @@ var globals = {currentPrettyError:"", messageFile: false};
 //classes (singletons)
 var builder = new Builder();
 var pagesManager = new PagesManager();
-var wsManager = new WebSocketManager();
 var actions = new Actions();
+var wsManager = new WebSocketManager();
 var messagingActions = new MessagingActions();
 var apiManager = new ApiManager();
-var actions = new Actions();
 var translator = new Translator();
 
 //start by history

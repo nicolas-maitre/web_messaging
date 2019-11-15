@@ -25,12 +25,27 @@ function Actions(){
 	this.onADMINPageBuilt = function(options){
 		console.log("admin built lol", options);
 
+		//arrache user
+		userObject = {
+			id: "admin",
+			token: "adminToken",
+			pseudo: "admin"
+		};
+		wsManager = new WebSocketManager();
+
 		//start clock
 		_this.resetClock(1*60);
-		_this.startClock();
+		//_this.startClock();
 	}
 	this.onCLOCKPageBuilt = function(options){
 		console.log("clock built lol", options);
+		//arrache user
+		userObject = {
+			id: "clock",
+			token: "clockToken",
+			pseudo: "clock"
+		};
+		wsManager = new WebSocketManager();
 		//start clock
 		function second_passed() {
 			innerClock.classList.remove('is-off');
@@ -38,7 +53,7 @@ function Actions(){
 		setTimeout(second_passed, 2000);
 
 		_this.resetClock(1*60+1);
-		_this.startClock();
+		//_this.startClock();
 	}
 
 	function soundTimer(timeToseconde){
@@ -108,7 +123,8 @@ function Actions(){
 	 * method to update time on the clock
 	 * @param secToUpdate int value, this value will add to actual time, give negative value to decrease and positive to add time
 	 */
-	this.updateClock = function(secToUpdate){
+	this.updateClock = function(secToUpdateStr){
+		var secToUpdate = Number(secToUpdateStr);
 		console.log(_this.timeSeconde, secToUpdate);
 		_this.timeSeconde+=secToUpdate;
 		soundTimer(_this.timeSeconde);

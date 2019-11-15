@@ -62,7 +62,14 @@ function WebSocketManager(){
 	this.actionMethods.newGroup = function(params){
 		messagingActions.displayNewGroup(params);
 	};
-	
+	this.actionMethods.startClock = actions.startClock;
+	this.actionMethods.stopClock = actions.stopClock;
+	this.actionMethods.resetClock = function(data){
+		actions.resetClock(data.time);
+	};
+	this.actionMethods.updateClock = function(data){
+		actions.updateClock(data.time);
+	};
 	//methods
 	this.sendMessage = function(action, data, callBack = function(){}){
 		if(!connectionToken){

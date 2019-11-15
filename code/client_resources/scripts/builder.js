@@ -257,6 +257,9 @@ function Builder(){
 		stop.innerText="stop";
 
 		var containt2 = element.addElement('div','containt');
+		var updateInput = containt2.addElement('input', 'timeUpdateInput');
+		updateInput.setAttribute("type", "number");
+		updateInput.value = 0;
 		var updateTime = containt2.addElement('div','btn');
 		updateTime.innerText="Update time";
 
@@ -277,7 +280,7 @@ function Builder(){
 		});
 
 		updateTime.addEventListener("click", function (){
-			var seconds=prompt("De combien de secondes voulez-vous modifier?");
+			var seconds = updateInput.value;
 			console.log("modification de",seconds,"secondes");
 			wsManager.sendMessage("updateClock", {time: seconds});
 		});
