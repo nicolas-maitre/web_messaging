@@ -5,6 +5,10 @@ description: contains actions from events assigned in the page OR global Actions
 author: Nicolas Maitre
 version: 03.04.2019
 */
+var newDate;
+var timeMinute;
+var timeSeconde;
+
 function Actions(){
 	this.onMWAPageBuilt = function(options){
 		console.log("mwa page built");
@@ -28,12 +32,12 @@ function Actions(){
 			e.preventDefault();
 			$('.screen').toggleClass('glitch');
 		});*/
+
 		
-		
-		var newDate = new Date();
+		newDate = new Date();
 		newDate.setDate(newDate.getDate());
-		var timeMinute = 15;
-		var timeSeconde = timeMinute * 60 +1;
+		timeMinute = 15;
+		timeSeconde = timeMinute * 60 +1;
 		
 		function convert(time) {
 			var reste = time;

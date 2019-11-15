@@ -241,10 +241,57 @@ function Builder(){
 		outerClock.innerHTML = '<div id="innerClock" class="clock is-off"><span id="innerClockTime" class="time" data-time=""></span></div>';
 	};
 	/*AdminPage*/
-	this.buildADIMPage = function(params){
+	this.buildADMINPage = function(params){
 
-		var container = params.container.addElement('div');
+		var element = params.container.addElement('div', 'adminPage');
+		var top = element.addElement('div','top');
+		var time = top.addElement("span","adminClock");
+		time.id="innerClockTime";
 
+		var containt = element.addElement('div','containt');
+		var start = containt.addElement('div','btn');
+		start.innerText="start";
+		var reset = containt.addElement('div','btn');
+		reset.innerText="reset";
+		var stop = containt.addElement('div','btn');
+		stop.innerText="stop";
+
+		var containt2 = element.addElement('div','containt');
+		var updateTime = containt2.addElement('div','btn');
+		updateTime.innerText="Update time";
+
+		var containt3 = element.addElement('div','containt');
+		var clearMessages = containt3.addElement('div','btn');
+		clearMessages.innerText="Reset Messages";
+
+		start.addEventListener("click", function (){
+			wsManager.sendMessage("startClock");
+		});
+		reset.addEventListener("click", function (){
+			var minutes=prompt("Combien de minutes?");
+			console.log("Reset de", minutes,"minutes");
+			wsManager.sendMessage("resetClock", {time:minutes*60 });
+		});
+		stop.addEventListener("click", function (){
+			wsManager.sendMessage("stopClock", );
+		});
+
+		updateTime.addEventListener("click", function (){
+			var seconds=prompt("De combien de secondes voulez-vous modifier?");
+			console.log("modification de",seconds,"secondes");
+			wsManager.sendMessage("updateClock", {time: seconds});
+		});
+
+		clearMessages.addEventListener("click", function (){
+			wsManager.sendMessage("clearMessages");
+		});
+
+		return{
+			time: time,
+			reset: reset,
+			updateTime: updateTime,
+			clearMessages: clearMessages
+		}
 
 	};
 
