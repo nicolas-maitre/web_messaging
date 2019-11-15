@@ -12,6 +12,7 @@ var timeSeconde;
 function Actions(){
 	var _this = this;
 	var timeSeconde = 0;
+	var idClockInterval = 0;
 	this.onMWAPageBuilt = function(options){
 		console.log("mwa page built");
 		//update data
@@ -94,7 +95,7 @@ function Actions(){
 	this.startClock = function(){
 		console.log("coucou");
 		//increase each seacond
-		setInterval(function(){
+		_this.idClockInterval = setInterval(function(){
 			_this.updateClock(-1)
 		}, 1000);
 	}
@@ -102,7 +103,7 @@ function Actions(){
 	 * method to stop the clock
 	 */
 	this.stopClock = function(){
-		clearInterval(_this.updateClock);
+		clearInterval(_this.idClockInterval);
 	}
 	/**
 	 * method to update time on the clock
