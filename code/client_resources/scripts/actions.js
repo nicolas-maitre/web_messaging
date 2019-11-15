@@ -10,7 +10,9 @@ var timeMinute;
 var timeSeconde;
 
 function Actions(){
-	this.timeSeconde = 0;
+	var _this = this;
+	var timeSeconde = 0;
+	var idClockInterval = 0;
 	this.onMWAPageBuilt = function(options){
 		console.log("mwa page built");
 		//update data
@@ -20,23 +22,31 @@ function Actions(){
 		//hc
 		//messagingActions.displayGroup({groupId: "5555-6666-7777-8888-9999", data: {name: "Les anciens du CPNV - hc"}});
 	}
+	this.onADMINPageBuilt = function(options){
+		console.log("admin built lol", options);
 
+		//start clock
+		_this.resetClock(1*60);
+		_this.startClock();
+	}
 	this.onCLOCKPageBuilt = function(options){
 		console.log("clock built lol", options);
 		//start clock
 		function second_passed() {
 			innerClock.classList.remove('is-off');
 		}
-		setTimeout(second_passed, 2000)
-		
-		/*$('.switcher').on('click', function(e) {
-			e.preventDefault();
-			$('.screen').toggleClass('glitch');
-		});*/
+		setTimeout(second_passed, 2000);
 
-		
-		var newDate = new Date();
-		newDate.setDate(newDate.getDate());
+		_this.resetClock(1*60+1);
+		_this.startClock();
+	}
+
+	function soundTimer(timeToseconde){
+		if(timeToseconde % 60 == 0){
+			var timeToMinute = timeToseconde / 60;
+			var audiobject = new Audio('/resources/'+timeToMinute+'min.mp3');
+			audiobject.play();
+		}
 	}
 		
 	function convert(time) {
@@ -57,22 +67,23 @@ function Actions(){
 		if (nbSeconds < 10){
 		nbSeconds = "0"+ nbSeconds;
 		}
-	
-		//change color after 10 min
-		if (nbMinute < 10){      
-			pagesManager.pages.clock.domElement.classList.add("redClock");
-		}
-	
-		//change color after 5 min red and white after 1 sec
-		if (nbMinute < 5 ){
-			if (nbSeconds % 2 == 0){
+
+		if(pagesManager.pages.clock) {
+			//change color after 10 min
+			if (nbMinute < 10) {
 				pagesManager.pages.clock.domElement.classList.add("redClock");
-			}else{
-				pagesManager.pages.clock.domElement.classList.remove("redClock");
 			}
+
+			//change color after 5 min red and white after 1 sec
+			if (nbMinute < 5) {
+				if (nbSeconds % 2 == 0) {
+					pagesManager.pages.clock.domElement.classList.add("redClock");
+				} else {
+					pagesManager.pages.clock.domElement.classList.remove("redClock");
+				}
+			}
+
 		}
-	
-	
 		result = nbMinute + ":" + nbSeconds;
 		return result;
 	}
@@ -81,29 +92,36 @@ function Actions(){
 	 * method to run the clock
 	 */
 	this.startClock = function(){
+		console.log("coucou");
 		//increase each seacond
-		setInterval(updateTime(-1), 1000);
+		_this.idClockInterval = setInterval(function(){
+			_this.updateClock(-1)
+		}, 1000);
 	}
 	/**
 	 * method to stop the clock
 	 */
 	this.stopClock = function(){
-		clearInterval(updateTime());
+		clearInterval(_this.idClockInterval);
 	}
 	/**
 	 * method to update time on the clock
 	 * @param secToUpdate int value, this value will add to actual time, give negative value to decrease and positive to add time
 	 */
 	this.updateClock = function(secToUpdate){
-		this.timeSeconde+=secToUpdate;
+		console.log(_this.timeSeconde, secToUpdate);
+		_this.timeSeconde+=secToUpdate;
+		soundTimer(_this.timeSeconde);
 		//if time is over
-		if (this.timeSeconde <= 0){
-			this.timeSeconde = 0;
-			stopClock();
+		if (_this.timeSeconde <= 0){
+			var audiobject = new Audio('/resources/fin.mp3');
+			audiobject.play();
+			_this.timeSeconde = 0;
+			_this.stopClock();
 			//code to display game over
 		}
 		//update clock display
-		var realTime = convert(this.timeSeconde);
+		var realTime = convert(_this.timeSeconde);
 		innerClockTime.innerText = realTime;
 		innerClockTime.setAttribute('data-time', realTime)
 	}
@@ -112,9 +130,9 @@ function Actions(){
 	 * @param timeInMin int value, it's the start value of clock in minute
 	 */
 	this.resetClock = function(timeInSec){
-		this.stopClock();
-		this.timeSeconde = timeInSec;
-		this.updateTime(0);
+		_this.stopClock();
+		_this.timeSeconde = timeInSec;
+		_this.updateClock(0);
 
 	}
 	this.addMessageFile = function(evt){
