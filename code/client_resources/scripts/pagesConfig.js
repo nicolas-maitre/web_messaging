@@ -20,7 +20,7 @@ var pagesConfig = {
 		title: "Panix clox",
 		bootAction: "onCLOCKPageBuilt",
 	},
-	escapeAdmin:{
+	admin:{
 		title: "Escape game admin"
 	},
 	error:{
