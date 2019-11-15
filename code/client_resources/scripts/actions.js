@@ -75,7 +75,7 @@ function Actions(){
 	/**
 	 * method to run the clock
 	 */
-	this.runClock = function(){
+	this.startClock = function(){
 		//increase each seacond
 		setInterval(updateTime(-1), 1000);
 	}
@@ -109,7 +109,7 @@ function Actions(){
 	this.resetClock = function(timeInMin){
 		this.stopClock();
 		this.timeSeconde = timeInMin * 60;
-		this.updateTime
+		this.updateTime(0);
 
 	}
 	this.addMessageFile = function(evt){
