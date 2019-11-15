@@ -107,17 +107,19 @@ function Actions(){
 	 * method to run the clock
 	 */
 	this.startClock = function(){
-		console.log("coucou");
-		//increase each seacond
-		_this.idClockInterval = setInterval(function(){
-			_this.updateClock(-1)
-		}, 1000);
+		if(_this.idClockInterval !== 0){
+			//increase each seacond
+			_this.idClockInterval = setInterval(function(){
+				_this.updateClock(-1)
+			}, 1000);
+		}
 	}
 	/**
 	 * method to stop the clock
 	 */
 	this.stopClock = function(){
 		clearInterval(_this.idClockInterval);
+		_this.idClockInterval = 0;
 	}
 	/**
 	 * method to update time on the clock
