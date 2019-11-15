@@ -106,9 +106,9 @@ function Actions(){
 	 * method to reset clock
 	 * @param timeInMin int value, it's the start value of clock in minute
 	 */
-	this.resetClock = function(timeInMin){
+	this.resetClock = function(timeInSec){
 		this.stopClock();
-		this.timeSeconde = timeInMin * 60;
+		this.timeSeconde = timeInSec;
 		this.updateTime(0);
 
 	}
