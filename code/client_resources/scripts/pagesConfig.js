@@ -21,7 +21,8 @@ var pagesConfig = {
 		bootAction: "onCLOCKPageBuilt",
 	},
 	admin:{
-		title: "Escape game admin"
+		title: "Escape game admin",
+		bootAction: "onADMINPageBuilt",
 	},
 	error:{
 		title: "Error",
