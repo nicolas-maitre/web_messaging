@@ -70,6 +70,26 @@ function WebSocketManager(){
 	this.actionMethods.updateClock = function(data){
 		actions.updateClock(data.time);
 	};
+	this.actionMethods.resetCards = function(){
+		cardData = {
+			goodCard0: "2127194713",
+			goodCard1: "1508250025",
+			goodCard2: "1266638679",
+			badCard: "0478606337",
+		
+			input: "",
+			usedBadCard: false,
+			usedGoodCard0: false,
+			usedGoodCard1: false,
+			usedGoodCard2: false
+		};
+	};
+	this.actionMethods.clearMessages = function(){
+		do{
+			var messageElems = messagingActions.groups.twitter_group.msgContainer.getElementsByClassName("messageContainer");
+			messageElems[0].remove();
+		} while(messageElems.length > 0);
+	};
 	//methods
 	this.sendMessage = function(action, data, callBack = function(){}){
 		if(!connectionToken){

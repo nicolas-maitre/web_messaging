@@ -9,6 +9,7 @@ version: 04.04.2019
 const uuidv4 = require('uuid/v4');
 const ConnectionObject = require('./connectionobject');
 const rights = require('../../classes/rightsmanager');
+const dbManager = require('../../classes/databasemanager');
 
 function WebSocketManager(listenerRef){
 	const instmsgmanager = new (require('./instmsgmanager'))(this);
@@ -70,6 +71,17 @@ function WebSocketManager(listenerRef){
 		_this.sendMessageToUser('clock', "updateClock", params.data);
 		_this.sendMessageToUser('admin', "updateClock", params.data);
 	};
+	this.actionMethods.resetCards = function(params){
+		_this.sendMessageToUser('3333-3333-3333-3333-3333', "resetCards", false);
+	}
+	this.actionMethods.clearMessages = function(){
+		_this.sendMessageToUser('3333-3333-3333-3333-3333', "clearMessages", false);
+		dbManager.queryDb("TRUNCATE messages", [], function(err){
+			if(err){
+				console.log({err});
+			}
+		});
+	}
 	
 	//methods
 	//initiates connection with user by sending him a token

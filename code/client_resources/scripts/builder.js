@@ -249,23 +249,27 @@ function Builder(){
 		time.id="innerClockTime";
 
 		var containt = element.addElement('div','containt');
-		var start = containt.addElement('div','btn');
+		var start = containt.addElement('button','btn');
 		start.innerText="start";
-		var reset = containt.addElement('div','btn');
+		var reset = containt.addElement('button','btn');
 		reset.innerText="reset";
-		var stop = containt.addElement('div','btn');
+		var stop = containt.addElement('button','btn');
 		stop.innerText="stop";
 
 		var containt2 = element.addElement('div','containt');
 		var updateInput = containt2.addElement('input', 'timeUpdateInput');
 		updateInput.setAttribute("type", "number");
 		updateInput.value = 0;
-		var updateTime = containt2.addElement('div','btn');
+		var updateTime = containt2.addElement('button','btn');
 		updateTime.innerText="Update time";
 
 		var containt3 = element.addElement('div','containt');
-		var clearMessages = containt3.addElement('div','btn');
+		var clearMessages = containt3.addElement('button','btn');
 		clearMessages.innerText="Reset Messages";
+
+		var containt4 = element.addElement('div','containt');
+		var reset4 = containt4.addElement('button','btn');
+		reset4.innerText="RESET CARDS";
 
 		start.addEventListener("click", function (){
 			wsManager.sendMessage("startClock");
@@ -287,6 +291,10 @@ function Builder(){
 
 		clearMessages.addEventListener("click", function (){
 			wsManager.sendMessage("clearMessages");
+		});
+
+		reset4.addEventListener("click", function (){
+			wsManager.sendMessage("resetCards");
 		});
 
 		return{

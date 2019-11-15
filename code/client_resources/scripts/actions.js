@@ -9,6 +9,20 @@ var newDate;
 var timeMinute;
 var timeSeconde;
 
+var cardData = {
+	goodCard0: "2127194713",
+	goodCard1: "1508250025",
+	goodCard2: "1266638679",
+	badCard: "0478606337",
+
+	isEntering: false,
+	input: "",
+	usedBadCard: false,
+	usedGoodCard0: false,
+	usedGoodCard1: false,
+	usedGoodCard2: false
+};
+
 function Actions(){
 	var _this = this;
 	var timeSeconde = 0;
@@ -21,6 +35,53 @@ function Actions(){
 		messagingActions.displayGroupsList();
 		//hc
 		//messagingActions.displayGroup({groupId: "5555-6666-7777-8888-9999", data: {name: "Les anciens du CPNV - hc"}});
+		// card 1 : 2127194713
+		// card 2 : 0478606337
+		var goodTime = 30;
+		var badTime = -60;
+
+		function goodCardEntered(){
+			wsManager.sendMessage("updateClock", {time: goodTime});
+			var audiobject = new Audio('/resources/correct.wav');
+			audiobject.play();
+		}
+
+		document.addEventListener('keydown', function (event) {
+			// Enter -> deal with the input
+			if (event.key == "Enter") {
+				// good card has been entered
+				if (cardData.input == cardData.goodCard0 && !cardData.usedGoodCard0) {
+					cardData.usedGoodCard0 = true;
+					goodCardEntered();
+					//alert("Good");
+					// bad card has been entered (max 1 use)
+				} else if (cardData.input == cardData.goodCard1 && !cardData.usedGoodCard1) {
+					cardData.usedGoodCard1 = true;
+					goodCardEntered();
+					//alert("Good");
+					// bad card has been entered (max 1 use)
+				} else if (cardData.input == cardData.goodCard2 && !cardData.usedGoodCard2) {
+					cardData.usedGoodCard2 = true;
+					goodCardEntered();
+					//alert("Good");
+					// bad card has been entered (max 1 use)
+				} else if (cardData.input == cardData.badCard && !cardData.usedBadCard) {
+					cardData.usedBadCard = true;
+					wsManager.sendMessage("updateClock", {time: badTime});
+					var audiobject = new Audio('/resources/incorrect.mp3');
+					audiobject.play();
+					//alert('Bad');
+				}else{
+					var audiobject = new Audio('/resources/incorrect.mp3');
+					audiobject.play();
+				}
+				// reset input
+				cardData.input = "";
+			} else {
+				// not enter -> listen next keys
+				cardData.input += event.key;
+			}
+		});
 	}
 	this.onADMINPageBuilt = function(options){
 		console.log("admin built lol", options);
@@ -34,7 +95,7 @@ function Actions(){
 		wsManager = new WebSocketManager();
 
 		//start clock
-		_this.resetClock(1*60);
+		_this.resetClock(15*60);
 		//_this.startClock();
 	}
 	this.onCLOCKPageBuilt = function(options){
@@ -52,7 +113,7 @@ function Actions(){
 		}
 		setTimeout(second_passed, 2000);
 
-		_this.resetClock(1*60+1);
+		_this.resetClock(15*60);
 		//_this.startClock();
 	}
 

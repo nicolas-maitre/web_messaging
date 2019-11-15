@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+
+<script>
+    // card 1 : 2127194713
+    // card 2 : 0478606337
+    let goodCard0 = "2127194713";
+    let goodCard1 = "1508250025";
+    let goodCard2 = "1266638679";
+    let badCard = "0478606337";
+
+    let input = "";
+    let usedBadCard = false;
+    let usedGoodCard0 = false;
+    let usedGoodCard1 = false;
+    let usedGoodCard2 = false;
+
+    document.addEventListener('keydown', function (event) {
+        // Enter -> deal with the input
+        if (event.key == "Enter") {
+            // good card has been entered
+            if (input == goodCard && !usedGoodCard) {
+                alert("Good");
+                // bad card has been entered (max 1 use)
+            } else if (input == badCard && !usedBadCard) {
+                usedBadCard = true;
+                alert('Bad');
+            }
+            // reset input
+            input = "";
+        } else {
+            // not enter -> listen next keys
+            input += event.key;
+        }
+    });
+</script>
+</body>
+</html>
