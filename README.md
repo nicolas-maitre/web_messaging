@@ -2,7 +2,7 @@
 A messaging web app using Websocket technology  
 Mostly realised during the end my CFC
 
-You can access the wiki [here!](/wiki)
+You can access the wiki [here!](https://github.com/nicolas-maitre/web_messaging/wiki)
 
 ## Prerequisites
 - Any server running a debian-like OS
