@@ -1,0 +1,9 @@
+"use strict";
+module.exports = {
+    dbUser: "root",
+    dbPassword: "",
+    dbName: "messaging_web_app_db",
+    storageDirectory: "/var/web_messaging/files",
+    httpPort: 80,
+    // wsPort:8080
+}

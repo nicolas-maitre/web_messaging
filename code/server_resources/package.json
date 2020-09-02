@@ -1,0 +1,31 @@
+{
+  "name": "web_messaging_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app_start.js",
+  "dependencies": {
+    "mariadb": "^2.4.2",
+    "mime": "^2.4.0",
+    "querystring": "^0.2.0",
+    "uuid": "^3.3.2",
+    "websocket": "^1.0.28"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolas-maitre/web_messaging.git"
+  },
+  "keywords": [
+    "web",
+    "messaging"
+  ],
+  "author": "Nicolas Maitre",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicolas-maitre/web_messaging/issues"
+  },
+  "homepage": "https://github.com/nicolas-maitre/web_messaging#readme"
+}
