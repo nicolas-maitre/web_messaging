@@ -9,7 +9,7 @@ function Translator(){
         "month4": "mai",
         "month5": "juin",
         "month6": "juillet",
-        "month7": "aout",
+        "month7": "août",
         "month8": "septembre",
         "month9": "octobre",
         "month10": "novembre",

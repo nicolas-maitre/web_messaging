@@ -1,8 +1,10 @@
 "use strict";
 function WebSocketManager(){
 	//const WEBSOCKET_URL = "ws://13.52.192.189:8080";
-	const WEBSOCKET_URL = "ws://localhost:8080";
+	// const WEBSOCKET_URL = "ws://localhost:8080";
 	//const WEBSOCKET_URL = "ws://localhost:8081";
+	const WS_PORT = 8080;
+	const WEBSOCKET_URL = "ws://" + document.location.hostname + ":" + WS_PORT;
 	var _this = this;
 	this.connection;
 	var connectionToken = false;

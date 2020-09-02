@@ -5,15 +5,15 @@ description: contains methods to access and manage the database
 author: Nicolas Maitre
 version: 03.04.2019
 */
-const credentials = require("../private/credentials");
+const config = require("../config");
 const mariadb = require("mariadb");
-const dbName = "messaging_web_app_db";
+const dbName = config.dbName;
 
 const dbPool = mariadb.createPool({ //creates an connection pool to the db
 	host: 'localhost',
-    user: 'mwa_user', 
+    user: config.dbUser, 
 	database: dbName,
-    password: credentials.dbRootPass,
+    password: config.dbPassword,
     connectionLimit: 5
 });
 function DatabaseManager(){

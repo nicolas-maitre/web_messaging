@@ -8,12 +8,13 @@ version: 04.04.2019
 const fs = require("fs");
 const querystring = require("querystring");
 const mime = require("mime");
-const dbmanager = require("../../classes/databasemanager");
 const uuidv4 = require('uuid/v4');
+const dbmanager = require("../../classes/databasemanager");
+const config = require("../../config");
 
-const CLIENT_RESOURCES_PATH = "/var/git/TPI_MAITRE/code/client_resources"; //web directory path
+const CLIENT_RESOURCES_PATH = `${__dirname}/../../../client_resources`; //web directory path
 const INDEX_FILE = "/main.html";
-const FILES_DIR_PATH = "/var/messaging_web_app/files";
+const FILES_DIR_PATH = config.storageDirectory;
 
 function FilesManager(){
 	//_WEB_FILES
