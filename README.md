@@ -25,7 +25,7 @@ For theses steps, we will assume that the git directory has already been cloned 
 
 4. Add a mariadb user and give him editing permissions on the created database. Here is a nice tutorial: https://tableplus.io/blog/2018/09/mariadb-how-to-create-new-user-and-grant-privileges.html
 
-5. Configure the db authentification credentials in `/server_resources/config.js`
+5. Copy the `server_resources/config.js.example` into `/server_resources/config.js` and fill you db credentials in it
 
 6. Install the dependencies in the server_resources directory: `cd server_resources && npm i`
 
