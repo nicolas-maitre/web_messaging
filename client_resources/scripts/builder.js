@@ -146,12 +146,38 @@ function Builder(){
 	/*Login Page*/
 	this.buildLOGINPage = function(params){
 		var form = buildLoginForm(params.container);
+		var fakeform = buildFakeLoginForm(params.container);
 		return {
-			form: form
+			form
 		}
 	};
 	function buildLoginForm(container){
 		var formWindow = container.addElement('div', 'loginFormWindow');
+		formWindow.addElement('h1', {class:'loginFormTitle', _textContent: "Login"});
+		var form = formWindow.addElement('form', 'loginForm');
+
+		let usernameInputId = "loginFormUsernameInput";
+		form.addElement('label', {for: usernameInputId, _textContent: "Username"});
+		var userNameInput = form.addElement('input', {id: usernameInputId, placeholder: "Your username", required:true});
+		userNameInput.focus();
+
+		let passwordInputId = "loginFormPasswordInput";
+		form.addElement('label', {for: passwordInputId, _textContent: "Password"});
+		var passwordInput = form.addElement('input', {id: passwordInputId, type: 'password', placeholder: "Your password", required:true});
+
+		form.addElement('button', {type:'submit', _textContent: 'Enter!'});
+		form.addElement('a', {href:'/reminder', _textContent:'I forgot my password!'}).setAsDynamic()
+
+		//events
+		form.addEventListener('submit', evt=>{
+			evt.preventDefault();
+			console.warn("not developped!")
+		})
+		return form
+	}
+	function buildFakeLoginForm(container){
+		var formWindow = container.addElement('div', 'loginFormWindow');
+		var formTitle = formWindow.addElement('h1', {class:'loginFormTitle', _textContent: "Test Users"});
 		var form = formWindow.addElement(/*'form'*/ 'div', 'loginForm');
 		const default_users = [
 			{id: "0000-0000-0000-0000-0000", token: "1234-1234-1234-1234-1234", pseudo: "nmaitre"},

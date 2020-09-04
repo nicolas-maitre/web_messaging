@@ -21,6 +21,33 @@ Element.prototype.addElement = function(type, className, options){
 	}
 	return newElement;
 }
+Element.prototype.addElement = function(type, attributes = {} /*or class*/){
+	if(typeof attributes === 'string'){
+		attributes = {class: attributes}
+	}
+	return this.appendChild(newElement(type, attributes));
+}
+function newElement(type, attributes = {}){
+	var elem = document.createElement(type);
+	for(var attrName in attributes){
+		var attrVal = attributes[attrName];
+		//You could probably analye the string to extract the property to modify but it's simpler and faster like that.
+		if(attrName === '_textContent'){ elem.textContent = attrVal; continue; }
+		if(attrName === '_innerText'){ elem.innerText = attrVal; continue; }
+		if(attrName === '_innerHTML'){ elem.innerHTML = attrVal; continue; }
+		if(attrName === '_value'){ elem.value = attrVal; continue; }
+		if(attrName === '_dataset'){ Object.assign(elem.dataset, attrVal); continue; }
+		elem.setAttribute(attrName, attrVal);
+	}
+	return elem;
+}
+HTMLAnchorElement.prototype.setAsDynamic = function(){
+	this.addEventListener('click', evt=>{
+		evt.preventDefault();
+		console.warn("dynamic links not developped"); //should use the standard url parser already developped for page landing
+	});
+	return this
+}
 Array.prototype.remove = function(value){
     var valIndex = this.indexOf(value);
     if(valIndex != -1){

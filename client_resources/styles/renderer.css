@@ -237,6 +237,10 @@ input, .input{
     position: relative;
     height: calc(100% - 51px);
 }
+.MWALeftPanelGroupsListContainer {
+    max-height: 100%;
+    overflow-y: auto;
+}
 .MWALeftPanelAddButton {
     position: absolute;
     bottom: 20px;
@@ -525,21 +529,48 @@ input, .input{
 .loginFormWindow {
     border: 1px solid #ccc;
     display: inline-block;
-    height: 300px;
+    vertical-align: middle;
+    height: 350px;
     width: 350px;
     box-shadow: 0 0 20px #666;
     margin-top: calc(50vh - 150px);
 }
+.loginFormTitle{
+    margin-bottom: 0;
+}
 .loginTempUserButton {
     display: inline-block;
     margin: 5px;
-    width: 150px;
+    width: calc(50% - 10px);
     height: 50px;
     font-size: 23px;
-    margin-top: 55px;
+    margin-top: 30px;
 }
 .loginForm {
-    padding: 10px;
+    padding: 10px 20px 10px 20px;
+}
+.loginForm > label {
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+    font-size: 20px;
+    padding-left: 5px;
+}
+.loginForm > input {
+    width: 100%;
+    font-size: 25px;
+    margin-bottom: 20px;
+    padding: 5px 10px 5px 10px;
+}
+.loginForm > button[type=submit]{
+    display: inline-block;
+    font-size: 25px;
+    margin-bottom: 15px;
+    padding: 5px 20px 5px 20px;
+}
+.loginForm > a{
+    display: block;
+    width: 100%;
 }
 
 /*WINDOWS*/
