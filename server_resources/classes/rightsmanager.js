@@ -7,7 +7,7 @@ version: 03.04.2019
 */
 function RightsManager(){
 	this.isAllowed = function(authObject, action, params){ //determine if an action is allowed for a user
-		console.log("not written yet -> default to true");
+		console.log("Auth not written yet -> default to true");
 		return true;
 	}
 }

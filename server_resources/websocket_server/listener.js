@@ -20,17 +20,15 @@ function startServer(){
 
 	//listen
 	httpServer.listen(WS_PORT, function(){
-		console.log(`websocket server started on port ${WS_PORT}`);
+		console.log(`websocket server listening on port ${WS_PORT}`);
 	});
 
 	//event
 	wsServer.on('request', function(req){
-		console.log("onrequest");
 		var connection = req.accept(null, req.origin);
 		wsmanager.initiateConnection(connection);
 		//messages
 		connection.on('message', function(msg){
-			console.log("onmessage");
 			if(msg.type != 'utf8'){
 				return;
 			}

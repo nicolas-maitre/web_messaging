@@ -119,7 +119,6 @@ function InstantMessagingManager(wsManager){
 			action,
 			data
 		}*/
-		console.log("wsManager?", typeof wsManager);
 		//get group
 		database.select({
 			fields: "`user`",
@@ -130,14 +129,10 @@ function InstantMessagingManager(wsManager){
 			if(error){
 				console.log("notifyGroup select error:", error);
 				return;
-			}
-			console.log("notifyGroup select success: ", result);
-			
+			}			
 			//send notif to each user in the group
 			for(var indResult=0; indResult < result.length; indResult++){
-				console.log("user result", result);
 				var userId = result[indResult].user;
-				console.log("current user id", userId);
 				wsManager.sendMessageToUser(userId, messageParams.action, messageParams.data);
 			}
 		});

@@ -21,7 +21,7 @@ function startServer(){
 	console.log(`local server url: http://localhost:${HTTP_PORT}`)
 
 	function onRequest(request, result){//request event
-		console.log("[" + (new Date(Date.now())).toDateString() + "] request received from: " + request.connection.remoteAddress);
+		// console.log("[" + (new Date(Date.now())).toDateString() + "] http request received from: " + request.connection.remoteAddress);
 		//parse url to get the request endpoint
 		var parsedUrl = url.parse(request.url);
 		var pathArray = parsedUrl.pathname.split("/");
@@ -35,7 +35,7 @@ function startServer(){
 				});
 			break;
 			case 'files': //files api
-				console.log("files api call");
+				// console.log("files api call");
 				filesmanager.onFilesApiRequest(parsedUrl, function(error, data){
 					returnRequest(result, error, data);
 				});

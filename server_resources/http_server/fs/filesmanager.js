@@ -41,7 +41,7 @@ function FilesManager(){
 
 	//_FILES_API
 	this.onFilesApiRequest = function(urlObject, callBack){
-		console.log("urlObject", urlObject.pathArray);
+		// console.log("urlObject", urlObject.pathArray);
 		//extract urlObject
 		if(!urlObject.pathArray[1]){
 			callBack({clientMsg: "invalid filesAPI args"});

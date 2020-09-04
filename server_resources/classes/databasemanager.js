@@ -72,7 +72,7 @@ function DatabaseManager(){
 		}
 		textRequest += ";";
 		
-		console.log("select request:", textRequest);
+		// console.log("select request:", textRequest);
 		_this.queryDb(textRequest, dataRequest, function(error = false, result = false){ //calls the db
 			if(error){
 				callBack(error, false);
