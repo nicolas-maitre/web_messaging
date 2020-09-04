@@ -21,7 +21,7 @@ function WebSocketManager(listenerRef){
 	
 	//event methods
 	this.onMessage = function(message){ //on message event
-		console.log("websocket onMessage", message);
+		// console.log("websocket onMessage", message);
 		//parse
 		try{
 			var messageObject = JSON.parse(message);
@@ -35,7 +35,7 @@ function WebSocketManager(listenerRef){
 			return;
 		}
 		var action = messageObject.action;
-		console.log("message action is ", action);
+		console.log(`ws action is ${action}`);
 		if(!_this.actionMethods[action]){
 			console.log("message action does not exist");
 			return;
@@ -49,13 +49,14 @@ function WebSocketManager(listenerRef){
 	this.actionMethods.addMessage = instmsgmanager.addMessage;
 	this.actionMethods.createGroup = instmsgmanager.createGroup;
 	this.actionMethods.linkUserToConnection = function(params){
-		console.log("link user to connection", params);
+		// console.log("link user to connection", params);
 		if(!rights.isAllowed(params.auth, "linkUserToWs", params.data)){
 			console.log("user is not allowed to link himself");
 			return;
         }
-        _this.setConnectionUser(params.wsToken, params.data.userId);
-		// _this.userConnections[params.data.userId] = params.wsToken;
+		_this.setConnectionUser(params.wsToken, params.data.userId);
+		
+		// console.log("uc cu", _this.userConnections, _this.connectionUsers)
 	}
 	//methods
 	//initiates connection with user by sending him a token
@@ -77,10 +78,6 @@ function WebSocketManager(listenerRef){
 	//send
 	this.sendMessageToUser = function(userId, action, messageObject){ 
         var linkedConnections = _this.getConnections(userId);
-		if(!linkedConnections.length){ //TODO: voir si on peut enlever ce if merci
-			console.log("sendMessage error: no connection for user", userId);
-			return;
-        }
         linkedConnections.forEach(connection=>{
             connection.sendMessage(action, messageObject);
         });
@@ -89,7 +86,7 @@ function WebSocketManager(listenerRef){
 	this.getConnections = function(userId){ //this gets the websocket connection by user
         if(!_this.userConnections[userId] || !_this.userConnections[userId].length){
 			console.log("no linked connectionId for user", userId);
-			return false;
+			return [];
         }
         var wsConnections = []; 
         _this.userConnections[userId].forEach(connectionId=>{
@@ -101,12 +98,13 @@ function WebSocketManager(listenerRef){
     };
     
     this.setConnectionUser = function(connectionId, userId){
+		console.log(`set connection id ${connectionId} for user id ${userId}`)
         var oldUserId = _this.connectionUsers[connectionId];
         if(oldUserId){
             _this.userConnections[oldUserId].remove(connectionId);
         }
         _this.connectionUsers[connectionId] = userId;
-        _this.userConnections[userId] = [connectionId, ...(_this.userConnections[connectionId] || [])];
+        _this.userConnections[userId] = [connectionId, ...(_this.userConnections[userId] || [])];
     };
 }
 module.exports = new WebSocketManager;
