@@ -164,9 +164,10 @@ function Builder(){
 			var buttonUser = form.addElement('button', 'loginTempUserButton');
 			buttonUser.textContent = thisUserObject.pseudo;
 			//hardcoded user login events
-			buttonUser.addEventListener('click', function(evt){
-				userObject = thisUserObject;
-				wsManager = new WebSocketManager();
+			buttonUser.addEventListener('click', async function(evt){
+                userObject = thisUserObject;
+                await wsManager.linkUser(userObject.id)
+				// wsManager = new WebSocketManager();
 				pagesManager.changePage('mwa');
 			});
 		});

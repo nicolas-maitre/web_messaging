@@ -1,4 +1,5 @@
 "use strict";
+
 function WebSocketManager(){
 	//const WEBSOCKET_URL = "ws://13.52.192.189:8080";
 	// const WEBSOCKET_URL = "ws://localhost:8080";
@@ -6,7 +7,8 @@ function WebSocketManager(){
 	const WS_PORT = 8080;
 	const WEBSOCKET_URL = "ws://" + document.location.hostname + ":" + WS_PORT;
 	var _this = this;
-	this.connection;
+    this.connection;
+    var callBacks = {};
 	var connectionToken = false;
 	
 	/*init*/
@@ -52,7 +54,9 @@ function WebSocketManager(){
 		//set wsToken
 		connectionToken = params.connectionToken;
 		//final init step
-		_this.sendMessage("linkUserToConnection", {userId:userObject.id});
+		if(callBacks.onConnectionInit){
+            callBacks.onConnectionInit.forEach(cb=>cb());
+        }
 	}
 	this.actionMethods.newMessage = function(params){
 		//tmp
@@ -80,5 +84,18 @@ function WebSocketManager(){
 		console.log("message sent", object);
 		
 		callBack(false);
-	};
+    };
+    this.linkUser = function(userId){
+        return new Promise(function(resolve, reject){
+            if(connectionToken){
+                _this.sendMessage("linkUserToConnection", {userId:userObject.id});
+                resolve();
+            }else{
+                callBacks.onConnectionInit = [...(callBacks.onConnectionInit||[]),_=>{
+                    _this.sendMessage("linkUserToConnection", {userId:userObject.id});
+                    resolve();
+                }];
+            }
+        });
+    }
 }
