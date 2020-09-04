@@ -20,7 +20,7 @@ function startServer(){
 
 	//listen
 	httpServer.listen(WS_PORT, function(){
-		console.log("server started");
+		console.log(`websocket server started on port ${WS_PORT}`);
 	});
 
 	//event

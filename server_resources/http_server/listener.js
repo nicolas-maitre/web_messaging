@@ -17,7 +17,8 @@ function startServer(){
 	//create listener
 	var server = http.createServer(onRequestStart);
 	server.listen(HTTP_PORT);
-	console.log("http server started");
+	console.log(`http server listening on port ${HTTP_PORT}`);
+	console.log(`local server url: http://localhost:${HTTP_PORT}`)
 
 	function onRequest(request, result){//request event
 		console.log("[" + (new Date(Date.now())).toDateString() + "] request received from: " + request.connection.remoteAddress);

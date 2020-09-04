@@ -10,11 +10,16 @@ var pagesConfig = {
 		title: "Messaging Web App",
 		requireLogin: true,
 		bootAction: "onMWAPageBuilt",
-		loadAction: false
+		loadAction: false,
+		rebuild: true
 	},
 	login:{
 		title: "LogIn",
 		reloadPage:true
+	},
+	register:{
+		title: "Register",
+		reloadPage: true
 	},
 	error:{
 		title: "Error",

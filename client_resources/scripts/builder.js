@@ -153,57 +153,22 @@ function Builder(){
 	function buildLoginForm(container){
 		var formWindow = container.addElement('div', 'loginFormWindow');
 		var form = formWindow.addElement(/*'form'*/ 'div', 'loginForm');
+		const default_users = [
+			{id: "0000-0000-0000-0000-0000", token: "1234-1234-1234-1234-1234", pseudo: "nmaitre"},
+			{id: "1111-1111-1111-1111-1111", token: "2345-2345-2345-2345-2345", pseudo: "nglassey"},
+			{id: "2222-2222-2222-2222-2222", token: "3456-3456-3456-3456-3456", pseudo: "ggruaz"},
+			{id: "3333-3333-3333-3333-3333", token: "4567-4567-4567-4567-4567", pseudo: "jlagona"}
+		];
 		//build a user selector instead of a  login form for test purposes
-		var buttonUser1 = form.addElement('button', 'loginTempUserButton');
-		var buttonUser2 = form.addElement('button', 'loginTempUserButton');
-		var buttonUser3 = form.addElement('button', 'loginTempUserButton');
-		var buttonUser4 = form.addElement('button', 'loginTempUserButton');
-		
-		//properties
-		buttonUser1.innerText = "nmaitre";
-		buttonUser2.innerText = "nglassey";
-		buttonUser3.innerText = "ggruaz";
-		buttonUser4.innerText = "jlagona";
-		
-		//hardcoded user login events
-		buttonUser1.addEventListener('click', function(){
-			userObject = {
-				id: "0000-0000-0000-0000-0000",
-				token: "1234-1234-1234-1234-1234",
-				pseudo: "nmaitre"
-			};
-			wsManager = new WebSocketManager();
-			pagesManager.changePage('mwa');
-		});
-		
-		buttonUser2.addEventListener('click', function(){
-			userObject = {
-				id: "1111-1111-1111-1111-1111",
-				token: "2345-2345-2345-2345-2345",
-				pseudo: "nglassey"
-			};
-			wsManager = new WebSocketManager();
-			pagesManager.changePage('mwa');
-		});
-		
-		buttonUser3.addEventListener('click', function(){
-			userObject = {
-				id: "2222-2222-2222-2222-2222",
-				token: "3456-3456-3456-3456-3456",
-				pseudo: "ggruaz"
-			};
-			wsManager = new WebSocketManager();
-			pagesManager.changePage('mwa');
-		});
-		
-		buttonUser4.addEventListener('click', function(){
-			userObject = {
-				id: "3333-3333-3333-3333-3333",
-				token: "4567-4567-4567-4567-4567",
-				pseudo: "jlagona"
-			};
-			wsManager = new WebSocketManager();
-			pagesManager.changePage('mwa');
+		default_users.forEach(thisUserObject=>{
+			var buttonUser = form.addElement('button', 'loginTempUserButton');
+			buttonUser.textContent = thisUserObject.pseudo;
+			//hardcoded user login events
+			buttonUser.addEventListener('click', function(evt){
+				userObject = thisUserObject;
+				wsManager = new WebSocketManager();
+				pagesManager.changePage('mwa');
+			});
 		});
 		
 		return{
