@@ -15,7 +15,7 @@ DROP SCHEMA IF EXISTS `messaging_web_app_db` ;
 -- -----------------------------------------------------
 -- Schema messaging_web_app_db
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `messaging_web_app_db` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `messaging_web_app_db` DEFAULT CHARACTER SET utf8mb4 COLLATE = utf8mb4_unicode_ci ;
 USE `messaging_web_app_db` ;
 
 -- -----------------------------------------------------
