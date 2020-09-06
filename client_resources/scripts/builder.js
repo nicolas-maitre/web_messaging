@@ -5,21 +5,21 @@ description: Contains every elements builder.
 author: Nicolas Maitre
 version: 03.04.2019
 */
-function Builder(){
+function Builder() {
 	var _this = this;
 	/*Messaging Web App Page*/
-	this.buildMWAPage = function(params){
+	this.buildMWAPage = function (params) {
 		var topMenu = buildMWATopMenu(params.container);
-        var mainSection = params.container.addElement("div", "MWAMainSection");
+		var mainSection = params.container.addElement("div", "MWAMainSection");
 		var leftPanel = buildMWAleftPanel(mainSection);
-        var rightPanel = buildMWARightPanel(mainSection);
-		return{
+		var rightPanel = buildMWARightPanel(mainSection);
+		return {
 			topMenu: topMenu,
 			leftPanel: leftPanel,
-            rightPanel: rightPanel
+			rightPanel: rightPanel
 		}
 	};
-	function buildMWATopMenu(container){
+	function buildMWATopMenu(container) {
 		var element = container.addElement('div', 'MWATopMenu');
 		var left = element.addElement('div', 'MWATopMenuLeftSection');
 		var right = element.addElement('div', 'MWATopMenuRightSection');
@@ -27,11 +27,18 @@ function Builder(){
 		var user = right.addElement('div', 'MWATopMenuUserSection');
 		var userName = user.addElement('div', 'MWATopMenuUserName');
 		var userImage = user.addElement('div', 'MWATopMenuUserImage');
+		var userMenu = user.addElement('div', {class: 'userMenu'});
+		var logOutBtn = userMenu.addElement('div', {class: 'logOutBtn', _textContent: "Log Out"});
 		//properties
 		title.innerText = "Messaging Web App";
 		userName.innerText = "...";
 		userImage.style.backgroundImage = "url(images/demo/dropbox.png)";
-        //return
+		//events
+		logOutBtn.addEventListener('click', evt=>{
+			pagesManager.changePage('login');
+			//TODO: use the login manager instead
+		});
+		//return
 		return {
 			domElement: element,
 			title: title,
@@ -39,39 +46,39 @@ function Builder(){
 			userImage: userImage
 		}
 	};
-	function buildMWAleftPanel(container){
+	function buildMWAleftPanel(container) {
 		var element = container.addElement('div', 'MWALeftPanel');
-        var topBar = element.addElement('div', 'MWALeftPanelTopBar');
+		var topBar = element.addElement('div', 'MWALeftPanelTopBar');
 		var bottom = element.addElement('div', 'MWALeftPanelBottomSection');
 		var menuButton = topBar.addElement("button", "MWAMenuButton");
-        var searchInput = topBar.addElement('input', 'MWALeftPanelSearchInput');
-        var searchButton = topBar.addElement('button', 'MWALeftPanelSearchButton');
-		var groupsListContainer = bottom.addElement('div','MWALeftPanelGroupsListContainer');
+		var searchInput = topBar.addElement('input', 'MWALeftPanelSearchInput');
+		var searchButton = topBar.addElement('button', 'MWALeftPanelSearchButton');
+		var groupsListContainer = bottom.addElement('div', 'MWALeftPanelGroupsListContainer');
 		var addButton = bottom.addElement('button', "MWALeftPanelAddButton");
 		//properties
 		addButton.innerText = "+";
 		searchInput.setAttribute("placeholder", "Recherche");
 		//events
-		menuButton.addEventListener("click", function(evt){
+		menuButton.addEventListener("click", function (evt) {
 			element.classList.remove("leftMenuDisplayed");
 		});
-		addButton.addEventListener("click", function(evt){
+		addButton.addEventListener("click", function (evt) {
 			var window = _this.displayGroupCreationWindow();
 		});
-        //return
-        return{
-            domElement: element,
-            searchInput: searchInput,
-            searchButton: searchButton,
+		//return
+		return {
+			domElement: element,
+			searchInput: searchInput,
+			searchButton: searchButton,
 			addButton: addButton,
 			groupsListContainer: groupsListContainer
-        }
+		}
 	};
-    function buildMWARightPanel(container){
-        //create
-        var element = container.addElement("div", "MWARightPanel");
+	function buildMWARightPanel(container) {
+		//create
+		var element = container.addElement("div", "MWARightPanel");
 		var nameSection = element.addElement("div", "MWANameSection");
-        var msgSection = element.addElement("div", "MWAMessagesSection");
+		var msgSection = element.addElement("div", "MWAMessagesSection");
 		var writeSection = element.addElement("div", "MWAWriteSection none");
 		var nameLeftSection = nameSection.addElement("div", "MWANameLeftSection");
 		var nameRightSection = nameSection.addElement("div", "MWANameRightSection none");
@@ -89,10 +96,10 @@ function Builder(){
 		var fileBtn = writeSection.addElement("button", "MWAWriteSectionFileButton");
 		var sendBtn = writeSection.addElement("button", "MWAWriteSectionSendButton");
 		var noSelectedInfo = msgSection.addElement('div', "MWAMessagesSectionNoSelectedInfo");
-        //properties
+		//properties
 		//var writeHeight = 30;
 		//msgSection.style["height"] = "calc(100% - " + (writeHeight + 10) + "px - 51px)";
-        //input.style["height"] = "30px";
+		//input.style["height"] = "30px";
 		input.setAttribute("placeholder", "Ecrivez votre message");
 		input.setAttribute("type", "text");
 		nameInfoButton.innerText = "i";
@@ -102,19 +109,19 @@ function Builder(){
 		noSelectedInfo.innerHTML = "Aucune discussion selectionnée<br/>Sélectionnez en une dans la liste.";
 		//event
 		fileBtn.addEventListener("click", actions.addMessageFile);
-		writeSection.addEventListener("submit", function(evt){
+		writeSection.addEventListener("submit", function (evt) {
 			evt.preventDefault();
 			messagingActions.sendInstantMessage(input);
 		});
-		sendBtn.addEventListener("click", function(evt){
+		sendBtn.addEventListener("click", function (evt) {
 			messagingActions.sendInstantMessage(input);
 		});
-		menuButton.addEventListener("click", function(evt){
+		menuButton.addEventListener("click", function (evt) {
 			pagesManager.pages.mwa.elements.leftPanel.domElement.classList.add("leftMenuDisplayed");
 		});
-		fileCloseButton.addEventListener("click", function(evt){
+		fileCloseButton.addEventListener("click", function (evt) {
 			element.classList.remove("writeExtended");
-			if(messagingActions.groups[messagingActions.currentGroup]){
+			if (messagingActions.groups[messagingActions.currentGroup]) {
 				messagingActions.groups[messagingActions.currentGroup].saveData.file = false;
 			}
 		});
@@ -122,12 +129,12 @@ function Builder(){
 		//test hardcoded
 		nameName.innerText = "";
 		nameImage.style.backgroundImage = "url(/images/demo/dropbox.png)";
-		
-        //return
-        return{
-            domElement: element,
+
+		//return
+		return {
+			domElement: element,
 			msgSection: msgSection,
-            input: input,
+			input: input,
 			sendButton: sendBtn,
 			writeSection: writeSection,
 			nameSection: nameSection,
@@ -140,84 +147,166 @@ function Builder(){
 			fileContainer: fileContainer,
 			fileImage: fileImage,
 			fileName: fileName
-        }
-    };
-	
-	/*Login Page*/
-	this.buildLOGINPage = function(params){
-		var form = buildLoginForm(params.container);
-		var fakeform = buildFakeLoginForm(params.container);
-		return {
-			form
 		}
 	};
-	function buildLoginForm(container){
+
+	/*Login Page*/
+	this.buildLOGINPage = function (params) {
+		var registerForm = buildRegisterForm(params.container);
+		var loginForm = buildLoginForm(params.container);
+		var fakeform = buildFakeLoginForm(params.container);
+		return { loginForm }
+	};
+	function buildRegisterForm(container) {
 		var formWindow = container.addElement('div', 'loginFormWindow');
-		formWindow.addElement('h1', {class:'loginFormTitle', _textContent: "Login"});
+		formWindow.addElement('h1', { class: 'loginFormTitle', _textContent: "Register" });
 		var form = formWindow.addElement('form', 'loginForm');
 
 		let usernameInputId = "loginFormUsernameInput";
-		form.addElement('label', {for: usernameInputId, _textContent: "Username"});
-		var userNameInput = form.addElement('input', {id: usernameInputId, placeholder: "Your username", required:true});
+		form.addElement('label', { for: usernameInputId, _textContent: "Username" });
+		var userNameInput = form.addElement('input', { id: usernameInputId, placeholder: "ex: turbopaul45"});
+
+		let emailInputId = "loginFormEmailInput";
+		form.addElement('label', { for: emailInputId, _textContent: "Email" });
+		var emailInput = form.addElement('input', { id: emailInputId, type:'email', placeholder: "ex: paul.doe@email.com"});
+
+		let passwordInputId = "loginFormPasswordInput";
+		form.addElement('label', { for: passwordInputId, _textContent: "Password" });
+		var passwordInput = form.addElement('input', { id: passwordInputId, type: 'password', min: 10, placeholder: "10 characters min."});
+
+		form.addElement('button', { type: 'submit', _textContent: 'Next...' });
+
+		//events
+		form.addEventListener('submit', evt => {
+			evt.preventDefault();
+			globals.registerFormInfos = {
+				userName: userNameInput.value,
+				email: emailInput.value,
+				password: passwordInput.value
+			};
+			pagesManager.changePage("register")
+		})
+		return form
+	}
+	function buildLoginForm(container) {
+		var formWindow = container.addElement('div', 'loginFormWindow');
+		formWindow.addElement('h1', { class: 'loginFormTitle', _textContent: "Login" });
+		var form = formWindow.addElement('form', 'loginForm');
+
+		let usernameInputId = "loginFormUsernameInput";
+		form.addElement('label', { for: usernameInputId, _textContent: "Username or email" });
+		var userNameInput = form.addElement('input', { id: usernameInputId, placeholder: "Your username or email", required: true });
 		userNameInput.focus();
 
 		let passwordInputId = "loginFormPasswordInput";
-		form.addElement('label', {for: passwordInputId, _textContent: "Password"});
-		var passwordInput = form.addElement('input', {id: passwordInputId, type: 'password', placeholder: "Your password", required:true});
+		form.addElement('label', { for: passwordInputId, _textContent: "Password" });
+		var passwordInput = form.addElement('input', { id: passwordInputId, type: 'password', placeholder: "Your password", required: true });
 
-		form.addElement('button', {type:'submit', _textContent: 'Enter!'});
-		form.addElement('a', {href:'/reminder', _textContent:'I forgot my password!'}).setAsDynamic()
+		form.addElement('button', { type: 'submit', _textContent: 'Enter!' });
+		form.addElement('a', { href: '/reminder', _textContent: 'I forgot my password!' }).setAsDynamic()
 
 		//events
-		form.addEventListener('submit', evt=>{
+		form.addEventListener('submit', evt => {
 			evt.preventDefault();
 			console.warn("not developped!")
 		})
 		return form
 	}
-	function buildFakeLoginForm(container){
+	function buildFakeLoginForm(container) {
 		var formWindow = container.addElement('div', 'loginFormWindow');
-		var formTitle = formWindow.addElement('h1', {class:'loginFormTitle', _textContent: "Test Users"});
+		var formTitle = formWindow.addElement('h1', { class: 'loginFormTitle', _textContent: "Test Users" });
 		var form = formWindow.addElement(/*'form'*/ 'div', 'loginForm');
 		const default_users = [
-			{id: "0000-0000-0000-0000-0000", token: "1234-1234-1234-1234-1234", pseudo: "nmaitre"},
-			{id: "1111-1111-1111-1111-1111", token: "2345-2345-2345-2345-2345", pseudo: "nglassey"},
-			{id: "2222-2222-2222-2222-2222", token: "3456-3456-3456-3456-3456", pseudo: "ggruaz"},
-			{id: "3333-3333-3333-3333-3333", token: "4567-4567-4567-4567-4567", pseudo: "jlagona"}
+			{ id: "0000-0000-0000-0000-0000", token: "1234-1234-1234-1234-1234", pseudo: "nmaitre" },
+			{ id: "1111-1111-1111-1111-1111", token: "2345-2345-2345-2345-2345", pseudo: "nglassey" },
+			{ id: "2222-2222-2222-2222-2222", token: "3456-3456-3456-3456-3456", pseudo: "ggruaz" },
+			{ id: "3333-3333-3333-3333-3333", token: "4567-4567-4567-4567-4567", pseudo: "jlagona" }
 		];
 		//build a user selector instead of a  login form for test purposes
-		default_users.forEach(thisUserObject=>{
+		default_users.forEach(thisUserObject => {
 			var buttonUser = form.addElement('button', 'loginTempUserButton');
 			buttonUser.textContent = thisUserObject.pseudo;
 			//hardcoded user login events
-			buttonUser.addEventListener('click', async function(evt){
-                userObject = thisUserObject;
-                await wsManager.linkUser(userObject.id)
+			buttonUser.addEventListener('click', async function (evt) {
+				userObject = thisUserObject;
+				await wsManager.linkUser(userObject.id)
 				// wsManager = new WebSocketManager();
 				pagesManager.changePage('mwa');
 			});
 		});
-		
-		return{
+
+		return {
 			domElement: formWindow
 		}
 	};
-	
+
+	/*Register page*/
+	this.buildREGISTERPage = function(params){
+		var registerForm = buildFullRegisterForm(params.container);
+		return {registerForm}
+	}
+	function buildFullRegisterForm(container){
+		var formWindow = container.addElement('div', 'loginFormWindow');
+		formWindow.addElement('h1', { class: 'loginFormTitle', _textContent: "Register" });
+		var form = formWindow.addElement('form', 'loginForm');
+
+		let firstNameInputId = "registerFormfirstNameInput";
+		form.addElement('label', { for: firstNameInputId, _textContent: "First Name" });
+		var firstNameInput = form.addElement('input', { id: firstNameInputId, placeholder: "ex: Paul", required: true });
+		firstNameInput.focus();
+
+		let lastNameInputId = "registerFormlastNameInput";
+		form.addElement('label', { for: lastNameInputId, _textContent: "First Name" });
+		var lastNameInput = form.addElement('input', { id: lastNameInputId, placeholder: "ex: Doe", required: true });
+
+		let usernameInputId = "registerFormUsernameInput";
+		form.addElement('label', { for: usernameInputId, _textContent: "Username" });
+		var userNameInput = form.addElement('input', { id: usernameInputId, placeholder: "ex: turbopaul45", required: true });
+
+		let emailInputId = "registerFormEmailInput";
+		form.addElement('label', { for: emailInputId, _textContent: "Email" });
+		var emailInput = form.addElement('input', { id: emailInputId, type:'email', placeholder: "ex: paul.doe@email.com", required: true });
+
+		let passwordInputId = "registerFormPasswordInput";
+		form.addElement('label', { for: passwordInputId, _textContent: "Password" });
+		var passwordInput = form.addElement('input', { id: passwordInputId, type: 'password', min: 5, placeholder: "Your password", required: true });
+
+		let passwordConfInputId = "registerFormPasswordConfInput";
+		form.addElement('label', { for: passwordConfInputId, _textContent: "Password confirmation" });
+		var passwordConfInput = form.addElement('input', { id: passwordConfInputId, type: 'password', min: 5, placeholder: "Your password. again.", required: true });
+
+		form.addElement('button', { type: 'submit', _textContent: 'Register!' });
+		form.addElement('a', { href: '/login', _textContent: 'I already have an account' }).setAsDynamic()
+
+
+		//events
+		form.addEventListener('submit', evt => {
+			evt.preventDefault();
+			console.warn("not developped!")
+		})
+		return {
+			domElement: form,
+			userNameInput,
+			emailInput,
+			passwordInput
+		}
+	}
+
 	/*Error Page*/
-	this.buildERRORPage = function(params){
+	this.buildERRORPage = function (params) {
 		var errorContainer = params.container.addElement('div');
 		errorContainer.innerHTML = globals.currentPrettyError;
 		var link = params.container.addElement('a');
 		link.innerText = "Retour à la page de messagerie";
 		link.setAttribute('href', '#');
-		link.addEventListener('click', function(evt){
+		link.addEventListener('click', function (evt) {
 			pagesManager.changePage("mwa");
 		});
 		return {};
 	};
 
 	/*CONTENT ADAPTERS*/ //used to build an element containeing dynamic data
-	this.buildMessageAdapter = function(container, data, options = {}){
+	this.buildMessageAdapter = function (container, data, options = {}) {
 		console.log("buildMessageAdapter", data);
 		/*data{
 			userObject,
@@ -230,7 +319,7 @@ function Builder(){
 		}
 		*/
 		var extraClass = "foreignMessage";
-		if(userObject.id == data.userObject.id){
+		if (userObject.id == data.userObject.id) {
 			extraClass = "selfMessage";
 		}
 		//create
@@ -244,29 +333,29 @@ function Builder(){
 
 		//events
 		image.addEventListener("click", actions.zoomImage);
-		
+
 		//data
 		textContainer.innerText = "";
 		var displayDate = new Date(data.timestamp);
 		var minutesStr = "00" + displayDate.getMinutes();
 		time.innerText = displayDate.getHours() + "h" + minutesStr.substring(minutesStr.length - 2);
 		name.innerText = "...";
-		if(data.file){
+		if (data.file) {
 			image.classList.remove("none");
 			image.style.backgroundImage = "url(" + utility.getFileUrl(data.file) + ")";
 		}
 
 		//text data
 		var parsedMsg = utility.parseTextWithRegex(data.text, URL_REGEX);
-			//console.log("parsedMsg", parsedMsg);
-		for(var indText = 0; indText < parsedMsg.texts.length; indText++){
+		//console.log("parsedMsg", parsedMsg);
+		for (var indText = 0; indText < parsedMsg.texts.length; indText++) {
 			var textNode = document.createTextNode(parsedMsg.texts[indText]);
 			textContainer.appendChild(textNode);
-			if(typeof parsedMsg.matches[indText] !== "undefined"){
+			if (typeof parsedMsg.matches[indText] !== "undefined") {
 				var linkText = parsedMsg.matches[indText];
 				console.log(linkText.substring(0, 7));
-				if(linkText.substring(0, 8) != "https://"
-				&& linkText.substring(0, 7) != "http://"){//test http str
+				if (linkText.substring(0, 8) != "https://"
+					&& linkText.substring(0, 7) != "http://") {//test http str
 					linkText = "https://" + linkText;
 				}
 				var linkElem = textContainer.addElement("a", "messageAdapterTextLink");
@@ -276,11 +365,11 @@ function Builder(){
 				linkElem.innerText = parsedMsg.matches[indText];
 			}
 		}
-		
+
 		//user (api call if specified)
-		if(typeof options == "object" && options.userApi){
-			apiManager.getUser(data.userObject.id, function(error = false, result){
-				if(error){
+		if (typeof options == "object" && options.userApi) {
+			apiManager.getUser(data.userObject.id, function (error = false, result) {
+				if (error) {
 					console.log("get user error", error);
 					return;
 				}
@@ -293,33 +382,33 @@ function Builder(){
 		}
 	};
 
-	this.buildGroupAdapter = function(container, data, options){
+	this.buildGroupAdapter = function (container, data, options) {
 		console.log("buildGroupAdapter", data);
-		
+
 		var box = container.addElement('div', 'groupAdapterContainer');
 		var image = box.addElement('div', 'groupAdapterImage');
 		var name = box.addElement('div', 'groupAdapterName');
 		var notifPin = box.addElement('div', 'groupAdapterNotifPin none');
-		
+
 		//data
-		image.style.backgroundImage = "url(" + utility.getFileUrl(data.image) +")";
+		image.style.backgroundImage = "url(" + utility.getFileUrl(data.image) + ")";
 		name.innerText = data.name;
-		
+
 		//events
-		box.addEventListener("click", function(evt){
+		box.addEventListener("click", function (evt) {
 			messagingActions.displayGroup(data);
 		});
 	};
 
-	this.buildDateSeparator = function(container, dateObject, groupId){
+	this.buildDateSeparator = function (container, dateObject, groupId) {
 		var dateYear = dateObject.getFullYear();
 		var dateMonth = dateObject.getMonth();
 		var dateDay = dateObject.getDate();
-		if(groupId){
+		if (groupId) {
 			var lastDate = (messagingActions.groups[groupId].separatorDate || new Date(0));
-			if((dateYear == lastDate.getFullYear()) 
-			&& (dateMonth == lastDate.getMonth())
-			&& (dateDay == lastDate.getDate())){
+			if ((dateYear == lastDate.getFullYear())
+				&& (dateMonth == lastDate.getMonth())
+				&& (dateDay == lastDate.getDate())) {
 				//already built
 				return false;
 			}
@@ -328,12 +417,12 @@ function Builder(){
 		}
 		var line = container.addElement('div', 'dateSeparatorLine');
 		var box = line.addElement('div', 'dateSeparatorBox');
-		if(dateDay == 1){ //case of 1st/1er
+		if (dateDay == 1) { //case of 1st/1er
 			dateDay += "er";
 		}
 		var dateString = dateDay + " " + translator.get("month" + dateMonth);
-		
-		if((new Date(Date.now())).getFullYear() != dateYear){
+
+		if ((new Date(Date.now())).getFullYear() != dateYear) {
 			dateString += " " + dateYear;
 		}
 		box.innerText = dateString;
@@ -344,7 +433,7 @@ function Builder(){
 	}
 
 	/*WINDOWS*/
-	this.newWindow = function(params){
+	this.newWindow = function (params) {
 		/*params{
 			name
 			title
@@ -365,23 +454,23 @@ function Builder(){
 
 		//__EVENTS
 		//window
-		elements.windowsContainer.addEventListener("click", function(evt){
+		elements.windowsContainer.addEventListener("click", function (evt) {
 			closeWindow();
 			params.onclose();
 		});
-		closeBtn.addEventListener("click", function(evt){
+		closeBtn.addEventListener("click", function (evt) {
 			closeWindow();
 			params.onclose();
 		});
-		container.addEventListener("click", function(evt){
+		container.addEventListener("click", function (evt) {
 			evt.stopPropagation();
 		});
 
-		function closeWindow(){
+		function closeWindow() {
 			container.classList.add("none");
 			container.remove();
 			delete pagesManager.windows[params.name];
-			if(Object.keys(pagesManager.windows).length === 0){ //no other windows active
+			if (Object.keys(pagesManager.windows).length === 0) { //no other windows active
 				elements.windowsContainer.classList.add("none");
 			}
 		}
@@ -395,7 +484,7 @@ function Builder(){
 		pagesManager.windows[params.name].domElement.classList.remove("none");
 
 		//__RETURN
-		return{
+		return {
 			domElement: container,
 			title: topBarTitle,
 			mainSection: mainSection,
@@ -403,7 +492,7 @@ function Builder(){
 		};
 	};
 
-	this.displayImageSelectWindow = function(callBacks){
+	this.displayImageSelectWindow = function (callBacks) {
 		/*callBacks{
 			abort: function
 			file
@@ -411,9 +500,9 @@ function Builder(){
 			submit
 		}*/
 		var allowedFiles = [
-			"image/png", 
+			"image/png",
 			"image/jpeg",
-			"image/jpg", 
+			"image/jpg",
 			"image/gif", //animated
 			"image/webp" //animated
 		];
@@ -449,26 +538,26 @@ function Builder(){
 
 		//__EVENTS
 		//dropzone
-		dropzone.addEventListener("click", function(evt){
+		dropzone.addEventListener("click", function (evt) {
 			fakeInput.click(evt);
 		});
-		dropzone.addEventListener("dragenter", function(evt){
+		dropzone.addEventListener("dragenter", function (evt) {
 			evt.stopPropagation();
 			dropzone.classList.add("dragover");
 		});
-		dropzone.addEventListener("dragleave", function(evt){
+		dropzone.addEventListener("dragleave", function (evt) {
 			evt.stopPropagation();
 			dropzone.classList.remove("dragover");
 		});
-		dropzone.addEventListener("dragover", function(evt){
+		dropzone.addEventListener("dragover", function (evt) {
 			evt.preventDefault();
 		});
-		dropzone.addEventListener("drop", function(evt){
+		dropzone.addEventListener("drop", function (evt) {
 			evt.preventDefault();
 			//style
 			dropzone.classList.remove("dragover");
 			//allowed types
-			if(!allowedFiles.includes(evt.dataTransfer.items[0].type)){
+			if (!allowedFiles.includes(evt.dataTransfer.items[0].type)) {
 				console.log("file type not allowed", evt.dataTransfer.items[0].type);
 				utility.infoMessage("Ce type de fichier n'est pas supporté.");
 				return;
@@ -478,8 +567,8 @@ function Builder(){
 		});
 
 		//file input
-		fileInput.addEventListener("change", function(evt){
-			if(!allowedFiles.includes(fileInput.files[0].type)){
+		fileInput.addEventListener("change", function (evt) {
+			if (!allowedFiles.includes(fileInput.files[0].type)) {
 				console.log("file type not allowed", fileInput.files[0].type);
 				utility.infoMessage("Ce type de fichier n'est pas supporté.");
 				return;
@@ -493,25 +582,25 @@ function Builder(){
 		submitButton.addEventListener("click", callBacks.submit);
 
 		//manual
-		function displayStep1(){
+		function displayStep1() {
 			step1container.classList.remove("none");
 			step2container.classList.add("none");
 		}
-		function displayStep2(imageData){
+		function displayStep2(imageData) {
 			preview.src = imageData;
 			step1container.classList.add("none");
 			step2container.classList.remove("none");
 		}
 
 		//__RETURN
-		return{
+		return {
 			domElement: window.domElement,
 			displayStep1: displayStep1,
 			displayStep2: displayStep2,
 			close: window.close
 		};
 	};
-	this.displayGroupCreationWindow = function(callBacks){
+	this.displayGroupCreationWindow = function (callBacks) {
 
 		var selectedInfos = {
 			pm: false,
@@ -576,15 +665,15 @@ function Builder(){
 
 		//DATA
 		//users list
-		apiManager.callApi("getUsers", false, function(error, result){
-			if(error){
+		apiManager.callApi("getUsers", false, function (error, result) {
+			if (error) {
 				console.log("getUsers error");
 				return;
 			}
-			for(var indUser = 0; indUser < result.length; indUser++){
+			for (var indUser = 0; indUser < result.length; indUser++) {
 				var currentUser = result[indUser];
 				//test self user
-				if(userObject.id === currentUser.id){
+				if (userObject.id === currentUser.id) {
 					selectedInfos.group.selfUser = currentUser;
 					continue;
 				}
@@ -603,16 +692,16 @@ function Builder(){
 				userAdapterCheckBox.setAttribute("type", "checkbox");
 				selectedInfos.group.usersCache[currentUser.id] = currentUser;
 				//events
-				(function(user){
-					userAdapterCheckBox.addEventListener("change", function(evt){
-						if(evt.srcElement.checked && !selectedInfos.group.users.includes(user.id)){
+				(function (user) {
+					userAdapterCheckBox.addEventListener("change", function (evt) {
+						if (evt.srcElement.checked && !selectedInfos.group.users.includes(user.id)) {
 							selectedInfos.group.users.push(user.id);
-						} else if(!evt.srcElement.checked && selectedInfos.group.users.includes(user.id)){
+						} else if (!evt.srcElement.checked && selectedInfos.group.users.includes(user.id)) {
 							selectedInfos.group.users.splice(selectedInfos.group.users.indexOf(user.id), 1);
 						}
 						//display selected list
 						var usersList = [];
-						for(var indSelected = 0; indSelected < selectedInfos.group.users.length; indSelected++){
+						for (var indSelected = 0; indSelected < selectedInfos.group.users.length; indSelected++) {
 							var selectedUser = selectedInfos.group.usersCache[selectedInfos.group.users[indSelected]];
 							usersList.push(selectedUser.first_name + " " + selectedUser.last_name);
 						}
@@ -623,28 +712,28 @@ function Builder(){
 		});
 
 		//_EVENTS_
-		pmTab.addEventListener("click", function(evt){
+		pmTab.addEventListener("click", function (evt) {
 			pmTab.classList.add("selected");
 			groupTab.classList.remove("selected");
 			groupContainer.classList.add("none");
 			pmContainer.classList.remove("none");
 		});
-		groupTab.addEventListener("click", function(evt){
+		groupTab.addEventListener("click", function (evt) {
 			pmTab.classList.remove("selected");
 			groupTab.classList.add("selected");
 			groupContainer.classList.remove("none");
 			pmContainer.classList.add("none");
 		});
 
-		groupImageButton.addEventListener("click", function(){
-			utility.imageUploadProcedure(function(error, result){
+		groupImageButton.addEventListener("click", function () {
+			utility.imageUploadProcedure(function (error, result) {
 				console.log("image result", error, result);
-				if(error){
+				if (error) {
 					console.log("image upload error", error);
 					infoBox("Une erreur s'est produite lors de l'ajout de l'image.");
 					return;
 				}
-				if(!result){
+				if (!result) {
 					console.log("no image returned");
 					return;
 				}
@@ -654,17 +743,17 @@ function Builder(){
 			});
 		});
 
-		groupCreateButton.addEventListener("click", function(evt){
+		groupCreateButton.addEventListener("click", function (evt) {
 			//reset colors
 			groupNameInput.classList.remove("error");
 			groupUsersSelectorList.classList.remove("error");
 			//check fields
-			if(groupNameInput.value.length == 0){
+			if (groupNameInput.value.length == 0) {
 				groupNameInput.classList.add("error");
 				infoBox("Veuillez entrer un nom pour le groupe.");
 				return;
 			}
-			if(selectedInfos.group.users.length < 2){
+			if (selectedInfos.group.users.length < 2) {
 				groupUsersSelectorList.classList.add("error");
 				infoBox("Veuillez sélectionner au moins 2 utilisateurs.");
 				return;
@@ -674,8 +763,8 @@ function Builder(){
 				name: groupNameInput.value,
 				file: (selectedInfos.group.file ? selectedInfos.group.file.id : false),
 				type: "group"
-			}, function(error, result){
-				if(error){
+			}, function (error, result) {
+				if (error) {
 					infoBox("une erreur s'est produite lors de l'ajout du groupe");
 				}
 			});
@@ -683,7 +772,7 @@ function Builder(){
 		});
 
 		//_ACTIONS_
-		function onAbort(){
+		function onAbort() {
 
 		}
 	}

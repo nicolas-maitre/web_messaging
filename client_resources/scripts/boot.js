@@ -35,6 +35,6 @@ pagesManager.changePage(pageName, {isPopState:/*server false, noserver true*/NOS
 window.addEventListener("popstate", function(evt){
 	if(evt.state.pageName){
 		//change page to history page
-		pagesManager.changePage(evt.state.pageName, {isPopState:true});
+		pagesManager.changePage(evt.state.pageName, {noPushState:true});
 	}
 });

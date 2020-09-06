@@ -44,7 +44,8 @@ function newElement(type, attributes = {}){
 HTMLAnchorElement.prototype.setAsDynamic = function(){
 	this.addEventListener('click', evt=>{
 		evt.preventDefault();
-		console.warn("dynamic links not developped"); //should use the standard url parser already developped for page landing
+		console.warn("dynamic links not developped", this); //should use the standard url parser already developped for page landing
+		pagesManager.changePage(this.getAttribute('href').split('/')[1]);
 	});
 	return this
 }
