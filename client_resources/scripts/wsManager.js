@@ -4,7 +4,7 @@ function WebSocketManager(){
 	//const WEBSOCKET_URL = "ws://13.52.192.189:8080";
 	// const WEBSOCKET_URL = "ws://localhost:8080";
 	//const WEBSOCKET_URL = "ws://localhost:8081";
-	const WS_PORT = 8080;
+	const WS_PORT = config.websocketPort;
 	const WEBSOCKET_URL = "ws://" + document.location.hostname + ":" + WS_PORT;
 	var _this = this;
     this.connection;
@@ -58,9 +58,16 @@ function WebSocketManager(){
             callBacks.onConnectionInit.forEach(cb=>cb());
         }
 	}
-	this.actionMethods.newMessage = function(params){
+	this.actionMethods.newMessage = function(data){
+		data.userObject = {id: data.userId};
+		//notifs
+		if(!utility.isTabFocused && data.userObject.id != userObject.id){
+			if(config.notificationSound) new Audio(config.notificationSound).play();
+		}else{
+			console.log('no notification!');
+		}
 		//tmp
-		messagingActions.displayNewMessage(params);
+		messagingActions.displayNewMessage(data);
 	};
 	this.actionMethods.newGroup = function(params){
 		messagingActions.displayNewGroup(params);

@@ -173,19 +173,14 @@ utility.getGlobalLoader = function(){
 	return elements.globalLoader;
 }
 /**
- * @param {*} [{title="", body="", image=false, displayIfFocus = false, closeAfter=20000}={}]
+ * @param {*} [{title="", body="", image=false, closeAfter=20000}={}]
  * @return {Notification} 
  */
-utility.showDesktopNotification = function ({title="", body="", image=false, displayIfFocus = false, closeAfter=20000} = {}) {
+utility.showDesktopNotification = function ({title="", body="", image=false, closeAfter=20000} = {}) {
 	//test if notification are authorised
 	if (typeof Notification != 'undefined' && typeof Notification.permission && Notification.permission !== "granted") {
 		// if(askPermission) Notification.requestPermission(); //can't do that anymore
 		console.warn("notification permission has not been granted");
-		return;
-	}
-	//test if focused
-	if (!displayIfFocus && !document.hidden && !messageObject.forceDisplay) {
-		console.log('tab is focused - no desktop notification');
 		return;
 	}
 
@@ -199,3 +194,5 @@ utility.showDesktopNotification = function ({title="", body="", image=false, dis
 
 	return notif
 };
+
+utility.isTabFocused = _=>!document.hidden;

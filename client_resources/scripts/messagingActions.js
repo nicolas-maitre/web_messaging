@@ -46,16 +46,9 @@ function MessagingActions(){
 		}
 		//zone in which the messages are built
 		var container = _this.groups[data.groupId].msgContainer;
-		//builds the message element
-		data.userObject = {id: data.userId};
 
 		builder.buildDateSeparator(container, new Date(data.timestamp), data.groupId);
 		var messageAdapter = builder.buildMessageAdapter(container, data,{userApi:true});
-		
-		//notifs
-		if(data.userObject.id != userObject.id){
-			if(config.notificationSound) new Audio(config.notificationSound).play();
-		}
 
 		if(data.groupId == _this.currentGroup){
 			scrollGroupToBottom();
