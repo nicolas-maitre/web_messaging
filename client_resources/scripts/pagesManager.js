@@ -35,10 +35,12 @@ function PagesManager(){
 			_this.pages[_this.currentPage].domElement.classList.add('none');
 		}
 		
-		//page title (document)
-		document.title = "Messaging Web App - " + pageName;
 		
 		_this.currentPage = pageName;
+
+		//page title (document)
+		// document.title = "Messaging Web App - " + pageName;
+		actions.updatePageTitle();
 		
 		//page already built
 		if(_this.pages[pageName] && currentPageStructure.rebuild){

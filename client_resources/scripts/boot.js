@@ -9,7 +9,7 @@ version: 03.04.2019
 var userObject = {id: "", token: "", pseudo:""};
 var elements = {};
 var groups = {};
-var globals = {currentPrettyError:"", messageFile: false};
+var globals = {currentPrettyError:"", messageFile: false, unreadNotifsCount:0};
 
 //classes (singletons)
 var builder = new Builder();
@@ -36,5 +36,13 @@ window.addEventListener("popstate", function(evt){
 	if(evt.state.pageName){
 		//change page to history page
 		pagesManager.changePage(evt.state.pageName, {isPopState:true});
+	}
+});
+
+//focusxd
+document.addEventListener('focus', evt=>{
+	if(globals.unreadNotifsCount){
+		globals.unreadNotifsCount = 0;
+		actions.updatePageTitle();
 	}
 });

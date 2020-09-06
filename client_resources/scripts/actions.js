@@ -16,6 +16,10 @@ function Actions(){
 		//messagingActions.displayGroup({groupId: "5555-6666-7777-8888-9999", data: {name: "Les anciens du CPNV - hc"}});
 	}
 
+	this.updatePageTitle = function(){
+		document.title = `${globals.unreadNotifsCount? `(${globals.unreadNotifsCount}) `:''}Messaging Web App - ${pagesManager.currentPage}`;
+	}
+
 	this.addMessageFile = function(evt){
 		console.log("file btn");
 		utility.imageUploadProcedure(function(error, result){

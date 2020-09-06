@@ -190,9 +190,10 @@ utility.showDesktopNotification = function ({title="", body="", image=false, clo
 		notif.close();
 		window.focus();
 	});
-	setTimeout(notif.close, closeAfter)
+
+	if(closeAfter != Infinity){
+		setTimeout(notif.close, closeAfter);
+	}
 
 	return notif
 };
-
-utility.isTabFocused = _=>!document.hidden;
