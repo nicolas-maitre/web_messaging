@@ -103,11 +103,12 @@ input, .input{
 }
 /*Top Menu*/
 .MWATopMenu {
+    --top-menu-height: 40px;
     width: 100%;
     border-bottom: 2px solid #666;
     background-color: black;
     color: white;
-	height: 40px;
+	height: var(--top-menu-height);
 	line-height: 38px;
 }
 .MWATopMenuLeftSection, .MWATopMenuRightSection{
@@ -146,6 +147,47 @@ input, .input{
     background-size: cover;
     border-radius: 50%;
     border: 1px solid #666;
+}
+.MWATopMenuUserSection .userMenu {
+    position: absolute;
+    background: black;
+    right: 0;
+    min-width: 200px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 0 0 5px 5px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    top: 0;
+    transition: 500ms;
+}
+.MWATopMenuUserSection:hover .userMenu{
+    visibility: visible;
+    opacity: 1;
+    top: var(--top-menu-height);
+}
+
+.MWATopMenuUserSection .userMenu button:hover {
+
+    background-color: #666;
+
+}
+.MWATopMenuUserSection .userMenu button {
+    width: 100%;
+    text-align: inherit;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    color: white;
+    border-bottom: 1px solid #666;
+    padding: 5px;
+    transition: 300ms background-color;
+}
+.MWATopMenuUserSection .userMenu button:last-child {
+    border-bottom: none;
+}
+.MWATopMenuUserSection .userMenu button:hover {
+    background-color: #666;
 }
 
 /*MWA Page*/
