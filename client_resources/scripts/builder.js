@@ -387,8 +387,8 @@ function Builder() {
 		var box = container.addElement('div', 'groupAdapterContainer');
 		var image = box.addElement('div', 'groupAdapterImage');
 		var name = box.addElement('div', 'groupAdapterName');
-		var notifPin = box.addElement('div', 'groupAdapterNotifPin none');
-
+		var notifPin = box.addElement('div', {class:'groupAdapterNotifPin', _dataset:{unreadCount:0}});
+		
 		//data
 		image.style.backgroundImage = "url(" + utility.getFileUrl(data.image) + ")";
 		name.innerText = data.name;
@@ -397,6 +397,9 @@ function Builder() {
 		box.addEventListener("click", function (evt) {
 			messagingActions.displayGroup(data);
 		});
+
+		//store TODO: no pls no
+		messagingActions.groupAdapters[data.id] = {box, image, name, notifPin}
 	};
 
 	this.buildDateSeparator = function (container, dateObject, groupId) {

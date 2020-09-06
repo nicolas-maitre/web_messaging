@@ -548,8 +548,8 @@ input, .input{
     white-space: nowrap;
 	padding-left: 5px;
 }
-.groupAdapterNotifPin {
 
+.groupAdapterNotifPin {
     height: 30px;
     width: 30px;
     position: absolute;
@@ -562,7 +562,13 @@ input, .input{
     vertical-align: 20px;
     font-size: 18px;
     padding-top: 3px;
-
+    font-weight: bold;
+}
+.groupAdapterNotifPin[data-unread-count="0"] {
+    display: none;
+}
+.groupAdapterNotifPin::after{
+    content: attr(data-unread-count);
 }
 /*loginPage & register*/
 .LOGINPageContainer,

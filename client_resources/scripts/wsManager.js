@@ -61,17 +61,7 @@ function WebSocketManager() {
 	this.actionMethods.newMessage = function (data) {
 		data.userObject = { id: data.userId };
 		//notifs
-		if (data.userObject.id != userObject.id && !document.hasFocus()) {
-			if (config.notificationSound) {
-				new Audio(config.notificationSound).play();
-			}
-			
-			globals.unreadNotifsCount++;
-			actions.updatePageTitle();
-			// utility.showDesktopNotification
-		} else {
-			console.log('no notification!', data.userObject.id);
-		}
+		messagingActions.dispatchNewMessageNotification(data);
 		//tmp
 		messagingActions.displayNewMessage(data);
 	};

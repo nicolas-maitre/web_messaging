@@ -8,6 +8,7 @@ version: 03.04.2019
 function MessagingActions(){
 	var _this = this;
 	this.currentGroup = false;
+	this.groupAdapters = {};
 	this.groups = {}; //loaded groups list
 	
 	//takes the input value and sends a message to selected group
@@ -54,6 +55,43 @@ function MessagingActions(){
 			scrollGroupToBottom();
 		}
 	};
+
+	this.onPageFocus = function(){
+		if(_this.currentGroup){
+			_this.setGroupAsRead(_this.currentGroup);
+		}
+	}
+	this.dispatchNewMessageNotification = function(data){
+		if(data.userObject.id == userObject.id){ //not a foreign message
+			return;
+		}
+		if(!utility.tabHasFocus() || _this.currentGroup != data.groupId){
+			//sound
+			if (config.notificationSound) {
+				new Audio(config.notificationSound).play();
+			}
+			//group badge
+			if(_this.groupAdapters[data.groupId]){
+				let notifPin = _this.groupAdapters[data.groupId].notifPin;
+				notifPin.dataset.unreadCount = Number(notifPin.dataset.unreadCount) + 1;
+			}
+			globals.unreadNotifsCount++;
+			actions.updatePageTitle();
+		}
+		return
+		//TODO: request notif authorization
+		if(!utility.tabHasFocus()){
+			utility.showDesktopNotification({title:"new message..."});
+		}
+	}
+	this.setGroupAsRead = function(groupId){
+		if(_this.groupAdapters[groupId]){
+			let notifPin = _this.groupAdapters[groupId].notifPin;
+			globals.unreadNotifsCount -= Number(notifPin.dataset.unreadCount);
+			notifPin.dataset.unreadCount = 0;
+			actions.updatePageTitle();
+		}
+	}
 	
 	this.displayGroupsList = function(options){
 		//call api
@@ -88,9 +126,12 @@ function MessagingActions(){
 	//displays a group
 	this.displayGroup = function(data){
 		if(!pagesManager.pages["mwa"]){
-			console.log("called from the wrong page, mwa not built");
+			console.error("called from the wrong page, mwa not built");
 			return;
 		}
+
+		//notifs
+		_this.setGroupAsRead(data.id);
 
 		var mwaElements = pagesManager.pages["mwa"].elements;
 
@@ -105,6 +146,7 @@ function MessagingActions(){
 			_this.groups[data.id] = {
 				data: data,
 				msgContainer: mwaElements.rightPanel.msgSection.addElement('div', 'groupMessageSection'),
+				unreadMessagesCount: 0,//TODO: move that into the messages
 				saveData: {
 					text: "",
 					file: false

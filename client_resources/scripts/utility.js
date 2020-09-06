@@ -225,3 +225,5 @@ utility.showDesktopNotification = function ({title="", body="", image=false, clo
 
 	return notif
 };
+
+utility.tabHasFocus = _=>(document.hasFocus() && !document.hidden)

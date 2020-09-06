@@ -41,8 +41,5 @@ window.addEventListener("popstate", function(evt){
 
 //focusxd
 document.addEventListener('focus', evt=>{
-	if(globals.unreadNotifsCount){
-		globals.unreadNotifsCount = 0;
-		actions.updatePageTitle();
-	}
+	messagingActions.onPageFocus(evt);
 });
