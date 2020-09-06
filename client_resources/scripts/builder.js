@@ -157,7 +157,7 @@ function Builder(){
 			{id: "0000-0000-0000-0000-0000", token: "1234-1234-1234-1234-1234", pseudo: "nmaitre"},
 			{id: "1111-1111-1111-1111-1111", token: "2345-2345-2345-2345-2345", pseudo: "nglassey"},
 			{id: "2222-2222-2222-2222-2222", token: "3456-3456-3456-3456-3456", pseudo: "ggruaz"},
-			{id: "3333-3333-3333-3333-3333", token: "4567-4567-4567-4567-4567", pseudo: "jlagona"}
+			{id: "3333-3333-3333-3333-3333", token: "4567-4567-4567-4567-4567", pseudo: "euloueu"}
 		];
 		//build a user selector instead of a  login form for test purposes
 		default_users.forEach(thisUserObject=>{

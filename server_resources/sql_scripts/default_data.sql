@@ -3,7 +3,7 @@ USE messaging_web_app_db;
 INSERT INTO users		SET id='0000-0000-0000-0000-0000', pseudo='nmaitre', email='nicolas.maitre@cpnv.ch', first_name='Nicolas', last_name='Maitre', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
 INSERT INTO users		SET id='1111-1111-1111-1111-1111', pseudo='nglassey', email='nicolas.glassey@cpnv.ch', first_name='Nicolas', last_name='Glassey', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
 INSERT INTO users		SET id='2222-2222-2222-2222-2222', pseudo='ggruaz', email='ggruaz@gmail.com', first_name='Gilbert', last_name='Gruaz', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
-INSERT INTO users		SET id='3333-3333-3333-3333-3333', pseudo='jlagona', email='julien.lagona@gmail.com', first_name='Julien', last_name='Lagona', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
+INSERT INTO users		SET id='3333-3333-3333-3333-3333', pseudo='euloueu', email='contact@elouan-media.ch', first_name='Elouan', last_name='Reymond', creation_time=CURRENT_TIMESTAMP(), active=1, enabled=1;
 
 -- friends
 -- INSERT INTO friends		SET user_0="0000-0000-0000-0000-0000", user_1="1111-1111-1111-1111-1111", creation_time=CURRENT_TIMESTAMP(), active=1;
