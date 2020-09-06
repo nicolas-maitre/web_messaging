@@ -52,6 +52,11 @@ function MessagingActions(){
 		builder.buildDateSeparator(container, new Date(data.timestamp), data.groupId);
 		var messageAdapter = builder.buildMessageAdapter(container, data,{userApi:true});
 		
+		//notifs
+		if(data.userObject.id != userObject.id){
+			if(config.notificationSound) new Audio(config.notificationSound).play();
+		}
+
 		if(data.groupId == _this.currentGroup){
 			scrollGroupToBottom();
 		}
