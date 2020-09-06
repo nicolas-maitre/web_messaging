@@ -42,6 +42,10 @@ function PagesManager(){
 		// document.title = "Messaging Web App - " + pageName;
 		actions.updatePageTitle();
 		
+		//add new page to history
+		if(!options.noPushState && !NOSERVER_ENV){
+			history.pushState({pageName:pageName}, "Messaging Web App", "/" + pageName);
+		}
 		//page already built
 		if(_this.pages[pageName] && currentPageStructure.rebuild){
 			_this.pages[pageName].domElement.remove();
@@ -52,10 +56,6 @@ function PagesManager(){
 			return _this.pages[pageName];
 		}
 		
-		//add new page to history
-		if(!options.noPushState && !NOSERVER_ENV){
-			history.pushState({pageName:pageName}, "Messaging Web App", "/" + pageName);
-		}
 		
 		//build page
 		var pageContainer = elements.pagesContainer.addElement('div', 'pageContainer ' + pageName.toUpperCase() + 'PageContainer');  //creates page container

@@ -19,7 +19,8 @@ var pagesConfig = {
 	},
 	register:{
 		title: "Register",
-		reloadPage: true
+		rebuild: true,
+		loadAction: 'onREGISTERPageLoad'
 	},
 	error:{
 		title: "Error",

@@ -15,6 +15,15 @@ function Actions(){
 		//hc
 		//messagingActions.displayGroup({groupId: "5555-6666-7777-8888-9999", data: {name: "Les anciens du CPNV - hc"}});
 	}
+	this.onREGISTERPageLoad = function(options){
+		console.info("register loaded", options);
+		var registerForm = pagesManager.pages[options.pageName].elements.registerForm;
+		let formInfos = globals.registerFormInfos || {}
+		if(formInfos.userName) registerForm.userNameInput.value = formInfos.userName
+		if(formInfos.email) registerForm.emailInput.value = formInfos.email
+		if(formInfos.password) registerForm.passwordInput.value = formInfos.password
+		
+	}
 
 	this.updatePageTitle = function(){
 		document.title = `${globals.unreadNotifsCount? `(${globals.unreadNotifsCount}) `:''}Messaging Web App - ${pagesManager.currentPage}`;

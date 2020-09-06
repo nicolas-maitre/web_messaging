@@ -103,11 +103,12 @@ input, .input{
 }
 /*Top Menu*/
 .MWATopMenu {
+    --top-menu-height: 40px;
     width: 100%;
     border-bottom: 2px solid #666;
     background-color: black;
     color: white;
-	height: 40px;
+	height: var(--top-menu-height);
 	line-height: 38px;
 }
 .MWATopMenuLeftSection, .MWATopMenuRightSection{
@@ -146,6 +147,47 @@ input, .input{
     background-size: cover;
     border-radius: 50%;
     border: 1px solid #666;
+}
+.MWATopMenuUserSection .userMenu {
+    position: absolute;
+    background: black;
+    right: 0;
+    min-width: 200px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 0 0 5px 5px;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    top: 0;
+    transition: 500ms;
+}
+.MWATopMenuUserSection:hover .userMenu{
+    visibility: visible;
+    opacity: 1;
+    top: var(--top-menu-height);
+}
+
+.MWATopMenuUserSection .userMenu button:hover {
+
+    background-color: #666;
+
+}
+.MWATopMenuUserSection .userMenu button {
+    width: 100%;
+    text-align: inherit;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    color: white;
+    border-bottom: 1px solid #666;
+    padding: 5px;
+    transition: 300ms background-color;
+}
+.MWATopMenuUserSection .userMenu button:last-child {
+    border-bottom: none;
+}
+.MWATopMenuUserSection .userMenu button:hover {
+    background-color: #666;
 }
 
 /*MWA Page*/
@@ -236,6 +278,10 @@ input, .input{
 .MWALeftPanelBottomSection {
     position: relative;
     height: calc(100% - 51px);
+}
+.MWALeftPanelGroupsListContainer {
+    max-height: 100%;
+    overflow-y: auto;
 }
 .MWALeftPanelAddButton {
     position: absolute;
@@ -518,28 +564,65 @@ input, .input{
     padding-top: 3px;
 
 }
-/*loginPage*/
-.LOGINPageContainer {
+/*loginPage & register*/
+.LOGINPageContainer,
+.REGISTERPageContainer {
     text-align: center;
 }
 .loginFormWindow {
     border: 1px solid #ccc;
     display: inline-block;
-    height: 300px;
-    width: 350px;
+    vertical-align: middle;
+    /* min-height: 350px; */
+    width: calc(100% - 10px);
+    max-width: 350px;
     box-shadow: 0 0 20px #666;
-    margin-top: calc(50vh - 150px);
+    margin-top: calc(50vh - 200px);
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 50px;
+}
+.REGISTERPageContainer .loginFormWindow{
+    max-width: 500px;
+    margin-top: 50px;
+}
+.loginFormTitle{
+    margin-bottom: 0;
 }
 .loginTempUserButton {
     display: inline-block;
     margin: 5px;
-    width: 150px;
+    width: calc(50% - 10px);
     height: 50px;
     font-size: 23px;
-    margin-top: 55px;
+    margin-top: 15px;
+    margin-bottom: 15px;
 }
 .loginForm {
-    padding: 10px;
+    padding: 10px 20px 10px 20px;
+}
+.loginForm > label {
+    width: 100%;
+    text-align: left;
+    display: inline-block;
+    font-size: 20px;
+    padding-left: 5px;
+}
+.loginForm > input {
+    width: 100%;
+    font-size: 25px;
+    margin-bottom: 20px;
+    padding: 5px 10px 5px 10px;
+}
+.loginForm > button[type=submit]{
+    display: inline-block;
+    font-size: 25px;
+    margin-bottom: 15px;
+    padding: 5px 20px 5px 20px;
+}
+.loginForm > a{
+    display: block;
+    width: 100%;
 }
 
 /*WINDOWS*/
