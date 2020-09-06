@@ -78,9 +78,9 @@ function InstantMessagingManager(wsManager){
 			usersList.push(params.auth.id);
 			
 			//INSERT RELATIONS
-			for(var indUser = 0; indUser < usersList.length; indUser++){
+			usersList.forEach(user=>{
 				database.insertInto("user_groups", { //insert into db
-					user: usersList[indUser],
+					user: user,
 					group: groupId,
 					creation_time: "CURRENT_TIMESTAMP()"
 				},{
@@ -101,15 +101,9 @@ function InstantMessagingManager(wsManager){
 						type: params.data.type,
 						administrator: params.auth.id
 					};
-					
-					_this.notifyGroup({
-						groupId: groupId,
-						wsToken: params.wsToken,
-						action: "newGroup",
-						data: data
-					});
+					wsManager.sendMessageToUser(user, "newGroup", data);
 				});
-			}
+			})
 		});
 	}
 	this.notifyGroup = function(messageParams){
