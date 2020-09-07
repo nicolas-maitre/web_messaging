@@ -52,6 +52,7 @@ function Builder() {
 		var menuButton = topBar.addElement("button", "MWAMenuButton");
 		var searchInput = topBar.addElement('input', 'MWALeftPanelSearchInput');
 		var searchButton = topBar.addElement('button', 'MWALeftPanelSearchButton');
+		var notifsButton = bottom.addElement('button', {class:"notifsPermissionBtn none", _textContent:"Click here to activate desktop notifications"});
 		var groupsListContainer = bottom.addElement('div', 'MWALeftPanelGroupsListContainer');
 		var addButton = bottom.addElement('button', "MWALeftPanelAddButton");
 		//properties
@@ -67,10 +68,11 @@ function Builder() {
 		//return
 		return {
 			domElement: element,
-			searchInput: searchInput,
-			searchButton: searchButton,
-			addButton: addButton,
-			groupsListContainer: groupsListContainer
+			searchInput,
+			searchButton,
+			addButton,
+			groupsListContainer,
+			notifsButton
 		}
 	};
 	function buildMWARightPanel(container) {
@@ -399,7 +401,7 @@ function Builder() {
 		});
 
 		//store TODO: no pls no
-		messagingActions.groupAdapters[data.id] = {box, image, name, notifPin}
+		messagingActions.groupAdapters[data.id] = {box, image, name, notifPin, data}
 	};
 
 	this.buildDateSeparator = function (container, dateObject, groupId) {

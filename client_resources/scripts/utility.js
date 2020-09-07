@@ -204,24 +204,26 @@ utility.getGlobalLoader = function(){
  * @param {*} [{title="", body="", image=false, closeAfter=20000}={}]
  * @return {Notification} 
  */
-utility.showDesktopNotification = function ({title="", body="", image=false, closeAfter=20000} = {}) {
+utility.showDesktopNotification = function ({title="", body="", image=false, closeAfter=10000} = {}) {
 	//test if notification are authorised
 	if (typeof Notification != 'undefined' && typeof Notification.permission && Notification.permission !== "granted") {
 		// if(askPermission) Notification.requestPermission(); //can't do that anymore
 		console.warn("notification permission has not been granted");
-		return;
+		return false;
 	}
 
 	//shows the notification
-	var notif = new Notification(title, {icon: image, body: messageObject.message});
+	var notif = new Notification(title, {icon: image, body});
+	if(closeAfter != Infinity){
+		var closeId = setTimeout(notif.close, closeAfter);
+	}
 	notif.addEventListener('click', function (evt) {
+		if(typeof closeId != 'undefined'){
+			clearTimeout(closeId);
+		}
 		notif.close();
 		window.focus();
 	});
-
-	if(closeAfter != Infinity){
-		setTimeout(notif.close, closeAfter);
-	}
 
 	return notif
 };

@@ -7,13 +7,29 @@ version: 03.04.2019
 */
 function Actions(){
 	this.onMWAPageBuilt = function(options){
+		var thisPageElements = pagesManager.pages[options.pageName].elements
 		console.log("mwa page built");
 		//update data
-		pagesManager.pages[options.pageName].elements.topMenu.userName.innerText = userObject.pseudo;
+		thisPageElements.topMenu.userName.innerText = userObject.pseudo;
+		//notifs button
+		let notifsButton = thisPageElements.leftPanel.notifsButton;
+		if(Notification.permission !== "granted"){
+			notifsButton.classList.remove('none');
+			notifsButton.addEventListener('click', async evt=>{
+				await Notification.requestPermission()
+				if(Notification.permission == "granted"){
+					notifsButton.classList.add('none');
+					utility.infoMessage("😊")
+				}else{
+					utility.infoMessage("😟")
+				}
+			});
+		}
 		//calls the groups list
 		messagingActions.displayGroupsList();
 		//hc
 		//messagingActions.displayGroup({groupId: "5555-6666-7777-8888-9999", data: {name: "Les anciens du CPNV - hc"}});
+
 	}
 	this.onREGISTERPageLoad = function(options){
 		console.info("register loaded", options);

@@ -78,10 +78,23 @@ function MessagingActions(){
 			globals.unreadNotifsCount++;
 			actions.updatePageTitle();
 		}
-		return
-		//TODO: request notif authorization
+
 		if(!utility.tabHasFocus()){
-			utility.showDesktopNotification({title:"new message..."});
+			if(!_this.groupAdapters[data.groupId]){
+				return console.error(`group ${data.groupId} is unavailible`);
+			}
+			let groupData = _this.groupAdapters[data.groupId].data;
+			let deskNotif = utility.showDesktopNotification({
+				title: `New message in ${groupData.name}`,  //TODO: include sender name when it will be included
+				body: data.text, 
+				image: utility.getFileUrl(groupData.image)
+			}); 
+			if(!deskNotif){
+				return;
+			}
+			deskNotif.addEventListener('click', evt=>{
+				_this.displayGroup(groupData);
+			});
 		}
 	}
 	this.setGroupAsRead = function(groupId){
