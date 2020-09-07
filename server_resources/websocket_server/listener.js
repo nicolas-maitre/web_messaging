@@ -1,22 +1,33 @@
 "use strict";
 const http = require('http');
+const https = require('https');
 const websocket = require('websocket');
+const fs = require('fs');
 const wsmanager = require('./ws/websocketmanager');
+const config = require('../config');
 //const WS_PORT = 8081;
-const WS_PORT = 8080;
+const WS_PORT = config.webSocketPort;
 
 function startServer(){
-	//"http" listener
-	var httpServer = http.createServer(function(req, res){
-		console.log("onhttprequest");
+	//http/https listener
+	if(!config.forceInsecure && fs.existsSync(config.httpsCertPath) && fs.existsSync(config.httpsKeyPath)){
+		console.log("secure websocket server")
+		var httpServer = https.createServer({
+			key: fs.readFileSync(config.httpsKeyPath),
+			cert: fs.readFileSync(config.httpsCertPath),
+		}, onHttpReq);
+	}else{
+		console.log("insecure websocket server")
+		var httpServer = http.createServer(onHttpReq);
+	}
+	function onHttpReq(req, res){
+		console.log("onhttprequest (websocket)");
 		res.writeHead(404);
 		res.end();
-	});
+	}
 
 	//websocket server
-	var wsServer = new websocket.server({
-		httpServer: httpServer
-	});
+	var wsServer = new websocket.server({httpServer});
 
 	//listen
 	httpServer.listen(WS_PORT, function(){

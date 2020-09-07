@@ -6,19 +6,37 @@ author: Nicolas Maitre
 version: 04.04.2019
 */
 const http = require('http');
+const https = require('https');
 const url = require('url');
+const fs = require('fs');
 const filesmanager = require("./fs/filesmanager");
 const api = require("./api/apiEndpoint");
 const config = require("../config");
 //const HTTP_PORT = 81;
 const HTTP_PORT = config.httpPort;
+const HTTPS_PORT = config.httpsPort;
+
+const HTTPS_CERT_PATH = config.httpsCertPath;
+const HTTPS_KEY_PATH = config.httpsKeyPath;
 
 function startServer(){
+	//HTTPS SWITCH
+	if(!config.forceInsecure && fs.existsSync(HTTPS_CERT_PATH) && fs.existsSync(HTTPS_CERT_PATH)){
+		console.log("Secure env availible");
+		var server = https.createServer({
+			key: fs.readFileSync(HTTPS_KEY_PATH),
+			cert: fs.readFileSync(HTTPS_CERT_PATH),
+		},onRequestStart);
+		var portToListenTo = HTTPS_PORT;
+	}else{
+		console.log("Use insecure env");
+		var server = http.createServer(onRequestStart);
+		var portToListenTo = HTTP_PORT;
+	}
 	//create listener
-	var server = http.createServer(onRequestStart);
-	server.listen(HTTP_PORT);
-	console.log(`http server listening on port ${HTTP_PORT}`);
-	console.log(`local server url: http://localhost:${HTTP_PORT}`)
+	server.listen(portToListenTo);
+	console.log(`http server listening on port ${portToListenTo}`);
+	console.log(`local server url: http://localhost:${portToListenTo}`)
 
 	function onRequest(request, result){//request event
 		// console.log("[" + (new Date(Date.now())).toDateString() + "] http request received from: " + request.connection.remoteAddress);
