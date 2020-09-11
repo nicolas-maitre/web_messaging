@@ -5,7 +5,7 @@ function WebSocketManager() {
 	// const WEBSOCKET_URL = "ws://localhost:8080";
 	//const WEBSOCKET_URL = "ws://localhost:8081";
 	const WS_PORT = config.websocketPort;
-	const WEBSOCKET_URL = `ws${isSecureContext?'s':''}://${document.location.hostname}:${WS_PORT}`;
+	const WEBSOCKET_URL = `ws${IS_HTTPS?'s':''}://${document.location.hostname}:${WS_PORT}`;
 	var _this = this;
 	this.connection;
 	var callBacks = {};

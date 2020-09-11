@@ -450,6 +450,28 @@ input, .input{
     margin-left: -5px;
     margin-right: 5px;
 }
+.httpsPopup {
+    position: fixed;
+    top: 50px;
+    right: 10px;
+    background: rgba(255,255,0,0.6);
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 20px;
+    padding-right: 35px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.httpsPopup > button {
+    position: absolute;
+    right: 5px;
+    border-radius: 100%;
+    font-size: 20px;
+    top: 3px;
+    background: rgba(0,0,0,0.2);
+}
 
 /*Message adapter*/
 .messageAdapterLine.selfMessage {

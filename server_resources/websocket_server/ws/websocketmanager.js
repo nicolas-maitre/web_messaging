@@ -105,6 +105,11 @@ function WebSocketManager(listenerRef){
         }
         _this.connectionUsers[connectionId] = userId;
         _this.userConnections[userId] = [connectionId, ...(_this.userConnections[userId] || [])];
-    };
+	};
+	
+	this.closeConnection = function(connectionObject){
+		//TODO: develop this
+		console.warn("websocket close not developped");
+	}
 }
 module.exports = new WebSocketManager;

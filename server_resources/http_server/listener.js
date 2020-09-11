@@ -19,26 +19,30 @@ const HTTPS_PORT = config.httpsPort;
 const HTTPS_CERT_PATH = config.httpsCertPath;
 const HTTPS_KEY_PATH = config.httpsKeyPath;
 
-function startServer(){
+function startServer() {
+	var httpServer = null;
+	var httpsServer = null;
 	//HTTPS SWITCH
-	if(!config.forceInsecure && fs.existsSync(HTTPS_CERT_PATH) && fs.existsSync(HTTPS_CERT_PATH)){
+	if (!config.forceInsecure && HTTPS_PORT
+		&& HTTPS_CERT_PATH && HTTPS_KEY_PATH
+		&& fs.existsSync(HTTPS_CERT_PATH) && fs.existsSync(HTTPS_CERT_PATH)
+	) {
 		console.log("Secure env availible");
-		var server = https.createServer({
+		httpsServer = https.createServer({
 			key: fs.readFileSync(HTTPS_KEY_PATH),
 			cert: fs.readFileSync(HTTPS_CERT_PATH),
-		},onRequestStart);
-		var portToListenTo = HTTPS_PORT;
-	}else{
-		console.log("Use insecure env");
-		var server = http.createServer(onRequestStart);
-		var portToListenTo = HTTP_PORT;
+		}, onRequestStart);
+		httpsServer.listen(HTTPS_PORT);
+		console.log(`https server listening on port ${HTTPS_PORT}`);
+	} else {
+		console.log("secure env not availible");
 	}
-	//create listener
-	server.listen(portToListenTo);
-	console.log(`http server listening on port ${portToListenTo}`);
-	console.log(`local server url: http://localhost:${portToListenTo}`)
+	var httpServer = http.createServer(onRequestStart);
+	httpServer.listen(HTTP_PORT);
+	console.log(`http server listening on port ${HTTP_PORT}`);
+	console.log(`local server url: http://localhost:${HTTP_PORT}`)
 
-	function onRequest(request, result){//request event
+	function onRequest(request, result) {//request event
 		// console.log("[" + (new Date(Date.now())).toDateString() + "] http request received from: " + request.connection.remoteAddress);
 		//parse url to get the request endpoint
 		var parsedUrl = url.parse(request.url);
@@ -46,36 +50,36 @@ function startServer(){
 		pathArray.shift();
 		parsedUrl.pathArray = pathArray;
 		var endpoint = pathArray[0];
-		switch(endpoint){
+		switch (endpoint) {
 			case 'api': //api
-				api.onRequest(request, parsedUrl, function(error, data){
+				api.onRequest(request, parsedUrl, function (error, data) {
 					returnRequest(result, error, data);
 				});
-			break;
+				break;
 			case 'files': //files api
 				// console.log("files api call");
-				filesmanager.onFilesApiRequest(parsedUrl, function(error, data){
+				filesmanager.onFilesApiRequest(parsedUrl, function (error, data) {
 					returnRequest(result, error, data);
 				});
-			break;
+				break;
 			default: //file manager path
-				filesmanager.onWebRequest(parsedUrl, function(error, data){
+				filesmanager.onWebRequest(parsedUrl, function (error, data) {
 					returnRequest(result, error, data);
 				});
-			break;
+				break;
 		}
 	}
-	
-	function onRequestStart(req, res){
+
+	function onRequestStart(req, res) {
 		//method based on this article https://itnext.io/how-to-handle-the-post-request-body-in-node-js-without-using-a-framework-cd2038b93190
 		//fixed with this: https://stackoverflow.com/a/45160600
-		if (req.method === 'POST'){
+		if (req.method === 'POST') {
 			req.body = false;
 			var bodyArrayBuffer = [];
-			req.on('data', function(chunk){
+			req.on('data', function (chunk) {
 				bodyArrayBuffer.push(chunk); //push buffer to arrayBuffer
 			});
-			req.on('end', function(evt){
+			req.on('end', function (evt) {
 				req.body = Buffer.concat(bodyArrayBuffer);
 				onRequest(req, res);
 			});
@@ -86,32 +90,34 @@ function startServer(){
 	}
 
 	//returns response to client
-	function returnRequest(res, error, params){
+	function returnRequest(res, error, params) {
 		/*
 		data:{
 			mimeType: string
 			data: any
 		}
 		*/
-		if(error){
+		if (error) {
 			console.log("ERROR", error);
-			res.statusCode = (error.errorCode||500);
+			res.statusCode = (error.errorCode || 500);
 			//displays error message
 			var endstring = "<h1>Erreur " + res.statusCode + "</h1><br/>";
-			if(error.clientMsg){
+			if (error.clientMsg) {
 				endstring += error.clientMsg;
-			}else{
+			} else {
 				endstring += "internal server error";
 			}
 			res.end(endstring);
 			return;
 		}
-		if(params.mimeType){
+		if (params.mimeType) {
 			res.setHeader("Content-Type", params.mimeType);
 		}
 		res.statusCode = 200;
 		res.end(params.data); //returns
 	}
+
+	return {httpServer, httpsServer}
 }
 
-module.exports = {startServer:startServer};
+module.exports = { startServer: startServer };

@@ -13,11 +13,8 @@ function Builder() {
 		var mainSection = params.container.addElement("div", "MWAMainSection");
 		var leftPanel = buildMWAleftPanel(mainSection);
 		var rightPanel = buildMWARightPanel(mainSection);
-		return {
-			topMenu: topMenu,
-			leftPanel: leftPanel,
-			rightPanel: rightPanel
-		}
+		var extra = buildMWAExtra(params.container);
+		return {topMenu, leftPanel, rightPanel, extra};
 	};
 	function buildMWATopMenu(container) {
 		var element = container.addElement('div', 'MWATopMenu');
@@ -150,6 +147,13 @@ function Builder() {
 			fileName: fileName
 		}
 	};
+	function buildMWAExtra(container){
+		var httpsPopup = container.addElement('div', {class: 'httpsPopup none', _textContent: 'You are using the insecure version of the messaging app. Click here to switch to the https version.'});
+		var closeBtn = httpsPopup.addElement('button', {_textContent:'x'});
+		closeBtn.addEventListener('click', evt=>httpsPopup.classList.add('none'));
+		httpsPopup.addEventListener('click', evt=> location = location.href.replace('http://', 'https://'));
+		return {httpsPopup}
+	}
 
 	/*Login Page*/
 	this.buildLOGINPage = function (params) {

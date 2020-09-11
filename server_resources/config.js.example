@@ -6,8 +6,7 @@ module.exports = {
     storageDirectory: "/var/web_messaging/files",
     httpPort: 80,
     httpsPort: 443,
-    webSocketPort: 8080,
     httpsCertPath: "/etc/letsencrypt/live/web_messaging.com/fullchain.pem",
     httpsKeyPath: "/etc/letsencrypt/live/web_messaging.com/privkey.pem",
-    // wsPort:8080
+    //forceInsecure: false
 }
