@@ -22,7 +22,7 @@ function WebSocketManager() {
 
 	this.connection.onclose = function (evt) {
 		console.log("websocket connection lost");
-		infoBox("La connection au serveur a été interrompue. Essayez de recharger la page.", 30000);
+		infoBox("La connection au serveur a été interrompue. Essayez de recharger la page.", Infinity);
 	};
 
 	this.connection.onmessage = function (evt) {

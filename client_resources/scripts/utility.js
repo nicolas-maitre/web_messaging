@@ -161,6 +161,9 @@ utility.infoMessage = function(message, time = 5000){
 	infoBox.innerText = message;
 	requestAnimationFrame(function(){
 		infoBox.style.opacity = 1;
+		if(time == Infinity){
+			return
+		}
 		setTimeout(function(){
 			infoBox.style.opacity = 0;
 			setTimeout(function(){
