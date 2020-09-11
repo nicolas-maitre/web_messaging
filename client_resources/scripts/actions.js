@@ -11,6 +11,10 @@ function Actions(){
 		console.log("mwa page built");
 		//update data
 		thisPageElements.topMenu.userName.innerText = userObject.pseudo;
+		//https
+		if(!IS_HTTPS){ 
+			thisPageElements.extra.httpsPopup.classList.remove('none');
+		}
 		//notifs button
 		let notifsButton = thisPageElements.leftPanel.notifsButton;
 		if(Notification.permission !== "granted"){

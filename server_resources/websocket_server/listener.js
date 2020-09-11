@@ -1,55 +1,55 @@
 "use strict";
 const http = require('http');
+const https = require('https');
 const websocket = require('websocket');
+const fs = require('fs');
 const wsmanager = require('./ws/websocketmanager');
+const config = require('../config');
 //const WS_PORT = 8081;
-const WS_PORT = 8080;
+// const WS_PORT = config.webSocketPort;
 
-function startServer(){
-	//"http" listener
-	var httpServer = http.createServer(function(req, res){
-		console.log("onhttprequest");
-		res.writeHead(404);
-		res.end();
-	});
+function startServer({httpServer = null, httpsServer = null}) {
+	var wsServer = null;
+	var wssServer = null;
 
-	//websocket server
-	var wsServer = new websocket.server({
-		httpServer: httpServer
-	});
-
-	//listen
-	httpServer.listen(WS_PORT, function(){
-		console.log(`websocket server listening on port ${WS_PORT}`);
-	});
-
-	//event
-	wsServer.on('request', function(req){
+	//ws server
+	wsServer = new websocket.server({ httpServer });
+	wsServer.on('request', onRequest);
+	wsServer.on('upgrade', onUpgrade);
+	if(httpsServer){
+		//wss server
+		wssServer = new websocket.server({httpServer: httpsServer});
+		wssServer.on('request', onRequest);
+		wssServer.on('upgrade', onUpgrade);
+	}
+	
+	function onRequest(req){
 		var connection = req.accept(null, req.origin);
 		wsmanager.initiateConnection(connection);
 		//messages
-		connection.on('message', function(msg){
-			if(msg.type != 'utf8'){
+		connection.on('message', function (msg) {
+			if (msg.type != 'utf8') {
 				return;
 			}
 			//process message
 			wsmanager.onMessage(msg.utf8Data);
 		});
-		
-		//close
-		connection.on('close', function(connection){
-			
-		});
-	});
 
-	wsServer.on('upgrade', function(req, res){
+		//close
+		connection.on('close', function (connection) {
+			wsmanager.closeConnection(connection);
+		});
+	}
+	function onUpgrade(req, res){
 		if (req.headers['upgrade'] !== 'websocket') {
 			console.log("bad request");
 			socket.end('HTTP/1.1 400 Bad Request');
 			return;
 		}
 		console.log("onupgrade");
-	});
+	}
+
+	return {wsServer, wssServer};
 }
 
-module.exports = {startServer:startServer};
+module.exports = { startServer };

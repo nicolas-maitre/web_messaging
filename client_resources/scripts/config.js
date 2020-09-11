@@ -1,4 +1,4 @@
 var config = {
-    websocketPort: 8080,
+    websocketPort: location.port,
     notificationSound: '/audio/ah.ogg'
 }

@@ -5,6 +5,7 @@ description: first js file that is called when the html page is loaded, defines 
 author: Nicolas Maitre
 version: 03.04.2019
 */
+const IS_HTTPS = window.isSecureContext && window.location.protocol == 'https:'
 
 var userObject = {id: "", token: "", pseudo:""};
 var elements = {};
