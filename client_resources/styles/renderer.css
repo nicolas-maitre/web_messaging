@@ -272,7 +272,7 @@ input, .input{
     position: absolute;
     bottom: 0;
     right: var(--write-section-right-margin);
-    height: var(--write-section-height);
+    /* height: var(--write-section-height); */
     width: calc(100% - var(--write-section-right-margin));
 }
 .MWAMessagesSection {
@@ -287,6 +287,7 @@ input, .input{
 }
 .writeExtended .MWAWriteSectionFileContainer{
     height: 50px;
+    opacity: 1;
 }
 
 
@@ -329,10 +330,15 @@ input, .input{
 }
 .MWAWriteSectionFileContainer {
     height: 0;
+    opacity: 0;
     overflow: hidden;
     position: relative;
-    display: block;
-    transition: height 0.5s;
+    display: inline-block;
+    transition: height 500ms, opacity 500ms;
+    border-radius: 10px 10px 0 0;
+    background-color: #ccc9;
+    margin-left: 25px;
+    padding-top: 4px;
 }
 .MWAWriteSectionFileImage {
     height: 40px;

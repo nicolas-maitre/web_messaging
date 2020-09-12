@@ -89,7 +89,7 @@ function Builder() {
 		var fileContainer = writeSection.addElement("div", "MWAWriteSectionFileContainer");
 		var fileImage = fileContainer.addElement("div", "MWAWriteSectionFileImage");
 		var fileName = fileContainer.addElement("div", "MWAWriteSectionFileName");
-		var fileCloseButton = fileContainer.addElement("button", "MWAWriteSectionFileCloseButton button");
+		var fileCloseButton = fileContainer.addElement("button", {class:"MWAWriteSectionFileCloseButton button", type:'button'});
 		var input = writeSection.addElement("input", {class: "MWAWriteSectionTextInput", type: 'text', placeholder: "Type a message..."});
 		var fileBtn = writeSection.addElement("button", {class:"MWAWriteSectionFileButton", type: 'button', _textContent: "+"});
 		var emojiBtn = writeSection.addElement('button', {class: "writeSectionEmojiBtn", type: 'button', _textContent: "😋"})
@@ -113,6 +113,7 @@ function Builder() {
 			pagesManager.pages.mwa.elements.leftPanel.domElement.classList.add("leftMenuDisplayed");
 		});
 		fileCloseButton.addEventListener("click", function (evt) {
+			console.log("close file container")
 			element.classList.remove("writeExtended");
 			if (messagingActions.groups[messagingActions.currentGroup]) {
 				messagingActions.groups[messagingActions.currentGroup].saveData.file = false;
