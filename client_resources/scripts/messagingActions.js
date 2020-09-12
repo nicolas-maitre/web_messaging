@@ -198,6 +198,8 @@ function MessagingActions(){
 		_this.groups[data.id].msgContainer.classList.remove("none"); //shows discussion
 		//set current group
 		_this.currentGroup = data.id;
+		//focus
+		mwaElements.rightPanel.input.focus();
 	};
 	
 	function getMessagesForGroup(options, callBack){
@@ -243,4 +245,17 @@ function MessagingActions(){
 		var element = _this.groups[_this.currentGroup].msgContainer;
 		element.scrollTop = element.scrollHeight;
 	}
+
+	this.fastGroupSearch = function(query=""){
+		console.info(_this.groupAdapters);
+		for(let groupId in _this.groupAdapters){
+			let groupAdapter = _this.groupAdapters[groupId];
+			if(groupAdapter.data.name.includes(query)){
+				groupAdapter.box.classList.remove('none');
+			}else{
+				groupAdapter.box.classList.add('none');
+			}
+		}
+	};
+
 }

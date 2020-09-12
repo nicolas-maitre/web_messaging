@@ -12,7 +12,7 @@ function Actions(){
 		//update data
 		thisPageElements.topMenu.userName.innerText = userObject.pseudo;
 		//https
-		if(!IS_HTTPS){ 
+		if(!IS_HTTPS){
 			thisPageElements.extra.httpsPopup.classList.remove('none');
 		}
 		//notifs button
@@ -31,9 +31,6 @@ function Actions(){
 		}
 		//calls the groups list
 		messagingActions.displayGroupsList();
-		//hc
-		//messagingActions.displayGroup({groupId: "5555-6666-7777-8888-9999", data: {name: "Les anciens du CPNV - hc"}});
-
 	}
 	this.onREGISTERPageLoad = function(options){
 		console.info("register loaded", options);
