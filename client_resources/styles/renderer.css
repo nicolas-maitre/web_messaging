@@ -105,11 +105,10 @@ input, .input{
 .MWATopMenu {
     --top-menu-height: 40px;
     width: 100%;
-    border-bottom: 2px solid #666;
     background-color: black;
     color: white;
 	height: var(--top-menu-height);
-	line-height: 38px;
+	line-height: 40px;
 }
 .MWATopMenuLeftSection, .MWATopMenuRightSection{
 	width: 50%;
@@ -195,6 +194,7 @@ input, .input{
     overflow: hidden;
     text-align: center;
     width: 100%;
+    background-color: #222;
 }
 .MWAPageContainer > div {
     text-align: left;
@@ -204,47 +204,58 @@ input, .input{
     height: calc(100vh - 40px);
     max-width: 1400px;
     display: inline-block;
-    border: 1px solid #666;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 .MWALeftPanel, .MWARightPanel {
     height: 100%;
     display: inline-block;
     vertical-align: top;
+    position: relative;
 }
 .MWALeftPanel {
     width: 350px;
-    border-right: 2px solid #666;
-    background-color: #efefef;
-}
+    background-color: #282828;
+    color: white;
+    --search-bar-height: 25px;
+    --search-bar-spacing: 7px;
+} 
 .MWARightPanel {
     width: calc(100% - 350px);
+    /* --group-menu-height: 50px */
+    --group-menu-height: 0px;
+    --write-section-height: 50px;
+    background-image: url(/images/default_background.jpg);
+    background-size: cover;
 }
 .MWALeftPanelTopBar {
-    height: 51px;
-    border-bottom: 1px solid #aaa;
-    background-color: #dedede;
-    padding: 10px;
+    height: calc(var(--search-bar-height) + 2 * var(--search-bar-spacing));
+    /* border-bottom: 1px solid #aaa; */
+    background-color: #4a4a4a;
+    padding: var(--search-bar-spacing);
+    margin: 0;
 }
-.MWALeftPanelSerachInput, .MWALeftPanelSearchButton{
-    height: 30px;
+.MWALeftPanelSearchInput, .MWALeftPanelSearchButton{
+    height: var(--search-bar-height);
     display: inline-block;
     vertical-align: top;
+    border: none;
+    border-radius: calc(var(--search-bar-height) / 2);
+    background-color: white;
 }
 .MWALeftPanelSearchInput {
-    width: calc(100% - 35px);
-    margin: 0;
-    margin-right: 5px;
-	vertical-align: middle;
+    width: calc(100% - var(--search-bar-height) - var(--search-bar-spacing));
+    margin-right: var(--search-bar-spacing);
+    vertical-align: middle;
 }
 
 .MWALeftPanelSearchButton {
-    width: 30px;
-    border-radius: 5px;
+    width: var(--search-bar-height);
     padding: 0;
     background-image: url(../images/search.png);
+    /*TODO: replace with actual designed image*/
     background-position: center;
-    background-size: contain;
-    background-color: transparent;
+    background-size: 20px;
+    background-repeat: no-repeat;
     border: 0; 
 	vertical-align: middle;
 	display: inline-block;
@@ -253,25 +264,35 @@ input, .input{
     border: 1px;
 }
 .MWAWriteSection {
-    padding: 3px;
-    border-top: 2px solid #ccc;
-    background-color: #dedede;
+    --write-section-right-margin: 20px;
+    --write-section-input-sizes: 30px;
+    --write-section-vertical-padding: calc((var(--write-section-height) - var(--write-section-input-sizes)) / 2);
+    padding: var(--write-section-vertical-padding) 3px;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    right: var(--write-section-right-margin);
+    height: var(--write-section-height);
+    width: calc(100% - var(--write-section-right-margin));
 }
 .MWAMessagesSection {
     position: relative;
     overflow: hidden;
-    height: calc(100% - (30px + 10px) - 51px);
+    /* height: calc(100% - var(--write-section-height) - var(--group-menu-height)); */
+    height: calc(100% - var(--group-menu-height));
     transition: height 0.5s;
 }
 .writeExtended .MWAMessagesSection{
-    height: calc(100% - (30px + 10px) - 51px - 50px);
+    /* height: calc(100% - var(--write-section-height) - var(--group-menu-height) - 50px); */
 }
 .writeExtended .MWAWriteSectionFileContainer{
     height: 50px;
 }
 
+
 .MWANameSection {
-    height: 51px;
+    height: var(--group-menu-height);
+    display: none; /*TODO: verif if wanted*/
     background-color: #efefef;
     border-bottom: 1px solid #666;
 }
@@ -301,9 +322,8 @@ input, .input{
     height: 50px;
     width: 50px;
     border-radius: 50%;
-    border: 1px solid #ccc;
-    /*background-color: #ff2525;*/
-	background-color: #f3f;
+    border: none;
+    background-color: #f3f;
     font-size: 35px;
     line-height: 50px;
 }
@@ -340,10 +360,28 @@ input, .input{
     font-size: 20px;
 }
 .MWAWriteSectionTextInput {
-    width: 100%;
-    line-height: 30px;
+    width: calc(100% - 2 * (var(--write-section-input-sizes) + 20px));
+    margin-left: 10px;
+}
+.MWAWriteSectionTextInput,
+.MWAWriteSection > button{
+    display: inline-block;
     vertical-align: middle;
-    height: 30px;
+    position: relative;
+    line-height: var(--write-section-input-sizes);
+    border: none;
+    border-radius: calc(var(--write-section-input-sizes) / 2);
+}
+.MWAWriteSection > button {
+    padding: 0;
+    width: var(--write-section-input-sizes);
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #444;
+}
+.MWAWriteSectionFileButton::before{
+
 }
 .MWAWriteSectionFileCloseButton {
     display: inline-block;
@@ -352,23 +390,6 @@ input, .input{
     font-size: 20px;
     border-radius: 10px;
     background-position: center;
-}
-.MWAWriteSectionForm {
-    width: calc(100% - 100px);
-    margin-left: 10px;
-    display: inline-block;
-}
-.MWAWriteSectionSendButton,
-.MWAWriteSectionFileButton {
-    display: inline-block;
-    vertical-align: middle;
-    height: 30px;
-    width: 30px;
-    margin-left: 10px;
-    border-radius: 50%;
-    border: 2px solid #666;
-    font-size: 15px;
-    font-weight: bold;
 }
 .MWANameLeftSection {
     width: calc(100% - 50px);
@@ -419,17 +440,22 @@ input, .input{
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-	padding-top: 10px;
+    padding-top: 10px;
+}
+.groupMessageSection .messageAdapterLine:last-child{
+    margin-bottom: var(--write-section-height);
+
 }
 
 .MWAMessagesSectionNoSelectedInfo {
     position: absolute;
     left: 0;
     font-size: 25px;
-    color: #888;
+    color: #ddd;
     width: 100%;
     text-align: center;
     top: calc(50% - 50px);
+    text-shadow: 3px 3px 5px rgba(0,0,0,0.5);
 }
 
 .MWAMenuButton {
@@ -481,22 +507,42 @@ input, .input{
     display: inline-block;
     margin-left: 20px;
     margin-right: 20px;
-    padding: 5px 10px 5px 10px;
-    border: 1px solid #ccc;
+    padding: 5px 15px;
     margin-top: 5px;
     margin-bottom: 5px;
-    min-width: 170px;
+    min-width: 200px;
 	max-width: calc(100% - 50px);
-    border-radius: 5px;
+    border-radius: 20px;
+    position: relative;
 }
 .messageAdapterBox.foreignMessage {
-    background-color: lightgreen;
+    background-color: #00bbde;
 }
 .messageAdapterBox.selfMessage {
-    background-color: lightblue;
+    background-color: #0eca01;
+}
+.messageAdapterBox::after{
+    content: "";
+    display: inline-block;
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    bottom: 0;
+    width: 25px;
+    height: 16px;
+}
+.messageAdapterBox.foreignMessage::after {
+    background-image: url(/images/left_horn.png);
+    left: -15px;
+}
+.messageAdapterBox.selfMessage::after{
+    background-image: url(/images/right_horn.png);
+    right: -15px;
 }
 .messageAdapterName {
-    color: #666;
+    color: #eee;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 .messageAdapterImageContainer {
     text-align: center;
@@ -522,6 +568,8 @@ input, .input{
     display: inline-block;
     max-width: 500px;
     word-break: break-word;
+    color: white;
+    text-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 .messageAdapterTime {
     color: #444;
@@ -541,19 +589,18 @@ input, .input{
 }
 .dateSeparatorBox {
     display: inline-block;
-    padding: 5px;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-    background-color: #f6f6f6;
+    padding: 3px 10px;
+    border-radius: 10px;
+    background-color: #f6f6f699;
+    line-height: 20px;
 }
 /*Group Adapter*/
 .groupAdapterContainer {
-    border-bottom: 1px solid #aaa;
+    border-bottom: 2px solid #4a4a4a;
     cursor: pointer;
-    height: 60px;
+    line-height: 60px;
     transition-property: background-color;
     transition-duration: 0.3s;
-	border-top: 1px solid white;
 	position: relative;
 	-webkit-user-select: none;
 }

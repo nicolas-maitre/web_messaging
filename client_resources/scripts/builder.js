@@ -44,18 +44,19 @@ function Builder() {
 	};
 	function buildMWAleftPanel(container) {
 		var element = container.addElement('div', 'MWALeftPanel');
-		var topBar = element.addElement('div', 'MWALeftPanelTopBar');
+		var topBar = element.addElement('form', 'MWALeftPanelTopBar');
 		var bottom = element.addElement('div', 'MWALeftPanelBottomSection');
 		var menuButton = topBar.addElement("button", "MWAMenuButton");
-		var searchInput = topBar.addElement('input', 'MWALeftPanelSearchInput');
+		var searchInput = topBar.addElement('input', {class:'MWALeftPanelSearchInput', placeholder: 'Search...'});
 		var searchButton = topBar.addElement('button', 'MWALeftPanelSearchButton');
 		var notifsButton = bottom.addElement('button', {class:"notifsPermissionBtn none", _textContent:"Click here to activate desktop notifications"});
 		var groupsListContainer = bottom.addElement('div', 'MWALeftPanelGroupsListContainer');
-		var addButton = bottom.addElement('button', "MWALeftPanelAddButton");
-		//properties
-		addButton.innerText = "+";
-		searchInput.setAttribute("placeholder", "Recherche");
+		var addButton = bottom.addElement('button', {class:"MWALeftPanelAddButton", _textContent: '+'});
 		//events
+		searchInput.addEventListener('input', evt=>messagingActions.fastGroupSearch(searchInput.value));
+		searchInput.addEventListener('change', evt=>messagingActions.fastGroupSearch(searchInput.value));
+
+		topBar.addEventListener('submit', evt=>evt.preventDefault());
 		menuButton.addEventListener("click", function (evt) {
 			element.classList.remove("leftMenuDisplayed");
 		});
@@ -77,7 +78,7 @@ function Builder() {
 		var element = container.addElement("div", "MWARightPanel");
 		var nameSection = element.addElement("div", "MWANameSection");
 		var msgSection = element.addElement("div", "MWAMessagesSection");
-		var writeSection = element.addElement("div", "MWAWriteSection none");
+		var writeSection = element.addElement("form", "MWAWriteSection none");
 		var nameLeftSection = nameSection.addElement("div", "MWANameLeftSection");
 		var nameRightSection = nameSection.addElement("div", "MWANameRightSection none");
 		var menuButton = nameLeftSection.addElement("button", "MWAMenuButton");
@@ -89,20 +90,16 @@ function Builder() {
 		var fileImage = fileContainer.addElement("div", "MWAWriteSectionFileImage");
 		var fileName = fileContainer.addElement("div", "MWAWriteSectionFileName");
 		var fileCloseButton = fileContainer.addElement("button", "MWAWriteSectionFileCloseButton button");
-		var writeForm = writeSection.addElement("form", "MWAWriteSectionForm");
-		var input = writeForm.addElement("input", "MWAWriteSectionTextInput");
-		var fileBtn = writeSection.addElement("button", "MWAWriteSectionFileButton");
-		var sendBtn = writeSection.addElement("button", "MWAWriteSectionSendButton");
+		var input = writeSection.addElement("input", {class: "MWAWriteSectionTextInput", type: 'text', placeholder: "Type a message..."});
+		var fileBtn = writeSection.addElement("button", {class:"MWAWriteSectionFileButton", type: 'button', _textContent: "+"});
+		var emojiBtn = writeSection.addElement('button', {class: "writeSectionEmojiBtn", type: 'button', _textContent: "😋"})
+		var sendBtn = writeSection.addElement("button", {class:"MWAWriteSectionSendButton none", type: 'submit', _textContent: ">"});
 		var noSelectedInfo = msgSection.addElement('div', "MWAMessagesSectionNoSelectedInfo");
 		//properties
 		//var writeHeight = 30;
 		//msgSection.style["height"] = "calc(100% - " + (writeHeight + 10) + "px - 51px)";
 		//input.style["height"] = "30px";
-		input.setAttribute("placeholder", "Ecrivez votre message");
-		input.setAttribute("type", "text");
 		nameInfoButton.innerText = "i";
-		sendBtn.innerText = ">";
-		fileBtn.innerText = "+";
 		fileCloseButton.innerText = "x";
 		noSelectedInfo.innerHTML = "Aucune discussion selectionnée<br/>Sélectionnez en une dans la liste.";
 		//event
@@ -111,9 +108,7 @@ function Builder() {
 			evt.preventDefault();
 			messagingActions.sendInstantMessage(input);
 		});
-		sendBtn.addEventListener("click", function (evt) {
-			messagingActions.sendInstantMessage(input);
-		});
+
 		menuButton.addEventListener("click", function (evt) {
 			pagesManager.pages.mwa.elements.leftPanel.domElement.classList.add("leftMenuDisplayed");
 		});
@@ -150,7 +145,10 @@ function Builder() {
 	function buildMWAExtra(container){
 		var httpsPopup = container.addElement('div', {class: 'httpsPopup none', _textContent: 'You are using the insecure version of the messaging app. Click here to switch to the https version.'});
 		var closeBtn = httpsPopup.addElement('button', {_textContent:'x'});
-		closeBtn.addEventListener('click', evt=>httpsPopup.classList.add('none'));
+		closeBtn.addEventListener('click', evt=>{
+			evt.stopPropagation();
+			httpsPopup.classList.add('none')
+		});
 		httpsPopup.addEventListener('click', evt=> location = location.href.replace('http://', 'https://'));
 		return {httpsPopup}
 	}
