@@ -305,6 +305,10 @@ input, .input{
     font-size: 20px;
     text-align: left;
     position: relative;
+    background: #f0f9;
+    border: none;
+    color: white;
+    text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
 }
 .MWALeftPanelBottomSection .notifsPermissionBtn::before {
     content: "🔔";
@@ -554,6 +558,7 @@ input, .input{
     text-align: center;
     width: 100%;
     display: block;
+    overflow: hidden;
 }
 .messageAdapterImage {
     height: 250px;
@@ -611,7 +616,7 @@ input, .input{
 	-webkit-user-select: none;
 }
 .groupAdapterContainer:hover {
-    background-color: #e6c2e6;
+    background-color: #b726b763;
 }
 .groupAdapterImage {
     height: 50px;

@@ -9,11 +9,11 @@ INSERT INTO users		SET id='3333-3333-3333-3333-3333', pseudo='euloueu', email='c
 -- INSERT INTO friends		SET user_0="0000-0000-0000-0000-0000", user_1="1111-1111-1111-1111-1111", creation_time=CURRENT_TIMESTAMP(), active=1;
 
 -- private
-INSERT INTO groups 		SET id="0000-1111-2222-3333-4444", creation_time=CURRENT_TIMESTAMP(), name="Nicolas Maitre, Nicolas Glassey", type="private", active=1;
+INSERT INTO `groups` 		SET id="0000-1111-2222-3333-4444", creation_time=CURRENT_TIMESTAMP(), name="Nicolas Maitre, Nicolas Glassey", type="private", active=1;
 INSERT INTO user_groups SET user="0000-0000-0000-0000-0000",`group`="0000-1111-2222-3333-4444", creation_time=CURRENT_TIMESTAMP(), active=1;
 INSERT INTO user_groups SET user="1111-1111-1111-1111-1111",`group`="0000-1111-2222-3333-4444", creation_time=CURRENT_TIMESTAMP(), active=1;
 -- group
-INSERT INTO groups 		SET id="5555-6666-7777-8888-9999", creation_time=CURRENT_TIMESTAMP(), name="Le groupe CPNV", type="group", active=1;
+INSERT INTO `groups` 		SET id="5555-6666-7777-8888-9999", creation_time=CURRENT_TIMESTAMP(), name="Le groupe CPNV", type="group", active=1;
 INSERT INTO user_groups SET user="0000-0000-0000-0000-0000",`group`="5555-6666-7777-8888-9999", creation_time=CURRENT_TIMESTAMP(), active=1;
 INSERT INTO user_groups SET user="1111-1111-1111-1111-1111",`group`="5555-6666-7777-8888-9999", creation_time=CURRENT_TIMESTAMP(), active=1;
 INSERT INTO user_groups SET user="2222-2222-2222-2222-2222",`group`="5555-6666-7777-8888-9999", creation_time=CURRENT_TIMESTAMP(), active=1;
