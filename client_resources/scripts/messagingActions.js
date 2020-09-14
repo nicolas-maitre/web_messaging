@@ -190,8 +190,10 @@ function MessagingActions(){
 		//display - hide or show informations
 		mwaElements.rightPanel.noSelectInfo.classList.add('none'); //hides info message
 		mwaElements.rightPanel.writeSection.classList.remove('none'); //display message write section
-		mwaElements.rightPanel.nameRightSection.classList.remove('none'); //display right section
-		mwaElements.rightPanel.nameImage.classList.remove('none'); //display group image
+		// mwaElements.rightPanel.nameRightSection.classList.remove('none'); //display right section
+		// mwaElements.rightPanel.nameImage.classList.remove('none'); //display group image
+		mwaElements.rightPanel.nameImage.classList.remove('disabled'); //enable group image
+		mwaElements.rightPanel.nameInfoButton.disabled = false; //enable info btn
 
 		mwaElements.leftPanel.domElement.classList.remove("leftMenuDisplayed");
 
@@ -247,10 +249,12 @@ function MessagingActions(){
 	}
 
 	this.fastGroupSearch = function(query=""){
-		console.info(_this.groupAdapters);
+        console.info(_this.groupAdapters);
+        let searchQuery = query.trim().toLowerCase();
 		for(let groupId in _this.groupAdapters){
-			let groupAdapter = _this.groupAdapters[groupId];
-			if(groupAdapter.data.name.includes(query)){
+            let groupAdapter = _this.groupAdapters[groupId];
+            let searchData = groupAdapter.data.name.trim().toLowerCase();
+			if(searchData.includes(searchQuery)){
 				groupAdapter.box.classList.remove('none');
 			}else{
 				groupAdapter.box.classList.add('none');

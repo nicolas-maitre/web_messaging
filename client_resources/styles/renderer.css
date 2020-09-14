@@ -17,8 +17,14 @@ button, .button{
     transition-timing-function: linear;
     -webkit-user-select: none;
 }
+button:hover:not(.noZoomEffect), .button:hover:not(.noZoomEffect){
+    transform: scale(1.1);
+}
 button:active, .button:active{
-	transform:scale(0.85);
+	transform:scale(0.9);
+}
+button:disabled, .button.disabled{
+    transform: scale(1);
 }
 input, .input{
 	padding-left: 10px;
@@ -154,7 +160,7 @@ input, .input{
     min-width: 200px;
     padding: 5px 10px 5px 10px;
     border-radius: 0 0 5px 5px;
-    z-index: 1;
+    z-index: 10;
     opacity: 0;
     visibility: hidden;
     top: 0;
@@ -221,11 +227,12 @@ input, .input{
 } 
 .MWARightPanel {
     width: calc(100% - 350px);
-    /* --group-menu-height: 50px */
-    --group-menu-height: 0px;
+    --group-menu-height: 50px;
+    /* --group-menu-height: 0px; */
     --write-section-height: 50px;
     background-image: url(/images/default_background.jpg);
     background-size: cover;
+    background-position: center;
 }
 .MWALeftPanelTopBar {
     height: calc(var(--search-bar-height) + 2 * var(--search-bar-spacing));
@@ -279,23 +286,28 @@ input, .input{
     position: relative;
     overflow: hidden;
     /* height: calc(100% - var(--write-section-height) - var(--group-menu-height)); */
-    height: calc(100% - var(--group-menu-height));
+    /* height: calc(100% - var(--group-menu-height)); */
+    height: 100%;
     transition: height 0.5s;
 }
-.writeExtended .MWAMessagesSection{
-    /* height: calc(100% - var(--write-section-height) - var(--group-menu-height) - 50px); */
-}
+/* .writeExtended .MWAMessagesSection{
+    /* height: calc(100% - var(--write-section-height) - var(--group-menu-height) - 50px); * /
+} */
 .writeExtended .MWAWriteSectionFileContainer{
     height: 50px;
     opacity: 1;
 }
 
-
 .MWANameSection {
     height: var(--group-menu-height);
-    display: none; /*TODO: verif if wanted*/
-    background-color: #efefef;
-    border-bottom: 1px solid #666;
+    background-color: #333e;
+    /* border-bottom: 1px solid #666; */
+    color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1;
 }
 .MWALeftPanelBottomSection {
     position: relative;
@@ -415,11 +427,15 @@ input, .input{
 .MWANameSectionInfoButton {
     height: 30px;
     width: 30px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 50%;
     font-size: 17px;
     font-weight: bold;
-    color: #666;
+    color: black;
+    background: white;
+}
+.MWANameSectionInfoButton:disabled{
+    color: #aaa;
 }
 .MWANameSectionImage {
     display: inline-block;
@@ -433,6 +449,10 @@ input, .input{
     vertical-align: middle;
     margin: 5px;
     cursor: pointer;
+}
+.MWANameSectionImage.disabled{
+    opacity: 0.5;
+    pointer-events: none;
 }
 .MWANameSectionName {
     display: inline-block;
@@ -450,7 +470,7 @@ input, .input{
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding-top: 10px;
+    padding-top: calc(10px + var(--group-menu-height));
 }
 .groupMessageSection .messageAdapterLine:last-child{
     margin-bottom: var(--write-section-height);
@@ -488,6 +508,7 @@ input, .input{
 }
 .httpsPopup {
     position: fixed;
+    z-index: 1;
     top: 50px;
     right: 10px;
     background: rgba(255,255,0,0.6);
@@ -1008,14 +1029,5 @@ input, .input{
     }
     .MWARightPanel {
         width: 100%;
-    }
-    .MWALeftPanelSearchInput {
-        width: calc(100% - 40px);
-    }
-    .MWALeftPanelSearchButton{
-        display: none;
-    }
-    .MWANameSectionName {
-        max-width: calc(100% - 50px - 45px);
     }
 }
