@@ -662,6 +662,7 @@ input, .input{
 }
 
 .groupAdapterNotifPin {
+    line-height: 24px;
     height: 30px;
     width: 30px;
     position: absolute;
@@ -671,7 +672,6 @@ input, .input{
     top: 14px;
     color: white;
     text-align: center;
-    vertical-align: 20px;
     font-size: 18px;
     padding-top: 3px;
     font-weight: bold;

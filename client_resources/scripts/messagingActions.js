@@ -86,7 +86,7 @@ function MessagingActions(){
 			let groupData = _this.groupAdapters[data.groupId].data;
 			let deskNotif = utility.showDesktopNotification({
 				title: `New message in ${groupData.name}`,  //TODO: include sender name when it will be included
-				body: data.text, 
+				body: (data.file?'📷 ':'') + data.text, 
 				image: utility.getFileUrl(groupData.image)
 			}); 
 			if(!deskNotif){
