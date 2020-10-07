@@ -25,8 +25,8 @@ function Builder() {
 		var userName = user.addElement('div', 'MWATopMenuUserName');
 		var userImage = user.addElement('div', 'MWATopMenuUserImage');
 		var userMenu = user.addElement('div', {class: 'userMenu'});
-		var logOutBtn = userMenu.addElement('button', {class: 'logOutBtn', _textContent: "Log Out"});
-		title.innerText = "Messaging Web App";
+		var logOutBtn = userMenu.addElement('button', {class: 'logOutBtn noZoomEffect', _textContent: "Log Out"});
+		title.innerText = "Cat-Chat";
 		userName.innerText = "...";
 		userImage.style.backgroundImage = "url(images/demo/dropbox.png)";
 		//events
@@ -46,7 +46,7 @@ function Builder() {
 		var element = container.addElement('div', 'MWALeftPanel');
 		var topBar = element.addElement('form', 'MWALeftPanelTopBar');
 		var bottom = element.addElement('div', 'MWALeftPanelBottomSection');
-		var menuButton = topBar.addElement("button", "MWAMenuButton");
+		var menuButton = topBar.addElement("button", "MWAMenuButton none"); //TODO: remove if unnecessary
 		var searchInput = topBar.addElement('input', {class:'MWALeftPanelSearchInput', placeholder: 'Search...'});
 		var searchButton = topBar.addElement('button', 'MWALeftPanelSearchButton');
 		var notifsButton = bottom.addElement('button', {class:"notifsPermissionBtn none", _textContent:"Click here to activate desktop notifications"});
@@ -80,16 +80,16 @@ function Builder() {
 		var msgSection = element.addElement("div", "MWAMessagesSection");
 		var writeSection = element.addElement("form", "MWAWriteSection none");
 		var nameLeftSection = nameSection.addElement("div", "MWANameLeftSection");
-		var nameRightSection = nameSection.addElement("div", "MWANameRightSection none");
+		var nameRightSection = nameSection.addElement("div", "MWANameRightSection");
 		var menuButton = nameLeftSection.addElement("button", "MWAMenuButton");
-		var nameImage = nameLeftSection.addElement("div", "MWANameSectionImage none");
+		var nameImage = nameLeftSection.addElement("div", "MWANameSectionImage disabled");
 		var nameName = nameLeftSection.addElement("div", "MWANameSectionName");
 		var namePseudo = nameLeftSection.addElement("div", "MWANameSectionPseudo");
-		var nameInfoButton = nameRightSection.addElement("button", "MWANameSectionInfoButton");
+		var nameInfoButton = nameRightSection.addElement("button", {class:"MWANameSectionInfoButton", disabled:"yes"});
 		var fileContainer = writeSection.addElement("div", "MWAWriteSectionFileContainer");
 		var fileImage = fileContainer.addElement("div", "MWAWriteSectionFileImage");
 		var fileName = fileContainer.addElement("div", "MWAWriteSectionFileName");
-		var fileCloseButton = fileContainer.addElement("button", "MWAWriteSectionFileCloseButton button");
+		var fileCloseButton = fileContainer.addElement("button", {class:"MWAWriteSectionFileCloseButton button", type:'button'});
 		var input = writeSection.addElement("input", {class: "MWAWriteSectionTextInput", type: 'text', placeholder: "Type a message..."});
 		var fileBtn = writeSection.addElement("button", {class:"MWAWriteSectionFileButton", type: 'button', _textContent: "+"});
 		var emojiBtn = writeSection.addElement('button', {class: "writeSectionEmojiBtn", type: 'button', _textContent: "😋"})
@@ -113,6 +113,7 @@ function Builder() {
 			pagesManager.pages.mwa.elements.leftPanel.domElement.classList.add("leftMenuDisplayed");
 		});
 		fileCloseButton.addEventListener("click", function (evt) {
+			console.log("close file container")
 			element.classList.remove("writeExtended");
 			if (messagingActions.groups[messagingActions.currentGroup]) {
 				messagingActions.groups[messagingActions.currentGroup].saveData.file = false;

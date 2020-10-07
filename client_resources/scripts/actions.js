@@ -43,7 +43,7 @@ function Actions(){
 	}
 
 	this.updatePageTitle = function(){
-		document.title = `${globals.unreadNotifsCount? `(${globals.unreadNotifsCount}) `:''}Messaging Web App - ${pagesManager.currentPage}`;
+		document.title = `${globals.unreadNotifsCount? `(${globals.unreadNotifsCount}) `:''}Cat-Chat - ${pagesManager.currentPage}`;
 	}
 
 	this.addMessageFile = function(evt){

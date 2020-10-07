@@ -36,8 +36,8 @@ function ApiActions(){
 		//create request
 		database.select({
 			fields: "id, image, name, type, administrator",
-			tableName: "groups INNER JOIN user_groups",
-			where: "user_groups.group = groups.id AND user_groups.user = ? AND groups.active = 1 AND user_groups.active = 1",
+			tableName: "`groups` INNER JOIN user_groups",
+			where: "user_groups.group = `groups`.id AND user_groups.user = ? AND `groups`.active = 1 AND user_groups.active = 1",
 			data: [actionParams.params.userId],
 			rawFields: true
 		}, callBack);

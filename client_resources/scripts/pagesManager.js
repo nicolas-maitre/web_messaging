@@ -44,7 +44,7 @@ function PagesManager(){
 		
 		//add new page to history
 		if(!options.noPushState && !NOSERVER_ENV){
-			history.pushState({pageName:pageName}, "Messaging Web App", "/" + pageName);
+			history.pushState({pageName:pageName}, "Cat-Chat", "/" + pageName);
 		}
 		//page already built
 		if(_this.pages[pageName] && currentPageStructure.rebuild){
