@@ -1,12 +1,12 @@
 # Messaging Web App
 A messaging web app using Websocket technology  
-Mostly realised during the end my CFC
+Mostly realised during the end of my CFC
 
 You can access the wiki [here!](https://github.com/nicolas-maitre/web_messaging/wiki)
 
 ## Prerequisites
 - Any server running a debian-like OS
-- The ports `80` and `8080` must be open on your network.
+- The `80` and `443` ports must be open on your network.
 
 ## Node modules
 - mariadb
