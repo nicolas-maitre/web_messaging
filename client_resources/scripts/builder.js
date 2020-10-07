@@ -26,7 +26,7 @@ function Builder() {
 		var userImage = user.addElement('div', 'MWATopMenuUserImage');
 		var userMenu = user.addElement('div', {class: 'userMenu'});
 		var logOutBtn = userMenu.addElement('button', {class: 'logOutBtn noZoomEffect', _textContent: "Log Out"});
-		title.innerText = "Messaging Web App";
+		title.innerText = "Cat-Chat";
 		userName.innerText = "...";
 		userImage.style.backgroundImage = "url(images/demo/dropbox.png)";
 		//events
