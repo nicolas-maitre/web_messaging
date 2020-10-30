@@ -21,10 +21,10 @@ button:hover:not(.noZoomEffect), .button:hover:not(.noZoomEffect){
     transform: scale(1.1);
 }
 button:active, .button:active{
-	transform:scale(0.9);
+	transform:scale(0.9)!important;
 }
 button:disabled, .button.disabled{
-    transform: scale(1);
+    transform: scale(1)!important;
 }
 input, .input{
 	padding-left: 10px;

@@ -4,6 +4,7 @@
   "description": "",
   "main": "app_start.js",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "mariadb": "^2.4.2",
     "mime": "^2.4.0",
     "querystring": "^0.2.0",
